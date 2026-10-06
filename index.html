@@ -15,7 +15,7 @@ body{background:#171716;font-family:system-ui,-apple-system,Segoe UI,sans-serif;
 #game{position:relative;background:#9e875f}
 .viewport{position:absolute;inset:0;overflow:hidden;touch-action:none}
 .world{
-  position:absolute;left:0;top:0;width:24000px;height:24000px;
+  position:absolute;left:0;top:0;width:32000px;height:32000px;
   transform-origin:0 0;
   background:#a98d61;
   overflow:hidden;
@@ -82,12 +82,90 @@ body{background:#171716;font-family:system-ui,-apple-system,Segoe UI,sans-serif;
 @media(max-width:1400px){.hud{font-size:24px}.hint{display:none}.dialogue{bottom:36px}.dialogue p{font-size:32px}}
 @media (hover:none) and (pointer:coarse){#touch{display:grid}.hint{display:none}}
 @media (hover:hover) and (pointer:fine){#touch{display:none!important}}
+
+/* =========================================================
+   CAPA VISUAL PROFUNDA · paisaje, sectores, hitos y mapa
+========================================================= */
+.world::before{
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 18% 18%,rgba(255,236,193,.22),transparent 24%),
+    radial-gradient(ellipse at 82% 26%,rgba(205,188,143,.16),transparent 22%),
+    radial-gradient(ellipse at 50% 74%,rgba(255,238,195,.10),transparent 26%),
+    linear-gradient(180deg,rgba(255,226,166,.07),transparent 34%,rgba(45,39,30,.08));
+  mix-blend-mode:soft-light;
+}
+.landscape-layer{position:absolute;inset:0;z-index:3;pointer-events:none}
+.terrain-patch{position:absolute;border-radius:50%;opacity:.28;filter:blur(2px)}
+.terrain-patch.ochre{background:#b08d58}.terrain-patch.sage{background:#73805c}.terrain-patch.dry{background:#806a4e}
+.shrub{position:absolute;width:150px;height:90px;border-radius:50%;background:#5f6a4e;opacity:.72;box-shadow:30px 18px #697453,-28px 14px #536047}
+.stone{position:absolute;width:74px;height:48px;border-radius:55% 45% 42% 58%;background:#756653;opacity:.65;transform:rotate(-12deg);box-shadow:20px 6px 0 rgba(52,43,34,.12)}
+.tree.big{width:300px;height:300px;opacity:.96;box-shadow:125px 55px #6b7754,-100px 88px #687552,54px 112px #5d694b}
+.tree.small{width:130px;height:130px;box-shadow:55px 25px #6b7555,-42px 38px #707a5b}
+.fence{position:absolute;height:70px;opacity:.72;background:repeating-linear-gradient(90deg,#72563c 0 30px,transparent 30px 160px);border-top:24px solid #806346;border-bottom:18px solid #806346}
+.fence.v{width:70px;height:900px;background:repeating-linear-gradient(180deg,#72563c 0 30px,transparent 30px 160px);border-left:24px solid #806346;border-right:18px solid #806346;border-top:0;border-bottom:0}
+.landmark{position:absolute;z-index:8;pointer-events:none}
+.landmark .marker{width:120px;height:120px;border-radius:50%;background:#d7a85e;border:20px solid rgba(45,41,34,.72);box-shadow:0 20px 45px rgba(35,28,21,.24)}
+.landmark .label{position:absolute;left:150px;top:22px;white-space:nowrap;padding:14px 22px;border-radius:22px;background:rgba(42,35,28,.74);color:#fff1d7;font-size:38px;font-weight:800;letter-spacing:.3px}
+.river-bank{position:absolute;z-index:5;left:0;top:17680px;width:32000px;height:420px;background:linear-gradient(180deg,rgba(102,76,49,.38),rgba(191,157,104,.20),transparent);clip-path:polygon(0 55%,12% 36%,25% 58%,39% 42%,52% 56%,67% 38%,81% 54%,100% 40%,100% 100%,0 100%)}
+.river-shallows{position:absolute;z-index:5;left:0;top:19520px;width:32000px;height:420px;background:rgba(213,200,159,.14);clip-path:polygon(0 30%,13% 50%,28% 35%,44% 56%,58% 34%,73% 52%,87% 30%,100% 46%,100% 100%,0 100%)}
+.bridge{position:absolute;z-index:9;width:900px;height:250px;border-radius:40px;background:#75543a;border:36px solid #4f3b2c;box-shadow:0 28px 40px rgba(40,30,23,.25)}
+.bridge:after{content:"";position:absolute;inset:50% 0 auto;height:30px;background:repeating-linear-gradient(90deg,#b99b6a 0 70px,transparent 70px 110px)}
+.water-reed{position:absolute;z-index:6;width:180px;height:260px;border-left:24px solid #63704e;border-right:14px solid #7c8058;transform:skew(-10deg);opacity:.75}
+.path{position:absolute;z-index:4;border-radius:50%;background:rgba(153,123,82,.38);filter:blur(1px);transform-origin:left center}
+.path.p1{left:11800px;top:11400px;width:5400px;height:170px;transform:rotate(18deg)}
+.path.p2{left:12400px;top:11300px;width:6100px;height:150px;transform:rotate(-34deg)}
+.path.p3{left:13600px;top:11700px;width:5000px;height:130px;transform:rotate(54deg)}
+.sector-label{position:absolute;z-index:7;color:rgba(61,49,37,.28);font-size:90px;font-weight:900;letter-spacing:8px;text-transform:uppercase;transform:rotate(-6deg);pointer-events:none}
+.sector-label.town{left:10100px;top:8700px}.sector-label.chacras{left:5100px;top:6200px}.sector-label.picada{left:21800px;top:4300px}.sector-label.river{left:6200px;top:18700px;color:rgba(238,231,204,.34)}
+#mapToggle{position:fixed;z-index:110;right:154px;top:32px;width:104px;height:104px;border:0;border-radius:32px;background:rgba(30,27,23,.78);color:#fff;font-size:42px;box-shadow:0 18px 50px rgba(0,0,0,.22)}
+#mapOverlay{position:fixed;z-index:115;inset:0;background:rgba(12,11,9,.78);backdrop-filter:blur(10px);display:none;padding:34px}
+#mapOverlay.show{display:flex;align-items:center;justify-content:center}
+.map-card{position:relative;width:min(1250px,94vw);height:min(850px,90vh);border-radius:44px;background:#d8c59f;box-shadow:0 40px 140px rgba(0,0,0,.5);overflow:hidden;border:10px solid rgba(68,53,38,.45)}
+.map-card:before{content:"";position:absolute;inset:0;background:
+ radial-gradient(ellipse at 23% 20%,rgba(107,127,80,.65),transparent 28%),
+ radial-gradient(ellipse at 78% 26%,rgba(132,151,94,.5),transparent 26%),
+ linear-gradient(180deg,transparent 0 61%,rgba(76,110,104,.82) 61% 72%,transparent 72%),
+ repeating-linear-gradient(14deg,transparent 0 42px,rgba(103,88,61,.10) 44px 48px,transparent 50px 86px);}
+.map-title{position:absolute;left:34px;top:26px;z-index:3;font-size:44px;font-weight:900;color:#352b22}
+.map-sub{position:absolute;left:36px;top:82px;z-index:3;font-size:20px;color:#584836}
+.map-close{position:absolute;right:24px;top:20px;z-index:4;border:0;background:rgba(45,41,34,.85);color:#fff;border-radius:22px;width:60px;height:60px;font-size:36px}
+.map-road{position:absolute;background:#806d54;border-radius:20px;opacity:.82}
+.map-road.a{left:6%;top:55%;width:88%;height:28px;transform:rotate(-6deg)}.map-road.b{left:50%;top:10%;width:26px;height:70%;transform:rotate(12deg)}.map-road.c{left:70%;top:7%;width:26px;height:55%;transform:rotate(62deg)}
+.map-river{position:absolute;left:-4%;bottom:15%;width:108%;height:17%;background:#587d7a;clip-path:polygon(0 48%,15% 30%,31% 55%,48% 32%,64% 52%,80% 28%,100% 45%,100% 100%,0 100%);opacity:.92}
+.map-town{position:absolute;left:37%;top:37%;width:30%;height:29%;border-radius:20%;background:rgba(139,113,76,.35);border:5px solid rgba(95,72,50,.28)}
+.map-farm{position:absolute;width:18%;height:13%;border:4px dashed rgba(91,105,58,.55);background:rgba(102,125,67,.16);transform:rotate(-4deg)}
+.map-farm.f1{left:10%;top:27%}.map-farm.f2{right:9%;top:27%}.map-farm.f3{left:11%;bottom:24%}.map-farm.f4{right:8%;bottom:25%}
+.map-dot{position:absolute;width:28px;height:28px;border-radius:50%;background:#40352a;border:6px solid #e8d5ad;box-shadow:0 0 0 5px rgba(64,53,42,.28)}
+.map-dot.plaza{left:51%;top:50%}.map-dot.picada{right:12%;top:14%}.map-dot.bodega{left:25%;top:27%}.map-dot.river{left:54%;bottom:16%}
+#mapPlayer{position:absolute;width:34px;height:34px;border-radius:50%;background:#d7a85e;border:8px solid #3c3126;z-index:5;transition:left .12s,top .12s}
+.map-legend{position:absolute;left:34px;bottom:24px;z-index:3;padding:14px 18px;border-radius:18px;background:rgba(239,228,206,.86);font-size:18px;color:#4b3c2c}
+@media(max-width:700px){
+  #mapToggle{right:130px;top:24px;width:74px;height:74px;font-size:30px;border-radius:24px}
+  #menuButton{right:24px;top:24px;width:74px;height:74px;font-size:34px;border-radius:24px}
+  .landmark .label{font-size:26px}.sector-label{font-size:54px}
+  .map-card{height:82vh}.map-title{font-size:32px}.map-sub{font-size:16px}
+}
 </style>
 </head>
 <body>
 <div id="game">
   <div class="viewport" id="viewport">
     <div class="world" id="world">
+      <div class="landscape-layer" id="landscapeLayer">
+        <div class="sector-label town">PUEBLO</div>
+        <div class="sector-label chacras">CHACRAS</div>
+        <div class="sector-label picada">PICADA 21</div>
+        <div class="sector-label river">RÍO</div>
+        <div class="river-bank"></div><div class="river-shallows"></div>
+        <div class="path p1"></div><div class="path p2"></div><div class="path p3"></div>
+        <div class="bridge" style="left:13400px;top:18020px;transform:rotate(-4deg)"></div>
+        <div class="water-reed" style="left:5200px;top:18100px"></div>
+        <div class="water-reed" style="left:21600px;top:18280px;transform:rotate(9deg)"></div>
+        <div class="landmark" style="left:11100px;top:10700px"><div class="marker"></div><div class="label">Plaza</div></div>
+        <div class="landmark" style="left:8200px;top:6200px"><div class="marker"></div><div class="label">Bodega</div></div>
+        <div class="landmark" style="left:21400px;top:2300px"><div class="marker"></div><div class="label">Picada 21</div></div>
+      </div>
       <div class="ground"></div>
       <div class="barda n"></div><div class="barda s"></div>
       <div class="field f1"></div><div class="field f2"></div><div class="field f3"></div><div class="field f4"></div>
@@ -119,9 +197,23 @@ body{background:#171716;font-family:system-ui,-apple-system,Segoe UI,sans-serif;
     </div>
   </div>
   <div class="hud">Villa Pelón · <b id="clock">08:00</b> · <b id="weather">Despejado</b> · <span id="status">Explorando</span><br><small id="missionText">Primer paseo · Recorré el pueblo y encontrá a Abuela.</small></div>
-  <button id="menuButton" aria-label="Abrir menú">☰</button>
+  <button id="mapToggle" aria-label="Abrir mapa">⌖</button><button id="menuButton" aria-label="Abrir menú">☰</button>
   <div class="hint">Teclado: WASD / flechas · E / Espacio: hablar · M: menú</div>
   <div id="interaction"><button id="talkButton">HABLAR</button></div>
+
+  <div id="mapOverlay">
+    <div class="map-card">
+      <div class="map-title">Mapa de Villa Pelón</div>
+      <div class="map-sub">Pueblo · chacras · Picada 21 · río · caminos</div>
+      <button class="map-close" id="mapClose">×</button>
+      <div class="map-river"></div><div class="map-town"></div>
+      <div class="map-road a"></div><div class="map-road b"></div><div class="map-road c"></div>
+      <div class="map-farm f1"></div><div class="map-farm f2"></div><div class="map-farm f3"></div><div class="map-farm f4"></div>
+      <div class="map-dot plaza"></div><div class="map-dot picada"></div><div class="map-dot bodega"></div><div class="map-dot river"></div>
+      <div id="mapPlayer"></div>
+      <div class="map-legend">● Luna · ◆ hitos · zona verde = chacras · azul = río</div>
+    </div>
+  </div>
   <aside id="menu">
     <div class="menu-card">
       <button id="menuClose">×</button>
@@ -182,6 +274,66 @@ const missions=[
  {title:"El cuaderno",goal:"Visitá a la Maestra para ordenar tus descubrimientos.",target:"maestra",reward:"Cuaderno de Luna actualizado."},
  {title:"La mirada de Nina",goal:"Encontrá a Nina y preguntale por los lugares que casi nadie mira.",target:"nina",reward:"Ruta secreta de exploración desbloqueada."}
 ];
+
+
+/* =========================================================
+   WORLD DESIGN LAYER · generación determinista
+   El paisaje se genera con reglas, no con ruido aleatorio.
+========================================================= */
+const landscapeLayer=document.getElementById("landscapeLayer");
+function seeded(seed){return function(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}}
+const rng=seeded(21051973);
+function insideForbidden(x,y){
+  const road1={x:4900,y:12700,w:16200,h:500}, road2={x:14700,y:2600,w:18200,h:500}, river={x:0,y:18000,w:32000,h:1900};
+  return [road1,road2,river].some(z=>x>z.x-120&&x<z.x+z.w+120&&y>z.y-120&&y<z.y+z.h+120);
+}
+function addLandscape(){
+  const zones=[
+    {x:3500,y:4200,w:5600,h:4400,type:"ochre"},
+    {x:15500,y:4700,w:6200,h:4600,type:"sage"},
+    {x:3200,y:14200,w:5600,h:3900,type:"dry"},
+    {x:15800,y:14000,w:6400,h:3800,type:"ochre"}
+  ];
+  zones.forEach(z=>{
+    for(let i=0;i<7;i++){
+      const el=document.createElement("div");el.className="terrain-patch "+z.type;
+      el.style.left=(z.x+rng()*z.w)+"px";el.style.top=(z.y+rng()*z.h)+"px";
+      el.style.width=(700+rng()*1800)+"px";el.style.height=(350+rng()*1100)+"px";
+      landscapeLayer.appendChild(el);
+    }
+  });
+  let count=0;
+  while(count<92){
+    const x=1800+rng()*28600,y=3600+rng()*13200;
+    if(insideForbidden(x,y))continue;
+    const el=document.createElement("div");
+    el.className=rng()>.35?"tree small":"tree big";
+    el.style.left=x+"px";el.style.top=y+"px";
+    el.style.transform="scale("+(0.72+rng()*.58)+")";
+    landscapeLayer.appendChild(el);count++;
+  }
+  count=0;
+  while(count<58){
+    const x=2500+rng()*29000,y=4200+rng()*12800;
+    if(insideForbidden(x,y))continue;
+    const el=document.createElement("div");el.className=rng()>.45?"shrub":"stone";
+    el.style.left=x+"px";el.style.top=y+"px";landscapeLayer.appendChild(el);count++;
+  }
+  [ [4700,7900,4600,900],[15500,7900,5400,900],[4500,16800,4200,800],[16500,16500,5000,800] ].forEach(f=>{
+    const el=document.createElement("div");el.className="fence";el.style.left=f[0]+"px";el.style.top=f[1]+"px";el.style.width=f[2]+"px";landscapeLayer.appendChild(el);
+  });
+}
+addLandscape();
+
+const mapOverlay=document.getElementById("mapOverlay"),mapPlayer=document.getElementById("mapPlayer");
+function updateMapPlayer(){
+  if(!mapPlayer)return;
+  mapPlayer.style.left=(player.x/WORLD.w*100)+"%";
+  mapPlayer.style.top=(player.y/WORLD.h*100)+"%";
+}
+function toggleMap(){mapOverlay.classList.toggle("show");updateMapPlayer()}
+document.getElementById("mapToggle").onclick=toggleMap;
+document.getElementById("mapClose").onclick=toggleMap;
 
 const npcs={
  abuela:{name:"Abuela",x:12200,y:10400,home:[12200,10400],work:[11100,11200],speed:110,dialogue:["Villa Pelón se conoce caminándolo. Cada lugar guarda una historia.","Si querés descubrirla, no mires solamente: preguntá, observá y seguí las pistas."]},
@@ -264,6 +416,8 @@ function validateWorldRules(){
   });
 }
 function updateWeather(dt){
+  const vignette=document.getElementById("vignette");
+  vignette.style.boxShadow = weatherIndex===3 ? "inset 0 0 180px rgba(120,140,150,.12)" : weatherIndex===2 ? "inset 0 0 180px rgba(210,190,150,.08)" : "none";
   weatherTimer+=dt;
   if(weatherTimer>75){
     weatherTimer=0;
@@ -299,6 +453,7 @@ function movePlayer(dt){
   const n=nearestNPC(); if(n)statusEl.textContent="Podés hablar con "+n.name;else statusEl.textContent="Explorando";
 }
 function render(){
+  updateMapPlayer();
   const vw=innerWidth/camera.scale,vh=innerHeight/camera.scale;
   camera.x+=(player.x-camera.x)*.14;camera.y+=(player.y-camera.y)*.14;
   const halfW=vw/2,halfH=vh/2;
@@ -326,6 +481,7 @@ addEventListener("keyup",e=>keys.delete(e.key));
 document.getElementById("menuButton").onclick=toggleMenu;
 document.getElementById("menuClose").onclick=toggleMenu;
 document.getElementById("resume").onclick=toggleMenu;
+document.addEventListener("keydown",e=>{if(e.key.toLowerCase()==="p")toggleMap()});
 document.getElementById("talkButton").onclick=interact;
 document.querySelectorAll("#touch button[data-key]").forEach(b=>{
   const k=b.dataset.key;
@@ -348,6 +504,7 @@ worldRuleAudit();
 validateWorldRules();
 updateMissionUI();
 updateWeather(0);
+updateMapPlayer();
 addEventListener("resize",render);
 render();requestAnimationFrame(loop);
 </script>
