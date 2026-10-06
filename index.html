@@ -177,6 +177,41 @@ box-shadow:0 0 35px rgba(61,49,37,.2)}
 .atmosphere{position:absolute;z-index:19;inset:0;pointer-events:none;background:
 radial-gradient(ellipse at center,transparent 34%,rgba(67,52,39,.07) 72%,rgba(45,37,29,.16) 100%);
 mix-blend-mode:multiply}
+
+/* CAPA 3 · EJIDO HABITABLE — escala preparada para personajes, diálogo, tránsito y exploración */
+.town{left:2700px;top:2850px;width:2800px;height:2350px;border-radius:15%;
+background:
+linear-gradient(90deg,transparent 0 7%,rgba(121,102,74,.12) 7% 7.7%,transparent 7.7% 22%,rgba(121,102,74,.10) 22% 22.6%,transparent 22.6% 39%,rgba(121,102,74,.11) 39% 39.7%,transparent 39.7% 57%,rgba(121,102,74,.10) 57% 57.7%,transparent 57.7% 75%,rgba(121,102,74,.11) 75% 75.7%,transparent 75.7%),
+linear-gradient(0deg,transparent 0 12%,rgba(121,102,74,.10) 12% 12.6%,transparent 12.6% 31%,rgba(121,102,74,.10) 31% 31.6%,transparent 31.6% 51%,rgba(121,102,74,.10) 51% 51.6%,transparent 51.6% 70%,rgba(121,102,74,.10) 70% 70.6%,transparent 70.6% 88%,rgba(121,102,74,.10) 88% 88.6%,transparent 88.6%),
+rgba(126,108,78,.13)}
+.town:before{left:5%;right:5%;top:49%;height:42px;transform:none}
+.town:after{top:5%;bottom:5%;left:49%;width:38px;transform:none}
+.urban-ring{position:absolute;z-index:8;left:2450px;top:2600px;width:3300px;height:2850px;border:42px solid rgba(106,88,65,.11);border-radius:12%;pointer-events:none}
+.urban-avenue{position:absolute;z-index:10;background:rgba(104,89,69,.72);box-shadow:0 4px 0 rgba(226,210,180,.18);border-radius:12px;pointer-events:none}
+.ua1{left:2780px;top:3990px;width:2700px;height:70px}
+.ua2{left:4020px;top:2910px;width:62px;height:2200px}
+.ua3{left:2930px;top:3300px;width:2450px;height:52px;transform:rotate(-2deg)}
+.ua4{left:2900px;top:4630px;width:2500px;height:58px;transform:rotate(2deg)}
+.ua5{left:3500px;top:2860px;width:52px;height:2250px;transform:rotate(-3deg)}
+.ua6{left:4680px;top:2900px;width:52px;height:2200px;transform:rotate(4deg)}
+.residential{position:absolute;z-index:11;width:300px;height:190px;background:#927858;border:9px solid rgba(91,71,53,.55);border-radius:7px;box-shadow:0 9px 0 rgba(57,47,38,.13);pointer-events:none}
+.residential:before{content:"";position:absolute;left:24px;right:24px;top:25px;height:12px;background:rgba(235,219,185,.42);box-shadow:0 38px rgba(235,219,185,.24)}
+.r1{left:3000px;top:3000px}.r2{left:3400px;top:3050px}.r3{left:4400px;top:3020px}.r4{left:4900px;top:3150px}
+.r5{left:3020px;top:3500px}.r6{left:3500px;top:3650px}.r7{left:4520px;top:3550px}.r8{left:4950px;top:3700px}
+.r9{left:3000px;top:4200px}.r10{left:3450px;top:4250px}.r11{left:4450px;top:4300px}.r12{left:4950px;top:4150px}
+.r13{left:3050px;top:4700px}.r14{left:3550px;top:4800px}.r15{left:4450px;top:4750px}.r16{left:4950px;top:4850px}
+.public-building{position:absolute;z-index:12;background:#80664b;border:12px solid #62503e;box-shadow:0 12px 0 rgba(55,45,35,.15);pointer-events:none}
+.school{left:3020px;top:3850px;width:430px;height:290px;border-radius:12px}
+.station{left:4850px;top:3900px;width:470px;height:260px;border-radius:10px}
+.community{left:3820px;top:3050px;width:430px;height:250px;border-radius:50%}
+.community:after{content:"";position:absolute;left:75px;right:75px;bottom:35px;height:70px;background:rgba(231,215,181,.25)}
+.plaza{left:3790px;top:3700px;width:470px;height:360px}
+.plaza:after{left:205px;top:135px;width:60px;height:85px}
+.town-tree{position:absolute;z-index:12;width:110px;height:110px;border-radius:50%;background:#566744;box-shadow:inset -18px -14px 0 rgba(49,60,39,.16);opacity:.8;pointer-events:none}
+.tt1{left:3350px;top:3750px}.tt2{left:3550px;top:3750px}.tt3{left:4550px;top:3750px}.tt4{left:4750px;top:3750px}
+.tt5{left:3650px;top:4450px}.tt6{left:4500px;top:4450px}.tt7{left:3950px;top:3200px}
+.traffic-node{position:absolute;z-index:13;width:30px;height:30px;border-radius:50%;background:#c2a56e;box-shadow:0 0 0 12px rgba(95,79,58,.12);pointer-events:none}
+.tn1{left:3930px;top:3920px}.tn2{left:4700px;top:3920px}.tn3{left:4000px;top:4500px}
 </style>
 </head>
 <body>
@@ -192,7 +227,13 @@ mix-blend-mode:multiply}
 <div class="route route-65" aria-label="Ruta 65"></div>
 <div class="town" aria-label="Villa Pelón · sector urbano"></div><div class="farm f1"></div><div class="farm f2"></div><div class="farm f3"></div><div class="farm f4"></div><div class="farm f5"></div><div class="farm f6"></div><div class="winery w1"></div><div class="winery w2"></div><div class="winery w3"></div><div class="winery w4"></div>
 <div class="settlement" aria-label="Asentamientos de Picada 21"></div>
-<div class="riverbank n"></div><div class="riverbank s"></div>
+
+<div class="urban-ring"></div>
+<div class="urban-avenue ua1"></div><div class="urban-avenue ua2"></div><div class="urban-avenue ua3"></div><div class="urban-avenue ua4"></div><div class="urban-avenue ua5"></div><div class="urban-avenue ua6"></div>
+<div class="residential r1"></div><div class="residential r2"></div><div class="residential r3"></div><div class="residential r4"></div><div class="residential r5"></div><div class="residential r6"></div><div class="residential r7"></div><div class="residential r8"></div><div class="residential r9"></div><div class="residential r10"></div><div class="residential r11"></div><div class="residential r12"></div><div class="residential r13"></div><div class="residential r14"></div><div class="residential r15"></div><div class="residential r16"></div>
+<div class="public-building school"></div><div class="public-building station"></div><div class="public-building community"></div>
+<div class="town-tree tt1"></div><div class="town-tree tt2"></div><div class="town-tree tt3"></div><div class="town-tree tt4"></div><div class="town-tree tt5"></div><div class="town-tree tt6"></div><div class="town-tree tt7"></div>
+<div class="traffic-node tn1"></div><div class="traffic-node tn2"></div><div class="traffic-node tn3"></div><div class="riverbank n"></div><div class="riverbank s"></div>
 <div class="route-junction"></div>
 <div class="irrigation i1"></div><div class="irrigation i2"></div><div class="irrigation i3"></div><div class="irrigation i4"></div>
 <div class="vineyard v1"></div><div class="vineyard v2"></div><div class="vineyard v3"></div><div class="vineyard v4"></div>
