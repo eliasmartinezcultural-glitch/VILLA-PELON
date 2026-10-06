@@ -1,0 +1,176 @@
+{
+  "titulo": "Cronología histórica base de Villa Pelón",
+  "territorio_real_de_referencia": "San Patricio del Chañar, Neuquén, Argentina",
+  "eventos": [
+    {
+      "periodo": "Antes del siglo XIX",
+      "tema": "territorio",
+      "tipo": "contexto",
+      "nivel": "investigacion_pendiente",
+      "texto": "El área forma parte de un territorio patagónico atravesado por poblaciones indígenas, circulación, rutas y relaciones con los ríos. La biblioteca futura deberá incorporar investigación arqueológica y etnohistórica específica del área.",
+      "nota": "No convertir generalidades sobre Patagonia en hechos específicos de Chañar sin fuente local."
+    },
+    {
+      "periodo": "1879",
+      "tema": "ocupacion_militar",
+      "tipo": "hecho_documentado",
+      "nivel": "alto",
+      "texto": "La zona quedó vinculada a los movimientos de la llamada Campaña del Desierto y a la red de circulación militar posterior.",
+      "fuentes": ["F01", "F02"]
+    },
+    {
+      "periodo": "1881-1882",
+      "tema": "mensura",
+      "tipo": "hecho_documentado",
+      "nivel": "alto",
+      "texto": "Planos y documentación de la mensura realizada por Encina, Moreno y Cía. por cuenta del Gobierno Nacional registran referencias al Mangrullo Chañar y al antiguo Fortín Chañar.",
+      "fuentes": ["F01"]
+    },
+    {
+      "periodo": "1883",
+      "tema": "circulacion",
+      "tipo": "hecho_documentado",
+      "nivel": "medio_alto",
+      "texto": "La rastrillada de Paso de Indios aparece vinculada a la circulación por el área y a una red de fortines y pasos.",
+      "fuentes": ["F01"]
+    },
+    {
+      "periodo": "siglo XX temprano",
+      "tema": "paisaje",
+      "tipo": "proceso",
+      "nivel": "medio",
+      "texto": "El área se caracterizaba por un ambiente árido y ventoso, con acceso limitado al agua de riego y vegetación autóctona. La transformación posterior dependería fundamentalmente de obras de riego y colonización agrícola.",
+      "fuentes": ["F01", "F03"]
+    },
+    {
+      "periodo": "1943",
+      "tema": "tierra",
+      "tipo": "hecho_reportado",
+      "nivel": "medio",
+      "texto": "Fuentes periodísticas e institucionales posteriores señalan que el Banco de la Nación remató una propiedad del área, que fue adquirida por una inmobiliaria de Buenos Aires.",
+      "fuentes": ["F04"],
+      "nota": "Requiere reconstrucción documental primaria para elevar el nivel de certeza."
+    },
+    {
+      "periodo": "1966",
+      "tema": "colonizacion_agricola",
+      "tipo": "hecho_documentado",
+      "nivel": "alto",
+      "texto": "Comienza una etapa de subdivisión y venta de tierras del campo El Chañar. Productores familiares de Cinco Saltos, Centenario, Campo Grande y Cipolletti accedieron a parcelas con apoyo financiero del Banco Provincia del Neuquén. También aparece registrada la concesión de agua para riego.",
+      "fuentes": ["F01", "F03", "F05"]
+    },
+    {
+      "periodo": "1968",
+      "tema": "gasparri",
+      "tipo": "hecho_documentado",
+      "nivel": "alto",
+      "texto": "Frigorífico Cipolletti S.A. y posteriormente Gasparri Hnos. quedan vinculados a la adquisición de unas 20.000 hectáreas de monte bruto. Comienzan estudios y tareas de sistematización para transformar el territorio mediante riego y plantaciones.",
+      "fuentes": ["F01", "F03", "F05"]
+    },
+    {
+      "periodo": "1969",
+      "tema": "riego",
+      "tipo": "hecho_documentado",
+      "nivel": "alto",
+      "texto": "Comienzan obras de sistematización y los primeros cultivos son regados mediante bombeo desde el río Neuquén. Fuentes locales mencionan tres bombas y un área piloto de aproximadamente 500 hectáreas.",
+      "fuentes": ["F01"]
+    },
+    {
+      "periodo": "1969",
+      "tema": "limites",
+      "tipo": "hecho_documentado",
+      "nivel": "alto",
+      "texto": "El Decreto Ley 18.501 aparece citado en estudios sobre la consolidación de la pertenencia territorial de San Patricio del Chañar a Neuquén.",
+      "fuentes": ["F03", "F05"],
+      "nota": "Debe incorporarse el texto legal completo a una futura biblioteca jurídica."
+    },
+    {
+      "periodo": "1971",
+      "tema": "riego_y_produccion",
+      "tipo": "hecho_documentado",
+      "nivel": "alto",
+      "texto": "La primera bocatoma permite avanzar sobre la primera etapa de riego y la venta de parcelas plantadas. El proyecto se orienta a convertir el área árida en una zona agrícola productiva.",
+      "fuentes": ["F01", "F03"]
+    },
+    {
+      "periodo": "21 de mayo de 1973",
+      "tema": "fundacion",
+      "tipo": "hecho_documentado",
+      "nivel": "muy_alto",
+      "texto": "La Carta Orgánica Municipal reconoce el 21 de mayo de 1973 como fecha de fundación. Ese año se crea la Comisión de Fomento de San Patricio del Chañar.",
+      "fuentes": ["F06", "F01"]
+    },
+    {
+      "periodo": "1973",
+      "tema": "urbanizacion",
+      "tipo": "hecho_documentado",
+      "nivel": "alto",
+      "texto": "La creación del núcleo urbano estuvo estrechamente relacionada con la necesidad de radicar trabajadores vinculados a las chacras.",
+      "fuentes": ["F03", "F05"]
+    },
+    {
+      "periodo": "8 de abril de 1974",
+      "tema": "instituciones",
+      "tipo": "hecho_documentado",
+      "nivel": "medio_alto",
+      "texto": "Fuentes oficiales provinciales señalan la puesta en funcionamiento de las autoridades de la Comisión de Fomento; durante la ceremonia se inauguró la comisaría y luego se creó el consorcio de riego.",
+      "fuentes": ["F07"]
+    },
+    {
+      "periodo": "1975",
+      "tema": "produccion_y_sociedad",
+      "tipo": "hecho_documentado",
+      "nivel": "medio_alto",
+      "texto": "Se registran las primeras cantidades industriales de fruta y la fundación del Club Atlético San Patricio.",
+      "fuentes": ["F07"]
+    },
+    {
+      "periodo": "1980-2010",
+      "tema": "crecimiento",
+      "tipo": "hecho_documentado",
+      "nivel": "alto",
+      "texto": "La población registrada por censos nacionales crece fuertemente: 1.130 habitantes en 1980, 3.181 en 1991, 5.063 en 2001 y 7.457 en 2010.",
+      "fuentes": ["F08"]
+    },
+    {
+      "periodo": "1 de marzo de 1985",
+      "tema": "fiesta_del_pelon",
+      "tipo": "hecho_documentado",
+      "nivel": "medio_alto",
+      "texto": "Se realiza la primera Fiesta Provincial del Pelón, celebración vinculada a la producción frutícola y a la identidad local.",
+      "fuentes": ["F09", "F10"]
+    },
+    {
+      "periodo": "1999",
+      "tema": "trabajo_rural",
+      "tipo": "hecho_documentado",
+      "nivel": "medio_alto",
+      "texto": "La celebración del Pelón incorpora la Fiesta del Trabajador Rural como homenaje a quienes sostienen las tareas de temporada.",
+      "fuentes": ["F09", "F10"]
+    },
+    {
+      "periodo": "fines del siglo XX y comienzos del XXI",
+      "tema": "vitivinicultura",
+      "tipo": "proceso",
+      "nivel": "alto",
+      "texto": "El territorio comienza una transformación productiva importante con la implantación de viñedos y el desarrollo vitivinícola.",
+      "fuentes": ["F11", "F12"]
+    },
+    {
+      "periodo": "2001",
+      "tema": "vitivinicultura",
+      "tipo": "hecho_documentado",
+      "nivel": "medio_alto",
+      "texto": "Bodega Schroeder se funda en San Patricio del Chañar; el emprendimiento también quedó asociado a hallazgos paleontológicos en sus tierras.",
+      "fuentes": ["F13"]
+    },
+    {
+      "periodo": "2026",
+      "tema": "memoria",
+      "tipo": "presente",
+      "nivel": "alto",
+      "texto": "La localidad continúa celebrando su identidad productiva y cultural, incluida la Fiesta Provincial del Pelón.",
+      "fuentes": ["F14"]
+    }
+  ]
+}
