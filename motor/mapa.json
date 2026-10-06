@@ -1,0 +1,33 @@
+{
+  "nombre": "Mapa de Villa Pelón",
+  "referencia_real": "San Patricio del Chañar",
+  "escala": "gran_mapa",
+  "zonas": [
+    {
+      "id": "zona-urbana",
+      "nombre": "Zona urbana",
+      "tipo": "ciudad",
+      "funciones": ["viviendas","comercios","escuela","instituciones","plazas","clubes","servicios","misiones"]
+    },
+    {
+      "id": "ruta-7",
+      "nombre": "Ruta 7",
+      "tipo": "corredor_principal",
+      "recorre_mapa_de": "punta_a_punta",
+      "funciones": ["entrada","salida","orientacion","transporte","encuentros","comercio","viaje","misiones"]
+    },
+    {
+      "id": "zona-rural",
+      "nombre": "Zona rural",
+      "tipo": "chacras",
+      "funciones": ["produccion","riego","cosecha","trabajo","exploracion","historia"]
+    },
+    {
+      "id": "rio",
+      "nombre": "Río",
+      "tipo": "paisaje",
+      "funciones": ["agua","naturaleza","orientacion","historia","exploracion"]
+    }
+  ],
+  "regla": "La Ruta 7 es una referencia espacial del juego; el mundo ficticio puede reinterpretar su entorno sin afirmar que cada elemento jugable existe exactamente en el mismo punto del mundo real."
+}
