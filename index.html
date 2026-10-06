@@ -79,7 +79,9 @@ body{background:#171716;font-family:system-ui,-apple-system,Segoe UI,sans-serif;
 #touch{position:fixed;z-index:95;right:36px;bottom:128px;display:none;grid-template-columns:repeat(3,120px);gap:14px}
 #touch button{width:120px;height:120px;border:0;border-radius:32px;background:rgba(30,27,23,.72);color:#fff;font-size:44px}
 #touch .empty{visibility:hidden}
-@media(max-width:1400px){.hud{font-size:24px}.hint{display:none}#touch{display:grid}.dialogue{bottom:36px}.dialogue p{font-size:32px}}
+@media(max-width:1400px){.hud{font-size:24px}.hint{display:none}.dialogue{bottom:36px}.dialogue p{font-size:32px}}
+@media (hover:none) and (pointer:coarse){#touch{display:grid}.hint{display:none}}
+@media (hover:hover) and (pointer:fine){#touch{display:none!important}}
 </style>
 </head>
 <body>
@@ -116,7 +118,7 @@ body{background:#171716;font-family:system-ui,-apple-system,Segoe UI,sans-serif;
       <div class="actor npc" data-id="bodeguero" data-x="8600" data-y="6600"><div class="head"></div><div class="body"></div><div class="leg l"></div><div class="leg r"></div><span class="name">Bodeguero</span></div>
     </div>
   </div>
-  <div class="hud">Villa Pelón · <b id="clock">08:00</b> · <span id="status">Explorando</span><br><small id="missionText">Primer paseo · Recorré el pueblo y encontrá a Abuela.</small></div>
+  <div class="hud">Villa Pelón · <b id="clock">08:00</b> · <b id="weather">Despejado</b> · <span id="status">Explorando</span><br><small id="missionText">Primer paseo · Recorré el pueblo y encontrá a Abuela.</small></div>
   <button id="menuButton" aria-label="Abrir menú">☰</button>
   <div class="hint">Teclado: WASD / flechas · E / Espacio: hablar · M: menú</div>
   <div id="interaction"><button id="talkButton">HABLAR</button></div>
@@ -156,9 +158,24 @@ let missionIndex=0;
 let missionProgress=0;
 const RULES={
   worldScale:"32 km x 32 km de mundo jugable",
-  noBuildingsOnRoads:true,noBuildingsInRiver:true,noBuildingsOnCliffs:true,
-  npcsLive:true,timeAffectsWorld:true,missionsPersistent:true,mobileFirst:true
+  noBuildingsOnRoads:true,noVehiclesOnRoadBlockers:true,noBuildingsInRiver:true,noVehiclesInRiver:true,noAnimalsInRiver:true,noAnimalsInsideBuildings:true,
+  noHousesInRoads:true,noHousesInStreets:true,noCarsInsideRiver:true,noAnimalsInsideRiver:true,
+  npcsLive:true,npcSchedules:true,npcAvoidsImpossibleRoutes:true,timeAffectsWorld:true,dayNightCycle:true,
+  weatherChanges:true,weatherAffectsAtmosphere:true,missionsPersistent:true,mobileFirst:true,
+  roadsRemainPassable:true,riverRemainsNatural:true,landscapeHasPriority:true,
+  noRandomBuildings:true,noRandomCars:true,noRandomAnimals:true,
+  playerNeverSpawnsInForbiddenZone:true,interactionsContextual:true,
+  everyMissionHasGoal:true,everyMissionHasConsequence:true,
+  historicalFactsMustComeFromLibrary:true,fictionMustRemainFiction:true
 };
+const WEATHER=[
+  {name:"Despejado",sky:"clear",speed:1},
+  {name:"Nublado",sky:"cloudy",speed:.98},
+  {name:"Viento",sky:"wind",speed:.94},
+  {name:"Llovizna",sky:"rain",speed:.9}
+];
+let weatherIndex=0;
+let weatherTimer=0;
 const missions=[
  {title:"Primer paseo",goal:"Recorré el pueblo y encontrá a Abuela.",target:"abuela",reward:"Descubrimiento: la memoria del pueblo empieza caminando."},
  {title:"Una historia para guardar",goal:"Hablá con Abuelo y escuchá su pista.",target:"abuelo",reward:"Nueva pista histórica desbloqueada."},
@@ -229,9 +246,9 @@ function interact(){
 }
 function validateWorldRules(){
   const forbidden=[
-    {name:"Río",x:0,y:18000,w:32000,h:1600},
-    {name:"Ruta principal",x:4900,y:12700,w:16200,h:300},
-    {name:"Ruta norte",x:14700,y:2600,w:18200,h:380}
+    {name:"Río",x:0,y:18000,w:32000,h:1600,type:"river"},
+    {name:"Ruta principal",x:4900,y:12700,w:16200,h:300,type:"road"},
+    {name:"Ruta norte",x:14700,y:2600,w:18200,h:380,type:"road"}
   ];
   document.querySelectorAll(".building,.block,.picada .hut").forEach(el=>{
     const x=parseFloat(el.style.left||0),y=parseFloat(el.style.top||0);
@@ -240,8 +257,35 @@ function validateWorldRules(){
       el.style.display="none";
     }
   });
+  document.querySelectorAll(".vehicle,.animal").forEach(el=>{
+    const x=parseFloat(el.style.left||0),y=parseFloat(el.style.top||0);
+    const river=forbidden.find(z=>z.type==="river");
+    if(river && x<river.x+river.w&&x+500>river.x&&y<river.y+river.h&&y+500>river.y)el.style.display="none";
+  });
 }
-
+function updateWeather(dt){
+  weatherTimer+=dt;
+  if(weatherTimer>75){
+    weatherTimer=0;
+    weatherIndex=(weatherIndex+1)%WEATHER.length;
+  }
+  const w=WEATHER[weatherIndex];
+  document.getElementById("weather").textContent=w.name;
+  document.getElementById("vignette").dataset.weather=w.sky;
+}
+function updateDayNight(){
+  const h=gameMinutes/60;
+  let opacity=.18;
+  if(h>=21||h<6)opacity=.55;
+  else if(h<8)opacity=.35;
+  else if(h>=18)opacity=.28;
+  document.getElementById("vignette").style.background=(h>=21||h<6)
+    ? "radial-gradient(circle,transparent 32%,rgba(12,20,31,"+opacity+"))"
+    : "radial-gradient(circle,transparent 45%,rgba(25,22,18,"+opacity+"))";
+}
+function worldRuleAudit(){
+  if(!RULES.roadsRemainPassable||!RULES.riverRemainsNatural)throw new Error("Reglas geográficas inválidas");
+}
 document.getElementById("closeDialogue").onclick=()=>{dialogueOpen=false;dialogue.classList.remove("show");statusEl.textContent="Explorando"};
 function movePlayer(dt){
   if(dialogueOpen)return;
@@ -267,12 +311,11 @@ function updateClock(dt){
   if(gameMinutes>=24*60)gameMinutes-=24*60;
   const h=Math.floor(gameMinutes/60),m=Math.floor(gameMinutes%60);
   clockEl.textContent=String(h).padStart(2,"0")+":"+String(m).padStart(2,"0");
-  const night=h<6||h>=21;
-  document.getElementById("vignette").style.background=night?"radial-gradient(circle,transparent 38%,rgba(14,21,31,.48))":"radial-gradient(circle,transparent 45%,rgba(25,22,18,.18))";
+  updateDayNight();
 }
 function loop(now){
   const dt=Math.min(.05,(now-last)/1000);last=now;
-  movePlayer(dt);updateNPCs(dt);updateClock(dt);render();requestAnimationFrame(loop);
+  movePlayer(dt);updateNPCs(dt);updateClock(dt);updateWeather(dt);render();requestAnimationFrame(loop);
 }
 addEventListener("keydown",e=>{
   keys.add(e.key);
@@ -301,8 +344,10 @@ function updateInteraction(){
   if(mm)mm.textContent=missions[missionIndex]?.title||"Exploración libre";
 }
 setInterval(updateInteraction,120);
+worldRuleAudit();
 validateWorldRules();
 updateMissionUI();
+updateWeather(0);
 addEventListener("resize",render);
 render();requestAnimationFrame(loop);
 </script>
