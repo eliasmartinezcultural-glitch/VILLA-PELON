@@ -212,6 +212,38 @@ rgba(126,108,78,.13)}
 .tt5{left:3650px;top:4450px}.tt6{left:4500px;top:4450px}.tt7{left:3950px;top:3200px}
 .traffic-node{position:absolute;z-index:13;width:30px;height:30px;border-radius:50%;background:#c2a56e;box-shadow:0 0 0 12px rgba(95,79,58,.12);pointer-events:none}
 .tn1{left:3930px;top:3920px}.tn2{left:4700px;top:3920px}.tn3{left:4000px;top:4500px}
+
+/* CAPA 4 · ESCALA DE JUEGO — ejido amplio y navegable */
+/* El pueblo deja de ser una mancha: pasa a ser un distrito jugable dentro del territorio. */
+.town{left:2050px;top:2350px;width:4100px;height:3200px;border-radius:13%;}
+.urban-ring{left:1800px;top:2100px;width:4600px;height:3700px;border-width:48px;border-radius:10%;}
+/* calles principales de escala vehicular */
+.ua1{left:2150px;top:3850px;width:3900px;height:86px}
+.ua2{left:4000px;top:2420px;width:78px;height:3000px}
+.ua3{left:2250px;top:3000px;width:3650px;height:64px;transform:rotate(-1.5deg)}
+.ua4{left:2200px;top:4700px;width:3700px;height:68px;transform:rotate(1.5deg)}
+.ua5{left:3100px;top:2380px;width:64px;height:3050px;transform:rotate(-2deg)}
+.ua6{left:4950px;top:2400px;width:64px;height:3000px;transform:rotate(2deg)}
+/* manzanas más grandes: dejan espacio real para NPC, vehículos y eventos */
+.residential{width:430px;height:260px;border-width:11px}
+.r1{left:2350px;top:2550px}.r2{left:3000px;top:2600px}.r3{left:4300px;top:2550px}.r4{left:5000px;top:2700px}
+.r5{left:2350px;top:3300px}.r6{left:3050px;top:3400px}.r7{left:4350px;top:3350px}.r8{left:5050px;top:3450px}
+.r9{left:2350px;top:4100px}.r10{left:3050px;top:4150px}.r11{left:4350px;top:4200px}.r12{left:5050px;top:4100px}
+.r13{left:2400px;top:4850px}.r14{left:3100px;top:5000px}.r15{left:4400px;top:4900px}.r16{left:5050px;top:4850px}
+.school{left:2350px;top:3650px;width:560px;height:360px}
+.station{left:5200px;top:3800px;width:600px;height:330px}
+.community{left:3700px;top:2550px;width:560px;height:320px}
+.plaza{left:3650px;top:3500px;width:720px;height:520px}
+.tt1{left:3050px;top:3450px}.tt2{left:3300px;top:3450px}.tt3{left:4800px;top:3450px}.tt4{left:5050px;top:3450px}
+.tt5{left:3250px;top:4500px}.tt6{left:4750px;top:4500px}.tt7{left:3950px;top:3000px}
+.tn1{left:3920px;top:3800px}.tn2{left:5000px;top:3800px}.tn3{left:4100px;top:4650px}
+/* accesos: la Ruta 65 entra al ejido y no termina en un punto abstracto */
+.route-junction{left:3700px;top:5000px;width:700px;height:500px}
+.route-junction:before{width:700px;height:150px;left:0;top:175px}
+.route-junction:after{width:150px;height:500px;left:275px;top:0}
+/* cinturón periurbano: el pueblo grande sigue respirando antes de llegar a chacras */
+.town:after{top:4%;bottom:4%;left:49.5%;width:44px}
+.town:before{left:4%;right:4%;top:49%;height:48px}
 </style>
 </head>
 <body>
