@@ -1,0 +1,13 @@
+{
+  "version":"1.0.0",
+  "principio":"Separación fuerte de biomas urbanos, rurales, hídricos y geográficos.",
+  "zonas":[
+    {"id":"urbana","nombre":"Villa Pelón · Zona Urbana","tipo":"urbana","rol":"núcleo social e institucional","identidad":["calles","casas","plaza","escuela","comercios","club","instituciones"],"transicion":"calles, veredas, carteles, iluminación y densidad de construcciones"},
+    {"id":"ruta_7","nombre":"Ruta 7","tipo":"eje","rol":"columna vertebral del mundo","identidad":["tránsito","señalización","accesos","puentes o cruces según escenario"],"transicion":"franjas laterales, ruido, vegetación y cambio de densidad"},
+    {"id":"rural_productiva","nombre":"Colonia Rural","tipo":"rural","rol":"trabajo, chacras y producción","identidad":["parcelas","acequias","frutales","galpones","herramientas","trabajadores"],"transicion":"camino de tierra, cortinas de álamos, acequias y disminución de edificios"},
+    {"id":"rio","nombre":"Ribera del Río Neuquén","tipo":"hidrica","rol":"agua, paisaje, exploración y memoria territorial","identidad":["agua","ribera","vegetación","fauna","sonido"],"transicion":"vegetación ribereña, suelo húmedo y descenso hacia el agua"},
+    {"id":"barda","nombre":"Bardas","tipo":"geografica","rol":"relieve, miradores, rastros y paisaje árido","identidad":["pendientes","suelo árido","vegetación dispersa","viento","horizonte"],"transicion":"ascenso, cambio de suelo y pérdida progresiva de vegetación productiva"},
+    {"id":"historica","nombre":"Paisajes Históricos","tipo":"especial","rol":"espacios donde pasado y presente se conectan","identidad":["ruinas","documentos","fotografías","objetos","reconstrucciones"],"transicion":"marcadores narrativos y cambios visuales temporales"},
+    {"id":"periferia","nombre":"Periferia","tipo":"mixta","rol":"puente entre ciudad y campo","identidad":["viviendas dispersas","talleres","caminos","lotes","vegetación mixta"],"transicion":"densidad urbana intermedia"}
+  ]
+}
