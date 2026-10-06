@@ -1,0 +1,99 @@
+{
+  "version": "1.0",
+  "estado": "BLOQUEADO",
+  "nombre": "Ley Mundial de Construcción — Villa Pelón",
+  "paso": 1,
+  "principio_absoluto": {
+    "mundo": "8200 x 8200 px",
+    "unidad_referencia": "El mundo completo mide exactamente 8200 x 8200. Todo elemento futuro debe ser proporcional a esta escala.",
+    "regla": "Nada puede crecer hasta dominar el mundo sin una razón excepcional y documentada.",
+    "base": "El territorio agreste actual queda congelado como capa territorial base. Las nuevas zonas se agregan encima sin alterar su identidad."
+  },
+  "escala": {
+    "micro": "1-40 px: piedras pequeñas, plantas, objetos mínimos, huellas y detalles.",
+    "pequena": "40-180 px: árboles pequeños, grupos de vegetación, objetos, puestos o elementos secundarios.",
+    "local": "180-600 px: casas, pequeños grupos de construcciones, patios, parcelas menores o accidentes puntuales.",
+    "zona": "600-1600 px: barrios, sectores productivos, plazas, instalaciones o accidentes naturales relevantes.",
+    "gran_zona": "1600-3000 px: áreas territoriales importantes.",
+    "macro": "3000-5000 px: solamente estructuras territoriales mayores.",
+    "mundo": "8200 x 8200 px: límite absoluto. Ningún elemento individual debe confundirse con el tamaño del mundo.",
+    "regla_visual": "La mayoría de los elementos cotidianos deben ocupar una fracción pequeña del mapa. El vacío y el territorio abierto son parte del diseño."
+  },
+  "proporciones": {
+    "elementos_naturales": "Deben respetar escalas plausibles entre sí.",
+    "arquitectura": "Una casa no puede tener escala de barrio; un barrio no puede tener escala de ciudad completa.",
+    "agua": "Un río debe ser estrecho respecto del territorio salvo que una referencia histórica o geográfica justifique otra proporción.",
+    "bardas": "Una barda debe ser una formación territorial localizada. Nunca puede convertirse artificialmente en una pared que atraviese o supere el mundo.",
+    "vegetacion": "La vegetación será dispersa y jerárquica, evitando patrones gigantes o repetitivos.",
+    "ruta": "Una ruta puede recorrer gran parte del mundo, pero su ancho visual debe seguir siendo pequeño respecto del territorio."
+  },
+  "color": {
+    "principio": "Los colores deben surgir del ambiente y de una paleta coherente con el paisaje patagónico árido.",
+    "suelo": ["arena", "tierra seca", "ocre", "beige", "marrón apagado", "gris terroso"],
+    "vegetacion": ["verde seco", "verde oliva", "verde grisáceo", "amarillo vegetal apagado"],
+    "agua": ["azul grisáceo", "verde azulado natural", "tonos transparentes y desaturados"],
+    "roca": ["gris", "gris cálido", "marrón piedra", "ocre"],
+    "arquitectura": ["materiales naturales", "blancos apagados", "beiges", "grises", "ladrillo y metal sin saturación excesiva"],
+    "prohibiciones": [
+      "agua violeta",
+      "ríos de colores fantasía sin justificación narrativa",
+      "vegetación fluorescente",
+      "suelo rojo intenso sin fundamento",
+      "colores neón en elementos naturales",
+      "gradientes que hagan parecer artificial el territorio"
+    ]
+  },
+  "texturas": {
+    "principio": "Primero territorio, después detalle.",
+    "suelo": "Textura irregular, sutil, seca y natural; evitar mosaicos evidentes.",
+    "vegetacion": "Variación de forma, tamaño, densidad y orientación.",
+    "roca": "Irregularidad y escala coherente.",
+    "agua": "Textura suave y movimiento discreto cuando corresponda.",
+    "arquitectura": "Cada material debe ser legible sin parecer plástico o videojuego genérico.",
+    "repeticion": "No repetir una misma textura o elemento de forma mecánica en grandes superficies."
+  },
+  "composicion": {
+    "regla": "El jugador debe percibir primero el territorio y luego los elementos.",
+    "densidad": "Baja por defecto; aumenta únicamente donde la historia o la actividad humana lo justifique.",
+    "vacio": "El espacio vacío es obligatorio y tiene valor visual y jugable.",
+    "jerarquia": ["mundo", "zona", "lugar", "objeto", "detalle"],
+    "lectura": "Cada zona debe poder reconocerse por su forma, densidad, textura, color y sonido sin depender de carteles."
+  },
+  "zonificacion": {
+    "regla": "Cada nueva zona se diseña como una unidad independiente antes de conectarla al mundo.",
+    "zonas_futuras": ["urbana", "ruta", "rural_productiva", "rio", "bardas", "historica", "periferia"],
+    "prohibicion": "No se incorporan zonas por acumulación improvisada.",
+    "transiciones": "Deben ser graduales y geográficamente comprensibles."
+  },
+  "limites": {
+    "mundo": "8200 x 8200 exactos.",
+    "norte": 8200,
+    "sur": 8200,
+    "este": 8200,
+    "oeste": 8200,
+    "fuera_del_mundo": "No existe territorio jugable ni geografía adicional.",
+    "elementos": "Ningún elemento puede sobresalir físicamente del límite mundial."
+  },
+  "tiempo_y_clima": {
+    "principio": "La escala visual no se modifica arbitrariamente por clima o momento del día.",
+    "clima": "Modifica luz, atmósfera, visibilidad y comportamiento; no cambia las dimensiones reales del mundo.",
+    "noche": "Oscurece el mundo sin crear una segunda geografía."
+  },
+  "calidad": {
+    "antes_de_agregar": [
+      "¿Qué tamaño ocupa en relación con 8200?",
+      "¿Su color existe dentro de la paleta?",
+      "¿Su textura corresponde al material?",
+      "¿Tiene sentido geográfico?",
+      "¿Está ocupando demasiado espacio?",
+      "¿Compite innecesariamente con el territorio?",
+      "¿Puede reconocerse sin exagerarlo?"
+    ],
+    "regla_de_rechazo": "Si un elemento parece más importante que el territorio por tamaño, saturación o contraste sin una razón narrativa, debe reducirse o rediseñarse."
+  },
+  "bloqueo": {
+    "estado": "ACTIVO",
+    "aplicacion": "Obligatoria para todas las futuras zonas, objetos, personajes, edificios, rutas, agua, vegetación, clima y efectos.",
+    "base_territorial": "No modificar el Paso 1 salvo una orden explícita de desbloqueo."
+  }
+}
