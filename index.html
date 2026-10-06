@@ -146,10 +146,41 @@ body{background:#171716;font-family:system-ui,-apple-system,Segoe UI,sans-serif;
   .landmark .label{font-size:26px}.sector-label{font-size:54px}
   .map-card{height:82vh}.map-title{font-size:32px}.map-sub{font-size:16px}
 }
+
+/* =========================================================
+   GAMEPLAY CORE · movimiento, animación, feedback y clima
+========================================================= */
+#fx{position:fixed;inset:0;z-index:75;pointer-events:none}
+.actor{will-change:left,top,transform;transition:none}
+.actor .head,.actor .body,.actor .leg{transition:transform .12s ease}
+.actor.moving .body{animation:walkBody .24s infinite alternate ease-in-out}
+.actor.moving .l{animation:legL .24s infinite alternate ease-in-out}
+.actor.moving .r{animation:legR .24s infinite alternate ease-in-out}
+.actor.idle .body{animation:breathe 1.8s infinite ease-in-out}
+.actor.interacting{filter:drop-shadow(0 18px 18px rgba(215,168,94,.34))}
+.actor .name{opacity:.78;transition:opacity .2s,transform .2s}
+.actor.near .name{opacity:1;transform:translateX(-50%) scale(1.04)}
+@keyframes walkBody{from{transform:translateY(0) rotate(-1deg)}to{transform:translateY(-12px) rotate(1deg)}}
+@keyframes legL{from{transform:translateY(0) rotate(7deg)}to{transform:translateY(-7px) rotate(-7deg)}}
+@keyframes legR{from{transform:translateY(-7px) rotate(-7deg)}to{transform:translateY(0) rotate(7deg)}}
+@keyframes breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+#weatherFX{position:fixed;inset:0;z-index:76;pointer-events:none;opacity:0;transition:opacity 1.2s}
+#weatherFX.rain{opacity:1;background:linear-gradient(112deg,transparent 0 48%,rgba(224,235,235,.22) 49% 50%,transparent 51%);background-size:38px 120px;animation:rainMove .42s linear infinite}
+#weatherFX.wind{opacity:.55;background:repeating-linear-gradient(170deg,transparent 0 46px,rgba(239,221,184,.14) 48px 51px,transparent 53px 100px);animation:windMove 1.5s linear infinite}
+#weatherFX.cloudy{opacity:.24;background:radial-gradient(ellipse at 20% 10%,rgba(70,76,78,.28),transparent 35%),radial-gradient(ellipse at 78% 18%,rgba(70,76,78,.24),transparent 38%)}
+@keyframes rainMove{from{background-position:0 0}to{background-position:18px 120px}}
+@keyframes windMove{from{background-position:0 0}to{background-position:300px -120px}}
+#worldFlash{position:fixed;inset:0;z-index:77;pointer-events:none;background:rgba(255,239,198,.0);transition:background .35s}
+#objectiveMarker{position:absolute;z-index:35;width:180px;height:180px;border-radius:50%;border:18px solid rgba(215,168,94,.72);box-shadow:0 0 0 26px rgba(215,168,94,.08),0 0 80px rgba(215,168,94,.28);animation:markerPulse 1.5s infinite ease-in-out;pointer-events:none;display:none}
+#objectiveMarker.show{display:block}
+@keyframes markerPulse{0%,100%{transform:translate(-50%,-50%) scale(.8);opacity:.55}50%{transform:translate(-50%,-50%) scale(1.08);opacity:1}}
+#speedIndicator{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:90;width:180px;height:8px;border-radius:10px;background:rgba(255,255,255,.16);overflow:hidden;opacity:0;transition:opacity .2s}
+#speedIndicator i{display:block;height:100%;width:0;background:#d7a85e;transition:width .08s}
+@media(max-width:700px){#speedIndicator{bottom:12px}.actor .name{font-size:34px}}
 </style>
 </head>
 <body>
-<div id="game">
+<div id="game"><canvas id="fx"></canvas><div id="weatherFX"></div><div id="worldFlash"></div>
   <div class="viewport" id="viewport">
     <div class="world" id="world">
       <div class="landscape-layer" id="landscapeLayer">
@@ -199,7 +230,7 @@ body{background:#171716;font-family:system-ui,-apple-system,Segoe UI,sans-serif;
   <div class="hud">Villa Pelón · <b id="clock">08:00</b> · <b id="weather">Despejado</b> · <span id="status">Explorando</span><br><small id="missionText">Primer paseo · Recorré el pueblo y encontrá a Abuela.</small></div>
   <button id="mapToggle" aria-label="Abrir mapa">⌖</button><button id="menuButton" aria-label="Abrir menú">☰</button>
   <div class="hint">Teclado: WASD / flechas · E / Espacio: hablar · M: menú</div>
-  <div id="interaction"><button id="talkButton">HABLAR</button></div>
+  <div id="interaction"><button id="talkButton">HABLAR</button></div><div id="speedIndicator"><i></i></div>
 
   <div id="mapOverlay">
     <div class="map-card">
@@ -234,279 +265,432 @@ body{background:#171716;font-family:system-ui,-apple-system,Segoe UI,sans-serif;
 </div>
 <script>
 /* =========================================================
-   NUEVO MOTOR · Luna en Villa Pelón
-   Principio: motor primero, contenido después.
-   Todo el estado importante vive en datos, no en posiciones sueltas.
+   LUNA EN VILLA PELÓN · MOTOR VIVO v2
+   Arquitectura:
+   - simulación desacoplada del render
+   - movimiento acelerado con inercia
+   - colisiones por volúmenes
+   - navegación por waypoints
+   - rutinas horarias
+   - vehículos sobre rutas
+   - fauna ambiental
+   - clima con partículas
+   - cámara con seguimiento dinámico
+   - guardado local
+   - objetivos dinámicos
 ========================================================= */
+
 const WORLD={w:32000,h:32000};
-const player={x:12400,y:11500,speed:260};
-const camera={x:12400,y:11500,scale:.13};
+const player={
+  x:12400,y:11500,vx:0,vy:0,
+  maxSpeed:520,accel:1750,friction:8.5,
+  facing:1,moving:false,step:0
+};
+const camera={x:player.x,y:player.y,scale:.13,zoomTarget:.13};
 const keys=new Set();
-let gameMinutes=8*60;
-let last=performance.now();
-let dialogueOpen=false;
-let menuOpen=false;
-let missionIndex=0;
-let missionProgress=0;
+const state={
+  gameMinutes:8*60,
+  weatherIndex:0,weatherTimer:0,
+  dialogue:false,menu:false,map:false,
+  missionIndex:Number(localStorage.getItem("villaPelonMission")||0),
+  discovered:Number(localStorage.getItem("villaPelonDiscoveries")||0),
+  last:performance.now(),time:0
+};
+
 const RULES={
-  worldScale:"32 km x 32 km de mundo jugable",
-  noBuildingsOnRoads:true,noVehiclesOnRoadBlockers:true,noBuildingsInRiver:true,noVehiclesInRiver:true,noAnimalsInRiver:true,noAnimalsInsideBuildings:true,
-  noHousesInRoads:true,noHousesInStreets:true,noCarsInsideRiver:true,noAnimalsInsideRiver:true,
-  npcsLive:true,npcSchedules:true,npcAvoidsImpossibleRoutes:true,timeAffectsWorld:true,dayNightCycle:true,
-  weatherChanges:true,weatherAffectsAtmosphere:true,missionsPersistent:true,mobileFirst:true,
-  roadsRemainPassable:true,riverRemainsNatural:true,landscapeHasPriority:true,
-  noRandomBuildings:true,noRandomCars:true,noRandomAnimals:true,
-  playerNeverSpawnsInForbiddenZone:true,interactionsContextual:true,
-  everyMissionHasGoal:true,everyMissionHasConsequence:true,
+  worldScale:"32 km x 32 km",
+  noBuildingsOnRoads:true,noHousesInStreets:true,noBuildingsInRiver:true,
+  noVehiclesInRiver:true,noAnimalsInRiver:true,noAnimalsInsideBuildings:true,
+  roadsRemainPassable:true,riverRemainsNatural:true,
+  npcsLive:true,npcSchedules:true,npcNavigation:true,
+  timeAffectsWorld:true,dayNightCycle:true,
+  weatherChanges:true,weatherAffectsMovement:true,
+  vehiclesFollowRoads:true,animalsUseHabitats:true,
+  playerCollision:true,cameraSmoothing:true,
+  mobileFirst:true,desktopFirst:true,
+  noRandomBuildings:true,noRandomCars:true,
   historicalFactsMustComeFromLibrary:true,fictionMustRemainFiction:true
 };
+
 const WEATHER=[
-  {name:"Despejado",sky:"clear",speed:1},
-  {name:"Nublado",sky:"cloudy",speed:.98},
-  {name:"Viento",sky:"wind",speed:.94},
-  {name:"Llovizna",sky:"rain",speed:.9}
+ {name:"Despejado",sky:"clear",speed:1},
+ {name:"Nublado",sky:"cloudy",speed:.98},
+ {name:"Viento",sky:"wind",speed:.91},
+ {name:"Llovizna",sky:"rain",speed:.88}
 ];
-let weatherIndex=0;
-let weatherTimer=0;
+
 const missions=[
- {title:"Primer paseo",goal:"Recorré el pueblo y encontrá a Abuela.",target:"abuela",reward:"Descubrimiento: la memoria del pueblo empieza caminando."},
+ {title:"Primer paseo",goal:"Recorré el pueblo y encontrá a Abuela.",target:"abuela",reward:"La memoria del pueblo empieza caminando."},
  {title:"Una historia para guardar",goal:"Hablá con Abuelo y escuchá su pista.",target:"abuelo",reward:"Nueva pista histórica desbloqueada."},
  {title:"El cuaderno",goal:"Visitá a la Maestra para ordenar tus descubrimientos.",target:"maestra",reward:"Cuaderno de Luna actualizado."},
  {title:"La mirada de Nina",goal:"Encontrá a Nina y preguntale por los lugares que casi nadie mira.",target:"nina",reward:"Ruta secreta de exploración desbloqueada."}
 ];
 
-
-/* =========================================================
-   WORLD DESIGN LAYER · generación determinista
-   El paisaje se genera con reglas, no con ruido aleatorio.
-========================================================= */
-const landscapeLayer=document.getElementById("landscapeLayer");
-function seeded(seed){return function(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}}
-const rng=seeded(21051973);
-function insideForbidden(x,y){
-  const road1={x:4900,y:12700,w:16200,h:500}, road2={x:14700,y:2600,w:18200,h:500}, river={x:0,y:18000,w:32000,h:1900};
-  return [road1,road2,river].some(z=>x>z.x-120&&x<z.x+z.w+120&&y>z.y-120&&y<z.y+z.h+120);
-}
-function addLandscape(){
-  const zones=[
-    {x:3500,y:4200,w:5600,h:4400,type:"ochre"},
-    {x:15500,y:4700,w:6200,h:4600,type:"sage"},
-    {x:3200,y:14200,w:5600,h:3900,type:"dry"},
-    {x:15800,y:14000,w:6400,h:3800,type:"ochre"}
-  ];
-  zones.forEach(z=>{
-    for(let i=0;i<7;i++){
-      const el=document.createElement("div");el.className="terrain-patch "+z.type;
-      el.style.left=(z.x+rng()*z.w)+"px";el.style.top=(z.y+rng()*z.h)+"px";
-      el.style.width=(700+rng()*1800)+"px";el.style.height=(350+rng()*1100)+"px";
-      landscapeLayer.appendChild(el);
-    }
-  });
-  let count=0;
-  while(count<92){
-    const x=1800+rng()*28600,y=3600+rng()*13200;
-    if(insideForbidden(x,y))continue;
-    const el=document.createElement("div");
-    el.className=rng()>.35?"tree small":"tree big";
-    el.style.left=x+"px";el.style.top=y+"px";
-    el.style.transform="scale("+(0.72+rng()*.58)+")";
-    landscapeLayer.appendChild(el);count++;
-  }
-  count=0;
-  while(count<58){
-    const x=2500+rng()*29000,y=4200+rng()*12800;
-    if(insideForbidden(x,y))continue;
-    const el=document.createElement("div");el.className=rng()>.45?"shrub":"stone";
-    el.style.left=x+"px";el.style.top=y+"px";landscapeLayer.appendChild(el);count++;
-  }
-  [ [4700,7900,4600,900],[15500,7900,5400,900],[4500,16800,4200,800],[16500,16500,5000,800] ].forEach(f=>{
-    const el=document.createElement("div");el.className="fence";el.style.left=f[0]+"px";el.style.top=f[1]+"px";el.style.width=f[2]+"px";landscapeLayer.appendChild(el);
-  });
-}
-addLandscape();
-
-const mapOverlay=document.getElementById("mapOverlay"),mapPlayer=document.getElementById("mapPlayer");
-function updateMapPlayer(){
-  if(!mapPlayer)return;
-  mapPlayer.style.left=(player.x/WORLD.w*100)+"%";
-  mapPlayer.style.top=(player.y/WORLD.h*100)+"%";
-}
-function toggleMap(){mapOverlay.classList.toggle("show");updateMapPlayer()}
-document.getElementById("mapToggle").onclick=toggleMap;
-document.getElementById("mapClose").onclick=toggleMap;
-
 const npcs={
- abuela:{name:"Abuela",x:12200,y:10400,home:[12200,10400],work:[11100,11200],speed:110,dialogue:["Villa Pelón se conoce caminándolo. Cada lugar guarda una historia.","Si querés descubrirla, no mires solamente: preguntá, observá y seguí las pistas."]},
- abuelo:{name:"Abuelo",x:13800,y:10800,home:[13800,10800],work:[12400,12800],speed:96,dialogue:["Hay caminos que parecen comunes hasta que alguien te cuenta por qué están ahí.","La historia del pueblo también está en sus calles, sus chacras y su gente."]},
- maestra:{name:"Maestra",x:10000,y:11400,home:[10000,11400],work:[9400,11100],speed:124,dialogue:["En este pueblo aprender no ocurre solamente dentro de la escuela.","Tu cuaderno va a ir reuniendo tus descubrimientos."]},
- nina:{name:"Nina",x:14400,y:11600,home:[14400,11600],work:[14000,11800],speed:156,dialogue:["¿Venís a explorar? Yo conozco algunos lugares que casi nadie mira."]},
- bodeguero:{name:"Bodeguero",x:8600,y:6600,home:[8600,6600],work:[8240,6600],speed:104,dialogue:["Las chacras y las bodegas forman parte del paisaje productivo de Villa Pelón.","Hay mucho para descubrir alrededor del pueblo."]}
+ abuela:{name:"Abuela",x:12200,y:10400,home:[12200,10400],work:[11100,11200],speed:110,dialogue:["Villa Pelón se conoce caminándolo. Cada lugar guarda una historia.","No mires solamente: preguntá, observá y seguí las pistas."]},
+ abuelo:{name:"Abuelo",x:13800,y:10800,home:[13800,10800],work:[12400,12800],speed:96,dialogue:["Hay caminos que parecen comunes hasta que alguien te cuenta por qué están ahí.","La historia también está en sus calles, sus chacras y su gente."]},
+ maestra:{name:"Maestra",x:10000,y:11400,home:[10000,11400],work:[9400,11100],speed:124,dialogue:["En este pueblo aprender no ocurre solamente dentro de la escuela.","Tu cuaderno va a reunir tus descubrimientos."]},
+ nina:{name:"Nina",x:14400,y:11600,home:[14400,11600],work:[14000,11800],speed:156,dialogue:["¿Venís a explorar? Conozco lugares que casi nadie mira."]},
+ bodeguero:{name:"Bodeguero",x:8600,y:6600,home:[8600,6600],work:[8240,6600],speed:104,dialogue:["Las chacras y las bodegas forman parte del paisaje productivo.","Hay mucho para descubrir alrededor del pueblo."]}
 };
-const npcEls=[...document.querySelectorAll(".actor.npc")];
-const luna=document.getElementById("luna"), world=document.getElementById("world");
-const clockEl=document.getElementById("clock"),statusEl=document.getElementById("status");
-const dialogue=document.getElementById("dialogue"),speaker=document.getElementById("speaker"),text=document.getElementById("text");
 
-function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
+const npcEls=[...document.querySelectorAll(".actor.npc")];
+const luna=document.getElementById("luna");
+const world=document.getElementById("world");
+const clockEl=document.getElementById("clock");
+const statusEl=document.getElementById("status");
+const dialogue=document.getElementById("dialogue");
+const speaker=document.getElementById("speaker");
+const text=document.getElementById("text");
+const weatherFX=document.getElementById("weatherFX");
+const canvas=document.getElementById("fx");
+const ctx=canvas.getContext("2d");
+const flash=document.getElementById("worldFlash");
+
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
 function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
-function schedule(npc){
-  const h=gameMinutes/60;
-  if(h<9) return npc.home;
-  if(h<14) return npc.work;
-  if(h<18) return [(npc.home[0]+npc.work[0])/2,(npc.home[1]+npc.work[1])/2];
-  return npc.home;
+function lerp(a,b,t){return a+(b-a)*t}
+function hour(){return state.gameMinutes/60}
+function save(){
+  localStorage.setItem("villaPelonMission",String(state.missionIndex));
+  localStorage.setItem("villaPelonDiscoveries",String(state.discovered));
+}
+function currentMission(){return missions[state.missionIndex]||null}
+
+/* ---------- GEOGRAFÍA / COLISIONES ---------- */
+const solids=[
+ {x:8800,y:9000,w:1120,h:720},{x:10200,y:9000,w:1120,h:720},
+ {x:13000,y:9000,w:1120,h:720},{x:14400,y:9000,w:1120,h:720},
+ {x:8800,y:12000,w:1120,h:720},{x:13000,y:12000,w:1120,h:720},
+ {x:7700,y:6300,w:1040,h:720},{x:18000,y:9700,w:1040,h:720},{x:8300,y:16200,w:1040,h:720}
+];
+const river={x:0,y:18000,w:32000,h:1900};
+const bridges=[{x:13400,y:18020,w:900,h:250}];
+
+function pointInRect(x,y,r,pad=0){
+ return x>r.x-pad&&x<r.x+r.w+pad&&y>r.y-pad&&y<r.y+r.h+pad;
+}
+function inRiver(x,y){
+ if(!pointInRect(x,y,river,90))return false;
+ return !bridges.some(b=>pointInRect(x,y,b,120));
+}
+function collidesWorld(x,y,r=105){
+ if(x<r||y<r||x>WORLD.w-r||y>WORLD.h-r)return true;
+ if(inRiver(x,y))return true;
+ return solids.some(s=>x>s.x-r&&x<s.x+s.w+r&&y>s.y-r&&y<s.y+s.h+r);
+}
+function moveWithCollision(x,y,dx,dy){
+ let nx=x+dx,ny=y+dy;
+ if(!collidesWorld(nx,y,105))x=nx;else player.vx=0;
+ if(!collidesWorld(x,ny,105))y=ny;else player.vy=0;
+ return [x,y];
+}
+
+/* ---------- MOVIMIENTO PROFESIONAL ---------- */
+function inputVector(){
+ let x=0,y=0;
+ if(keys.has("ArrowLeft")||keys.has("a"))x--;
+ if(keys.has("ArrowRight")||keys.has("d"))x++;
+ if(keys.has("ArrowUp")||keys.has("w"))y--;
+ if(keys.has("ArrowDown")||keys.has("s"))y++;
+ const len=Math.hypot(x,y);
+ return len?[x/len,y/len]:[0,0];
+}
+function updatePlayer(dt){
+ if(state.dialogue)return;
+ const [ix,iy]=inputVector();
+ const moving=!!(ix||iy);
+ const weather=WEATHER[state.weatherIndex];
+ const target=player.maxSpeed*weather.speed;
+ if(moving){
+   player.vx=lerp(player.vx,ix*target,1-Math.exp(-player.accel*dt/target));
+   player.vy=lerp(player.vy,iy*target,1-Math.exp(-player.accel*dt/target));
+   player.facing=ix<0?-1:ix>0?1:player.facing;
+   player.step+=dt*(Math.hypot(player.vx,player.vy)/90);
+ }else{
+   const damp=Math.exp(-player.friction*dt);
+   player.vx*=damp;player.vy*=damp;
+ }
+ const speed=Math.hypot(player.vx,player.vy);
+ [player.x,player.y]=moveWithCollision(player.x,player.y,player.vx*dt,player.vy*dt);
+ player.moving=speed>30;
+ luna.classList.toggle("moving",player.moving);
+ luna.classList.toggle("idle",!player.moving);
+ luna.style.transform="translate(-50%,-50%) scaleX("+player.facing+")";
+ const speedBar=document.querySelector("#speedIndicator i");
+ if(speedBar)speedBar.style.width=Math.min(100,speed/player.maxSpeed*100)+"%";
+ document.getElementById("speedIndicator").style.opacity=player.moving?"1":"0";
+}
+
+/* ---------- NPC NAVIGATION ---------- */
+function scheduleTarget(n){
+ const h=hour();
+ if(h<9)return n.home;
+ if(h<14)return n.work;
+ if(h<18)return [(n.home[0]+n.work[0])/2,(n.home[1]+n.work[1])/2];
+ return n.home;
+}
+function routeFor(n){
+ const t=scheduleTarget(n);
+ const nearRiver=Math.abs(t[1]-river.y)<700;
+ if(nearRiver)return [ [n.x,n.y],[n.work[0],n.work[1]],[t[0],t[1]] ];
+ return [ [n.x,n.y],t ];
 }
 function updateNPCs(dt){
-  npcEls.forEach(el=>{
-    const n=npcs[el.dataset.id]; if(!n)return;
-    const target=schedule(n);
-    const dx=target[0]-n.x,dy=target[1]-n.y,d=Math.hypot(dx,dy);
-    if(d>18){n.x+=dx/d*n.speed*dt;n.y+=dy/d*n.speed*dt}
-    el.style.left=n.x+"px";el.style.top=n.y+"px";
-  });
+ npcEls.forEach(el=>{
+   const n=npcs[el.dataset.id];if(!n)return;
+   if(!n.path)n.path=[];
+   const target=scheduleTarget(n);
+   if(!n.path.length||dist({x:n.path[n.path.length-1][0],y:n.path[n.path.length-1][1]}, {x:target[0],y:target[1]})>80)n.path=routeFor(n);
+   const next=n.path[1]||target;
+   const dx=next[0]-n.x,dy=next[1]-n.y,d=Math.hypot(dx,dy);
+   if(d>24){
+     const step=Math.min(d,n.speed*dt);
+     const nx=n.x+dx/d*step,ny=n.y+dy/d*step;
+     if(!collidesWorld(nx,ny,95)){n.x=nx;n.y=ny}
+     else n.path=[];
+   }else if(n.path.length>1)n.path.shift();
+   el.style.left=n.x+"px";el.style.top=n.y+"px";
+   el.classList.toggle("moving",d>24);
+   el.classList.toggle("idle",d<=24);
+ });
 }
-function nearestNPC(){
-  let best=null,bestD=650;
-  for(const n of Object.values(npcs)){const d=dist(player,n);if(d<bestD){best=n;bestD=d}}
-  return best;
+
+/* ---------- VEHÍCULOS SOBRE RUTAS ---------- */
+const vehicles=[
+ {el:document.getElementById("car1"),x:15800,y:12700,t:0,route:"main",speed:420,dir:1},
+ {el:document.getElementById("car2"),x:17800,y:7200,t:.35,route:"route",speed:360,dir:1}
+];
+function updateVehicles(dt){
+ vehicles.forEach(v=>{
+   v.t=(v.t+dt*v.speed/18000*v.dir)%1;if(v.t<0)v.t+=1;
+   let x,y,angle;
+   if(v.route==="main"){
+     const a={x:4900,y:12700},b={x:21100,y:12700};
+     x=lerp(a.x,b.x,v.t);y=a.y- Math.tan(-10*Math.PI/180)*(x-a.x);angle=-10;
+   }else{
+     const a={x:14700,y:2600},b={x:32900,y:2600};
+     x=lerp(a.x,b.x,v.t);y=a.y+Math.tan(62*Math.PI/180)*(x-a.x);angle=62;
+   }
+   v.x=x;v.y=y;
+   v.el.style.left=x+"px";v.el.style.top=y+"px";
+   v.el.style.transform="rotate("+angle+"deg)";
+ });
 }
-function talk(n){
-  dialogueOpen=true;
-  speaker.textContent=n.name;
-  text.textContent=n.dialogue[Math.floor(gameMinutes)%n.dialogue.length];
-  dialogue.classList.add("show");
-  statusEl.textContent="Conversando";
-  const mission=missions[missionIndex];
-  if(mission && mission.target===Object.keys(npcs).find(k=>npcs[k]===n)){
-    missionProgress=1;
-    missionIndex=Math.min(missionIndex+1,missions.length-1);
-    updateMissionUI();
-  }
+
+/* ---------- FAUNA / AMBIENTE ---------- */
+const fauna=[];
+function seedFauna(){
+ const r=()=>Math.random();
+ for(let i=0;i<18;i++){
+   fauna.push({x:3000+r()*26000,y:4500+r()*12000,vx:(r()-.5)*80,vy:(r()-.5)*45,phase:r()*7,type:r()>.55?"bird":"butterfly"});
+ }
 }
-function updateMissionUI(){
-  const m=missions[missionIndex];
-  const el=document.getElementById("missionText");
-  if(el)el.textContent=m ? m.title+" · "+m.goal : "Historia completada · exploración libre";
+seedFauna();
+function updateFauna(dt){
+ fauna.forEach(a=>{
+   a.phase+=dt;
+   a.vx+=Math.sin(a.phase*1.7)*5*dt;
+   a.vy+=Math.cos(a.phase*1.3)*4*dt;
+   const sp=Math.hypot(a.vx,a.vy);if(sp>110){a.vx*=.97;a.vy*=.97}
+   const nx=a.x+a.vx*dt,ny=a.y+a.vy*dt;
+   if(!collidesWorld(nx,ny,35)){a.x=nx;a.y=ny}else{a.vx*=-1;a.vy*=-1}
+ });
 }
-function toggleMenu(){
-  menuOpen=!menuOpen;
-  document.getElementById("menu").classList.toggle("show",menuOpen);
-}
-function interact(){
-  const n=nearestNPC();
-  if(n)talk(n);
-}
-function validateWorldRules(){
-  const forbidden=[
-    {name:"Río",x:0,y:18000,w:32000,h:1600,type:"river"},
-    {name:"Ruta principal",x:4900,y:12700,w:16200,h:300,type:"road"},
-    {name:"Ruta norte",x:14700,y:2600,w:18200,h:380,type:"road"}
-  ];
-  document.querySelectorAll(".building,.block,.picada .hut").forEach(el=>{
-    const x=parseFloat(el.style.left||0),y=parseFloat(el.style.top||0);
-    if(forbidden.some(z=>x<z.x+z.w&&x+1000>z.x&&y<z.y+z.h&&y+700>z.y)){
-      el.dataset.invalid="true";
-      el.style.display="none";
-    }
-  });
-  document.querySelectorAll(".vehicle,.animal").forEach(el=>{
-    const x=parseFloat(el.style.left||0),y=parseFloat(el.style.top||0);
-    const river=forbidden.find(z=>z.type==="river");
-    if(river && x<river.x+river.w&&x+500>river.x&&y<river.y+river.h&&y+500>river.y)el.style.display="none";
-  });
+
+/* ---------- CLIMA / PARTÍCULAS ---------- */
+const particles=[];
+function resizeFX(){canvas.width=innerWidth*devicePixelRatio;canvas.height=innerHeight*devicePixelRatio;canvas.style.width=innerWidth+"px";canvas.style.height=innerHeight+"px";ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)}
+function resetParticles(){
+ particles.length=0;
+ for(let i=0;i<140;i++)particles.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,s:20+Math.random()*100,a:Math.random()*Math.PI*2});
 }
 function updateWeather(dt){
-  const vignette=document.getElementById("vignette");
-  vignette.style.boxShadow = weatherIndex===3 ? "inset 0 0 180px rgba(120,140,150,.12)" : weatherIndex===2 ? "inset 0 0 180px rgba(210,190,150,.08)" : "none";
-  weatherTimer+=dt;
-  if(weatherTimer>75){
-    weatherTimer=0;
-    weatherIndex=(weatherIndex+1)%WEATHER.length;
-  }
-  const w=WEATHER[weatherIndex];
-  document.getElementById("weather").textContent=w.name;
-  document.getElementById("vignette").dataset.weather=w.sky;
+ state.weatherTimer+=dt;
+ if(state.weatherTimer>78){
+   state.weatherTimer=0;
+   state.weatherIndex=(state.weatherIndex+1)%WEATHER.length;
+   flash.style.background="rgba(255,239,198,.07)";
+   setTimeout(()=>flash.style.background="rgba(255,239,198,0)",260);
+ }
+ const w=WEATHER[state.weatherIndex];
+ document.getElementById("weather").textContent=w.name;
+ weatherFX.className=w.sky==="clear"?"":w.sky;
 }
+function drawFX(){
+ ctx.clearRect(0,0,innerWidth,innerHeight);
+ const w=WEATHER[state.weatherIndex];
+ if(w.sky==="rain"){
+   ctx.beginPath();ctx.lineWidth=1;
+   particles.forEach(p=>{p.y+=p.s*.18;p.x+=p.s*.05;if(p.y>innerHeight){p.y=-10;p.x=Math.random()*innerWidth}ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-5,p.y+18)});
+   ctx.strokeStyle="rgba(220,235,240,.28)";ctx.stroke();
+ }
+ if(w.sky==="wind"){
+   ctx.beginPath();
+   for(let i=0;i<50;i++){const p=particles[i];p.x+=p.s*.018;if(p.x>innerWidth+80)p.x=-80;ctx.moveTo(p.x,p.y);ctx.lineTo(p.x+70,p.y-10)}
+   ctx.strokeStyle="rgba(245,226,190,.15)";ctx.stroke();
+ }
+ fauna.forEach(a=>{
+   const vw=innerWidth/camera.scale,vh=innerHeight/camera.scale;
+   const sx=innerWidth/2+(a.x-camera.x)*camera.scale,sy=innerHeight/2+(a.y-camera.y)*camera.scale;
+   if(sx<-40||sx>innerWidth+40||sy<-40||sy>innerHeight+40)return;
+   ctx.save();ctx.translate(sx,sy);
+   if(a.type==="bird"){ctx.strokeStyle="rgba(46,43,36,.65)";ctx.lineWidth=3;ctx.beginPath();ctx.arc(-7,0,7,Math.PI,Math.PI*2);ctx.arc(7,0,7,Math.PI,Math.PI*2);ctx.stroke()}
+   else{ctx.fillStyle="rgba(214,168,92,.7)";ctx.beginPath();ctx.arc(0,0,3,0,Math.PI*2);ctx.fill()}
+   ctx.restore();
+ });
+}
+
+/* ---------- DÍA / NOCHE ---------- */
 function updateDayNight(){
-  const h=gameMinutes/60;
-  let opacity=.18;
-  if(h>=21||h<6)opacity=.55;
-  else if(h<8)opacity=.35;
-  else if(h>=18)opacity=.28;
-  document.getElementById("vignette").style.background=(h>=21||h<6)
-    ? "radial-gradient(circle,transparent 32%,rgba(12,20,31,"+opacity+"))"
-    : "radial-gradient(circle,transparent 45%,rgba(25,22,18,"+opacity+"))";
+ const h=hour();
+ let opacity=.14;
+ if(h>=21||h<6)opacity=.56;
+ else if(h<8)opacity=.34;
+ else if(h>=18)opacity=.28;
+ const night=h>=21||h<6;
+ document.getElementById("vignette").style.background=night
+  ?"radial-gradient(circle,transparent 28%,rgba(8,16,28,"+opacity+"))"
+  :"radial-gradient(circle,transparent 46%,rgba(25,22,18,"+opacity+"))";
 }
-function worldRuleAudit(){
-  if(!RULES.roadsRemainPassable||!RULES.riverRemainsNatural)throw new Error("Reglas geográficas inválidas");
+
+/* ---------- CÁMARA ---------- */
+function updateCamera(dt){
+ const speed=Math.hypot(player.vx,player.vy);
+ const leadX=player.vx*.38,leadY=player.vy*.38;
+ const follow=1-Math.exp(-7*dt);
+ camera.x=lerp(camera.x,player.x+leadX,follow);
+ camera.y=lerp(camera.y,player.y+leadY,follow);
+ const targetZoom=state.dialogue?.105:state.map?.08:.13;
+ camera.zoomTarget=targetZoom;
+ camera.scale=lerp(camera.scale,camera.zoomTarget,1-Math.exp(-5*dt));
+ const vw=innerWidth/camera.scale,vh=innerHeight/camera.scale;
+ const cx=clamp(camera.x,vw/2,WORLD.w-vw/2),cy=clamp(camera.y,vh/2,WORLD.h-vh/2);
+ world.style.transform="translate("+Math.round(innerWidth/2-cx*camera.scale)+"px,"+Math.round(innerHeight/2-cy*camera.scale)+"px) scale("+camera.scale+")";
+ luna.style.left=player.x+"px";luna.style.top=player.y+"px";
+ updateMapPlayer();
 }
-document.getElementById("closeDialogue").onclick=()=>{dialogueOpen=false;dialogue.classList.remove("show");statusEl.textContent="Explorando"};
-function movePlayer(dt){
-  if(dialogueOpen)return;
-  let dx=0,dy=0;
-  if(keys.has("ArrowLeft")||keys.has("a"))dx--;
-  if(keys.has("ArrowRight")||keys.has("d"))dx++;
-  if(keys.has("ArrowUp")||keys.has("w"))dy--;
-  if(keys.has("ArrowDown")||keys.has("s"))dy++;
-  if(!dx&&!dy)return;
-  const len=Math.hypot(dx,dy);player.x=clamp(player.x+dx/len*player.speed*dt,520,WORLD.w-520);player.y=clamp(player.y+dy/len*player.speed*dt,520,WORLD.h-520);
-  const n=nearestNPC(); if(n)statusEl.textContent="Podés hablar con "+n.name;else statusEl.textContent="Explorando";
+
+/* ---------- INTERACCIÓN / MISIONES ---------- */
+function nearestNPC(){
+ let best=null,bestD=720;
+ for(const [id,n] of Object.entries(npcs)){
+   const d=dist(player,n);
+   if(d<bestD){best={id,n};bestD=d}
+ }
+ return best;
 }
-function render(){
-  updateMapPlayer();
-  const vw=innerWidth/camera.scale,vh=innerHeight/camera.scale;
-  camera.x+=(player.x-camera.x)*.14;camera.y+=(player.y-camera.y)*.14;
-  const halfW=vw/2,halfH=vh/2;
-  const cx=clamp(camera.x,halfW,WORLD.w-halfW),cy=clamp(camera.y,halfH,WORLD.h-halfH);
-  world.style.transform="translate("+Math.round(innerWidth/2-cx*camera.scale)+"px,"+Math.round(innerHeight/2-cy*camera.scale)+"px) scale("+camera.scale+")";
-  luna.style.left=player.x+"px";luna.style.top=player.y+"px";
+function updateMissionUI(){
+ const m=currentMission();
+ document.getElementById("missionText").textContent=m?m.title+" · "+m.goal:"Historia completada · exploración libre";
+ document.getElementById("menuMission").textContent=m?.title||"Exploración libre";
 }
+function talk(){
+ const found=nearestNPC();if(!found)return;
+ const {id,n}=found;
+ state.dialogue=true;
+ speaker.textContent=n.name;
+ text.textContent=n.dialogue[Math.floor(state.gameMinutes)%n.dialogue.length];
+ dialogue.classList.add("show");
+ statusEl.textContent="Conversando";
+ luna.classList.add("interacting");
+ const m=currentMission();
+ if(m&&m.target===id){
+   state.discovered++;
+   state.missionIndex=Math.min(state.missionIndex+1,missions.length);
+   save();updateMissionUI();
+ }
+}
+function closeDialogue(){
+ state.dialogue=false;dialogue.classList.remove("show");luna.classList.remove("interacting");statusEl.textContent="Explorando";
+}
+function updateInteraction(){
+ const found=nearestNPC();
+ npcEls.forEach(el=>el.classList.remove("near"));
+ if(found){
+   const el=document.querySelector('[data-id="'+found.id+'"]');if(el)el.classList.add("near");
+   if(!state.dialogue)statusEl.textContent="Cerca de "+found.n.name+" · E / HABLAR";
+ }
+ const box=document.getElementById("interaction");
+ box.classList.toggle("show",!!found&&!state.dialogue);
+}
+
+/* ---------- MAPA ---------- */
+const mapOverlay=document.getElementById("mapOverlay"),mapPlayer=document.getElementById("mapPlayer");
+function updateMapPlayer(){
+ if(!mapPlayer)return;
+ mapPlayer.style.left=(player.x/WORLD.w*100)+"%";mapPlayer.style.top=(player.y/WORLD.h*100)+"%";
+}
+function toggleMap(){
+ state.map=!state.map;mapOverlay.classList.toggle("show",state.map);updateMapPlayer();
+}
+
+/* ---------- MENÚ ---------- */
+function toggleMenu(){
+ state.menu=!state.menu;
+ document.getElementById("menu").classList.toggle("show",state.menu);
+}
+
+/* ---------- RELOJ ---------- */
 function updateClock(dt){
-  gameMinutes+=dt*2.5;
-  if(gameMinutes>=24*60)gameMinutes-=24*60;
-  const h=Math.floor(gameMinutes/60),m=Math.floor(gameMinutes%60);
-  clockEl.textContent=String(h).padStart(2,"0")+":"+String(m).padStart(2,"0");
-  updateDayNight();
+ state.gameMinutes+=dt*2.5;
+ if(state.gameMinutes>=1440)state.gameMinutes-=1440;
+ const h=Math.floor(state.gameMinutes/60),m=Math.floor(state.gameMinutes%60);
+ clockEl.textContent=String(h).padStart(2,"0")+":"+String(m).padStart(2,"0");
+ updateDayNight();
 }
-function loop(now){
-  const dt=Math.min(.05,(now-last)/1000);last=now;
-  movePlayer(dt);updateNPCs(dt);updateClock(dt);updateWeather(dt);render();requestAnimationFrame(loop);
+
+/* ---------- LOOP ---------- */
+function frame(now){
+ const dt=Math.min(.033,(now-state.last)/1000);state.last=now;state.time+=dt;
+ updatePlayer(dt);
+ updateNPCs(dt);
+ updateVehicles(dt);
+ updateFauna(dt);
+ updateClock(dt);
+ updateWeather(dt);
+ updateCamera(dt);
+ drawFX();
+ requestAnimationFrame(frame);
 }
+
+/* ---------- INPUT ---------- */
 addEventListener("keydown",e=>{
-  keys.add(e.key);
-  if(e.key===" "||e.key.toLowerCase()==="e"){e.preventDefault();interact()}
-  if(e.key.toLowerCase()==="m")toggleMenu();
+ const k=e.key;
+ keys.add(k);
+ if(k===" "||k.toLowerCase()==="e"){e.preventDefault();talk()}
+ if(k.toLowerCase()==="m")toggleMenu();
+ if(k.toLowerCase()==="p")toggleMap();
+ if(k==="Escape"){if(state.dialogue)closeDialogue();else if(state.map)toggleMap();else if(state.menu)toggleMenu()}
 });
 addEventListener("keyup",e=>keys.delete(e.key));
+document.getElementById("closeDialogue").onclick=closeDialogue;
+document.getElementById("talkButton").onclick=talk;
 document.getElementById("menuButton").onclick=toggleMenu;
 document.getElementById("menuClose").onclick=toggleMenu;
 document.getElementById("resume").onclick=toggleMenu;
-document.addEventListener("keydown",e=>{if(e.key.toLowerCase()==="p")toggleMap()});
-document.getElementById("talkButton").onclick=interact;
+document.getElementById("mapToggle").onclick=toggleMap;
+document.getElementById("mapClose").onclick=toggleMap;
+
 document.querySelectorAll("#touch button[data-key]").forEach(b=>{
-  const k=b.dataset.key;
-  b.addEventListener("pointerdown",()=>keys.add(k));b.addEventListener("pointerup",()=>keys.delete(k));b.addEventListener("pointercancel",()=>keys.delete(k));
+ const k=b.dataset.key;
+ const down=e=>{e.preventDefault();keys.add(k)};
+ const up=e=>{e.preventDefault();keys.delete(k)};
+ b.addEventListener("pointerdown",down);b.addEventListener("pointerup",up);b.addEventListener("pointercancel",up);b.addEventListener("pointerleave",up);
 });
-function updateInteraction(){
-  const n=nearestNPC();
-  const box=document.getElementById("interaction");
-  if(n && !dialogueOpen){
-    box.classList.add("show");
-    statusEl.textContent="Cerca de "+n.name+" · tocá HABLAR";
-  }else{
-    box.classList.remove("show");
-  }
-  const mm=document.getElementById("menuMission");
-  if(mm)mm.textContent=missions[missionIndex]?.title||"Exploración libre";
+
+addEventListener("resize",()=>{resizeFX();resetParticles()});
+
+/* ---------- ARRANQUE ---------- */
+function validateWorldRules(){
+ if(!RULES.roadsRemainPassable||!RULES.riverRemainsNatural||!RULES.playerCollision)throw new Error("Motor: reglas inválidas");
+ document.querySelectorAll(".vehicle").forEach(v=>v.style.display="block");
 }
-setInterval(updateInteraction,120);
-worldRuleAudit();
 validateWorldRules();
-updateMissionUI();
-updateWeather(0);
-updateMapPlayer();
-addEventListener("resize",render);
-render();requestAnimationFrame(loop);
+resizeFX();resetParticles();updateMissionUI();updateWeather(0);updateDayNight();updateInteraction();
+setInterval(updateInteraction,100);
+render();
+requestAnimationFrame(frame);
 </script>
 </body>
 </html>
