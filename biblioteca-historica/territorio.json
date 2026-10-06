@@ -1,0 +1,50 @@
+{
+  "titulo": "Biblioteca territorial",
+  "regla": "El paisaje también cuenta la historia.",
+  "referencia_real": "San Patricio del Chañar",
+  "elementos": [
+    {
+      "id": "rio-neuquen",
+      "nombre": "Río Neuquén",
+      "funcion_narrativa": ["agua", "orientacion", "riego", "paisaje", "limite_historico"],
+      "descripcion": "Elemento territorial fundamental para comprender la transformación del área: el desarrollo agrícola dependió de obras para captar y distribuir agua.",
+      "fuentes": ["F01", "F03"]
+    },
+    {
+      "id": "campo-el-chanar",
+      "nombre": "Campo El Chañar",
+      "funcion_narrativa": ["tierra", "propiedad", "colonizacion", "agricultura"],
+      "descripcion": "Gran extensión de tierra cuya subdivisión, compra y puesta bajo riego forman parte central de la historia moderna de la localidad.",
+      "fuentes": ["F01", "F03", "F05"]
+    },
+    {
+      "id": "mangrullo-chanar",
+      "nombre": "Mangrullo Chañar / referencia al Fortín Chañar",
+      "funcion_narrativa": ["historia_militar", "circulacion", "memoria"],
+      "descripcion": "Referencia histórica registrada en documentación de mensura de 1881-1882 y trabajos posteriores de Juan Mario Raone.",
+      "fuentes": ["F01"]
+    },
+    {
+      "id": "rastrillada-paso-indios",
+      "nombre": "Rastrillada de Paso de Indios",
+      "funcion_narrativa": ["movilidad", "intercambio", "territorio"],
+      "descripcion": "Ruta de circulación histórica vinculada al área y a la red de pasos y fortines.",
+      "fuentes": ["F01"]
+    },
+    {
+      "id": "desierto-riego",
+      "nombre": "Transformación de monte árido en chacras",
+      "funcion_narrativa": ["gran_cambio", "ingenieria", "trabajo", "agua"],
+      "descripcion": "Uno de los grandes ejes visuales del juego: comparar el paisaje previo a la irrigación con el paisaje agrícola posterior.",
+      "fuentes": ["F01", "F03", "F05"]
+    }
+  ],
+  "mecanicas_posibles": [
+    "comparar fotografías históricas y actuales",
+    "seguir cursos de agua",
+    "reconstruir una acequia",
+    "ubicar antiguas referencias en un mapa",
+    "descubrir cómo cambia el paisaje",
+    "coleccionar semillas, herramientas y documentos como objetos narrativos"
+  ]
+}
