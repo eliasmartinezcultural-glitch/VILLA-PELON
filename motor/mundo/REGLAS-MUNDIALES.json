@@ -1,0 +1,20 @@
+{
+  "version":"1.0.0",
+  "proposito":"Definir las leyes que gobiernan el mundo vivo de Villa Pelón antes de construir misiones, NPC o sistemas gráficos.",
+  "reglas_inmutables":[
+    "El mundo existe aunque Luna no esté mirando.",
+    "El tiempo avanza: día, tarde, noche y amanecer modifican el comportamiento del mundo.",
+    "Cada zona tiene identidad espacial, ambiental, visual y jugable propia.",
+    "Las transiciones entre zonas deben ser legibles: el jugador siempre debe entender dónde está y hacia dónde puede ir.",
+    "La historia real de San Patricio del Chañar es la base documental; Villa Pelón es el nombre del mundo ficticio.",
+    "La geografía histórica no se inventa como dato confirmado. Lo no documentado queda marcado como aproximado, interpretativo o ficción.",
+    "Ruta 7 funciona como eje longitudinal del mapa ficticio y como referencia visual, no como reproducción cartográfica exacta.",
+    "El río Neuquén, las bardas, el área productiva y el núcleo urbano son sistemas de mundo distintos y conectados.",
+    "El clima afecta atmósfera, visibilidad, recorridos, personajes y algunas misiones, sin convertirse en simulación innecesariamente compleja.",
+    "Toda misión debe poder relacionarse con lugar, tiempo, personaje, objeto, conocimiento o consecuencia.",
+    "Luna aprende haciendo: descubrir, conversar, observar, resolver y registrar.",
+    "El Cuaderno de Luna es la memoria persistente del conocimiento descubierto.",
+    "El mundo debe funcionar en PC y pantallas táctiles sin depender de teclado.",
+    "La arquitectura debe permitir agregar nuevas zonas, décadas, personajes, objetos y misiones sin rehacer el núcleo."
+  ]
+}
