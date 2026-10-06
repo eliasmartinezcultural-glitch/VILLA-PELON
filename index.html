@@ -10,64 +10,32 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#b49b70}
 #game{position:relative;width:100%;height:100%;overflow:hidden;background:#b49b70}
 .viewport{position:absolute;inset:0;overflow:hidden;touch-action:none;cursor:grab}
 .viewport:active{cursor:grabbing}
-.world{position:absolute;width:8200px;height:8200px;left:0;top:0;overflow:hidden;transform-origin:0 0;
+.world{position:absolute;width:8200px;height:8200px;left:0;top:0;overflow:hidden;transform-origin:0 0}
 .terrain{
  position:absolute;inset:0;
  background:
  repeating-radial-gradient(ellipse at 30% 40%,transparent 0 130px,rgba(86,70,45,.08) 132px 136px,transparent 138px 260px),
  repeating-linear-gradient(17deg,transparent 0 180px,rgba(77,66,47,.045) 181px 186px,transparent 187px 370px);
 }
-.barda{
- position:absolute;background:
- linear-gradient(165deg,#796347 0%,#9a7c55 48%,#6f593f 100%);
- opacity:.95;
-}
-.barda.norte{
- left:0;top:0;width:8200px;height:1700px;
- clip-path:polygon(0 25%,7% 17%,15% 23%,25% 10%,35% 18%,47% 6%,60% 19%,72% 9%,84% 22%,93% 12%,100% 20%,100% 100%,0 100%);
-}
-.barda.oeste{
- left:0;top:1100px;width:1150px;height:5900px;
- clip-path:polygon(0 0,100% 8%,82% 18%,100% 30%,72% 44%,94% 57%,68% 72%,100% 86%,82% 100%,0 100%);
-}
-.bajada{
- position:absolute;background:linear-gradient(160deg,rgba(112,91,61,.32),rgba(199,170,118,.18));
- transform:rotate(-7deg);
-}
-.b1{left:1200px;top:1550px;width:5400px;height:900px}
-.b2{left:900px;top:5000px;width:5800px;height:750px;transform:rotate(5deg)}
-.river{
- position:absolute;right:0;top:0;width:1050px;height:8200px;
- background:linear-gradient(90deg,#a3b9aa,#789f91,#9eb9a5);
- opacity:.72;
- clip-path:polygon(34% 0,73% 0,59% 8%,77% 18%,53% 29%,72% 39%,48% 51%,68% 63%,45% 75%,63% 86%,42% 100%,0 100%,21% 86%,8% 73%,29% 61%,10% 49%,32% 38%,14% 25%,34% 13%);
-}
-.riverbank{
- position:absolute;right:830px;top:0;width:280px;height:8200px;
- background:repeating-linear-gradient(90deg,rgba(68,72,48,.16) 0 12px,transparent 12px 42px);
- transform:rotate(2deg);
-}
 .scrub{
- position:absolute;width:260px;height:130px;
- border-radius:55% 45% 50% 50%;
- background:#65704b;
- opacity:.78;
+ position:absolute;width:260px;height:130px;border-radius:55% 45% 50% 50%;
+ background:#65704b;opacity:.78;
  box-shadow:80px 8px #747b50,150px -10px #586445,-65px 18px #727951;
 }
-.s1{left:1650px;top:2750px}.s2{left:2800px;top:1850px}.s3{left:5450px;top:2700px}
-.s4{left:1700px;top:6000px}.s5{left:3900px;top:6900px}.s6{left:6100px;top:5700px}
+.s1{left:900px;top:1200px}.s2{left:2600px;top:1900px}.s3{left:5000px;top:1100px}
+.s4{left:1500px;top:4200px}.s5{left:3800px;top:5200px}.s6{left:6200px;top:3900px}
+.s7{left:700px;top:6700px}.s8{left:3000px;top:7200px}.s9{left:5600px;top:6500px}
 .stones{
  position:absolute;width:180px;height:110px;border-radius:50%;
- background:radial-gradient(ellipse at 35% 35%,#9a8a68,#6e604b);
- opacity:.7;
+ background:radial-gradient(ellipse at 35% 35%,#9a8a68,#6e604b);opacity:.7;
 }
-.st1{left:2500px;top:3700px}.st2{left:4700px;top:4300px}.st3{left:3300px;top:7500px}
+.st1{left:1800px;top:3000px}.st2{left:4500px;top:3500px}.st3{left:3000px;top:6100px}
+.st4{left:6800px;top:2500px}.st5{left:700px;top:5200px}
 .wind{
- position:absolute;left:1000px;top:0;width:5800px;height:8200px;opacity:.18;
+ position:absolute;left:0;top:0;width:8200px;height:8200px;opacity:.14;
  background:repeating-linear-gradient(-8deg,transparent 0 480px,rgba(255,241,198,.7) 481px 488px,transparent 489px 900px);
 }
-.border{position:absolute;left:0;top:0;width:8200px;height:8200px;border:0 solid transparent;pointer-events:none}
-@media(max-width:700px){.border{border-width:30px}}
+.border{position:absolute;left:0;top:0;width:8200px;height:8200px;border:0;pointer-events:none}
 </style>
 </head>
 <body>
@@ -75,13 +43,11 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#b49b70}
 <div class="viewport" id="viewport">
 <div class="world" id="world">
 <div class="terrain"></div>
-<div class="barda norte"></div>
-<div class="barda oeste"></div>
-<div class="bajada b1"></div><div class="bajada b2"></div>
-<div class="river"></div><div class="riverbank"></div>
 <div class="scrub s1"></div><div class="scrub s2"></div><div class="scrub s3"></div>
 <div class="scrub s4"></div><div class="scrub s5"></div><div class="scrub s6"></div>
+<div class="scrub s7"></div><div class="scrub s8"></div><div class="scrub s9"></div>
 <div class="stones st1"></div><div class="stones st2"></div><div class="stones st3"></div>
+<div class="stones st4"></div><div class="stones st5"></div>
 <div class="wind"></div><div class="border"></div>
 </div>
 </div>
