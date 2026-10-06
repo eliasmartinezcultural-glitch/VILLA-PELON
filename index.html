@@ -22,24 +22,119 @@
 .night .sky{background:linear-gradient(#07131e,#172333)}.night .sun{top:110%}.night .moon{top:11%}.night .world{filter:brightness(.48) saturate(.8)}.night .building{background:#8b8579}.night .label{background:#071016dd}
 @media(max-width:700px){.ui{flex-direction:column}.controls{justify-content:flex-start}.panel{max-width:100%}.legend{bottom:14px;left:12px}.note{display:none}.city{left:22%;width:53%}.river{width:24%}.road7{width:10%}}
 </style>
-</head>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#10151a;color:#eef2e8;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}button{font:inherit}
+#game{position:relative;width:100%;height:100%;overflow:hidden;background:#202923}
+.viewport{position:absolute;inset:0;overflow:hidden;touch-action:none;cursor:grab}.viewport:active{cursor:grabbing}
+.world{position:absolute;width:8200px;height:8200px;transform-origin:0 0;background:#78915d;overflow:hidden}
+.sky{position:absolute;inset:0;background:linear-gradient(#83aebd 0 33%,#b9c9ae 33% 100%)}
+.sun,.moon{position:absolute;width:420px;height:420px;border-radius:50%;z-index:2}.sun{right:900px;top:650px;background:#fff1aa;box-shadow:0 0 220px #fff1aa}.moon{right:1050px;top:-500px;background:#e9eef5;box-shadow:0 0 130px #dce8f8}
+.terrain{position:absolute;background:#806e52;z-index:3}.barda-norte{left:0;top:0;width:8200px;height:1900px;clip-path:polygon(0 25%,8% 14%,18% 21%,29% 8%,42% 18%,56% 5%,70% 17%,84% 10%,100% 23%,100% 100%,0 100%)}.barda-oeste{left:0;top:1400px;width:1250px;height:4300px;clip-path:polygon(0 0,100% 7%,82% 20%,100% 34%,74% 48%,92% 65%,68% 82%,100% 100%,0 100%)}
+.river{position:absolute;right:0;top:0;width:1350px;height:8200px;background:linear-gradient(90deg,#86c0c8,#4f98ad,#9bcbd0);clip-path:polygon(36% 0,72% 0,59% 8%,78% 18%,54% 28%,73% 39%,50% 50%,70% 61%,48% 73%,66% 84%,43% 100%,0 100%,22% 84%,8% 72%,29% 60%,10% 48%,32% 37%,15% 25%,35% 13%);z-index:4}
+.rural{position:absolute;background:repeating-linear-gradient(90deg,rgba(44,75,45,.22) 0 8px,transparent 8px 95px),linear-gradient(#84965e,#637d4d);z-index:5}.rural-norte{left:700px;top:1900px;width:6300px;height:1800px}.rural-sur{left:0;top:5700px;width:7000px;height:2500px}
+.urban{position:absolute;left:2500px;top:3000px;width:3100px;height:2500px;background:linear-gradient(135deg,#b6ae94,#9d9b82);z-index:8;border:25px solid #77745f}
+.plaza{position:absolute;left:1150px;top:850px;width:750px;height:750px;border-radius:50%;background:#71875e;border:35px solid #c7b98f;display:grid;place-items:center;font-weight:900;color:#e8e0c7}
+.building{position:absolute;background:#d8cdb8;border:18px solid #756957;box-shadow:0 18px 0 rgba(0,0,0,.1);display:grid;place-items:center;color:#50493e;font-size:65px;font-weight:800}.school{left:250px;top:300px;width:700px;height:420px}.club{right:260px;top:400px;width:620px;height:400px}.shops{left:300px;bottom:300px;width:1000px;height:360px}.houses{width:380px;height:300px;background:#cbbda3}.h1{right:280px;bottom:300px}.h2{right:800px;bottom:300px}.h3{left:300px;top:1200px}.h4{left:800px;top:1650px}
+.route7{position:absolute;left:3850px;top:0;width:520px;height:8200px;background:#45494a;z-index:12;box-shadow:inset 35px 0 #b2a77d,inset -35px 0 #b2a77d}.route7:after{content:"";position:absolute;left:249px;top:0;height:100%;border-left:20px dashed #e6d68a}.route7 span{position:absolute;top:4100px;left:-95px;transform:rotate(-90deg);font-size:100px;font-weight:900;letter-spacing:.15em;color:#ddd2a0}
+.roads{position:absolute;background:#77766c;z-index:11}.r1{left:2500px;top:4100px;width:3100px;height:190px}.r2{left:2900px;top:3000px;width:190px;height:2500px}.r3{left:5000px;top:3000px;width:190px;height:2500px}
+.orchard{position:absolute;z-index:9;background:repeating-linear-gradient(0deg,transparent 0 90px,rgba(42,72,43,.75) 90px 115px),repeating-linear-gradient(90deg,transparent 0 90px,rgba(42,72,43,.75) 90px 115px)}.o1{left:1100px;top:2300px;width:1100px;height:900px}.o2{left:5700px;top:4700px;width:1000px;height:800px}.o3{left:800px;top:6200px;width:1600px;height:900px}
+.trees{position:absolute;width:260px;height:260px;border-radius:50%;background:#35573c;z-index:15;box-shadow:130px 20px #426746,-100px 40px #416545,30px 110px #294c36}.t1{left:1900px;top:4500px}.t2{left:6400px;top:2500px}.t3{left:1800px;top:7000px}
+.zone-label{position:absolute;z-index:20;color:#fff;text-shadow:0 5px 12px #000;font-size:110px;font-weight:900;letter-spacing:.08em;opacity:.82;white-space:nowrap}.z-urban{left:3050px;top:3350px}.z-rural{left:1250px;top:2700px}.z-rio{right:120px;top:3650px;writing-mode:vertical-rl}.z-barda{left:700px;top:750px}.z-route{left:3980px;top:1100px;writing-mode:vertical-rl}
+.player{position:absolute;left:4100px;top:4100px;z-index:30;width:150px;height:150px;margin:-75px;border-radius:50%;background:#f2c96b;border:18px solid #fff;box-shadow:0 0 0 25px #17221b99,0 20px 50px #0008;display:grid;place-items:center;color:#273025;font-size:34px;font-weight:900}.player span{position:absolute;top:-90px;background:#17221bcc;color:#fff;padding:12px 20px;border-radius:14px;white-space:nowrap}
+.world-border{position:absolute;inset:0;border:80px solid #243127;z-index:40;pointer-events:none}
+.panel{background:rgba(10,16,18,.82);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:11px 14px;backdrop-filter:blur(12px);box-shadow:0 10px 35px #0005}.hud{position:absolute;z-index:100;top:18px;left:18px;right:18px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.brand strong{display:block;letter-spacing:.08em}.brand small{display:block;opacity:.7;margin-top:4px}.status{display:flex;gap:18px;font-variant-numeric:tabular-nums}.controls{display:flex;gap:7px;flex-wrap:wrap}.controls button{border:1px solid #ffffff28;background:#ffffff10;color:#fff;border-radius:10px;padding:9px 12px;cursor:pointer}.controls button.active{background:#ead58b;color:#20241d;border-color:#ead58b}
+.map-info{position:absolute;z-index:100;left:18px;bottom:18px;line-height:1.7;font-size:13px}.map-info hr{border:0;border-top:1px solid #ffffff1f}.scale{display:flex;align-items:center;gap:8px}.scale i{display:block;width:110px;border-top:5px solid #fff}.north{position:absolute;z-index:100;right:18px;bottom:18px;font-size:22px;font-weight:900}.hint{position:absolute;z-index:100;left:50%;bottom:18px;transform:translateX(-50%);font-size:12px}
+.night .sky{background:linear-gradient(#071421,#15232d)}.night .sun{top:9000px}.night .moon{top:500px}.night .world{filter:brightness(.48) saturate(.78)}.night .urban{background:#716d63}.night .building{background:#8b8579}.night .route7{background:#303536}
+@media(max-width:900px){.hud{flex-direction:column}.status{display:none}.controls{max-width:100%}.map-info{font-size:11px}.hint{display:none}.brand small{font-size:10px}}
+</style></head>
 <body>
-<main id="game">
-<div class="sky"></div><div class="sun"></div><div class="moon"></div>
-<div class="world">
-<div class="horizon"></div><div class="barda"></div><div class="rural"></div><div class="river"></div>
-<div class="city"><div class="building b1"><div class="roof"></div></div><div class="building b2"><div class="roof"></div></div><div class="building b3"></div></div>
-<div class="road7"></div><div class="tree t1"></div><div class="tree t2"></div><div class="tree t3"></div>
-<div class="labels"><div class="label lb">BARDA · paisaje árido</div><div class="label lu">ZONA URBANA · Villa Pelón</div><div class="label lr">ZONA RURAL · chacras</div><div class="label lri">RÍO NEUQUÉN</div><div class="label lroute">RUTA 7</div></div>
-</div>
-<div class="ui"><div class="panel brand">VILLA PELÓN<small>Primera capa mundial · prototipo visual</small></div>
-<div class="panel"><div class="clock" id="clock">12:00 · DÍA</div><div class="controls"><button data-time="day" class="active">Día</button><button data-time="sunset">Tarde</button><button data-time="night">Noche</button><button data-time="dawn">Amanecer</button></div></div></div>
-<div class="legend"><span class="chip">🏘 Urbana</span><span class="chip">🌾 Rural</span><span class="chip">🌊 Río</span><span class="chip">🏜 Barda</span><span class="chip">🛣 Ruta 7</span></div>
-<div class="note">El mapa es un diseño conceptual del mundo jugable. La geografía histórica documentada se incorporará después sin confundir ficción con cartografía real.</div>
+<main id="game" aria-label="Mundo de Villa Pelón de 8200 por 8200 metros">
+  <div class="viewport" id="viewport">
+    <div class="world" id="world">
+      <div class="sky"></div>
+      <div class="sun"></div><div class="moon"></div>
+      <div class="terrain barda-norte"></div><div class="terrain barda-oeste"></div>
+      <div class="river"></div>
+      <div class="rural rural-norte"></div><div class="rural rural-sur"></div>
+      <div class="urban">
+        <div class="plaza">PLAZA</div><div class="school building">ESCUELA</div>
+        <div class="club building">CLUB</div><div class="shops building">COMERCIOS</div>
+        <div class="houses h1 building"></div><div class="houses h2 building"></div>
+        <div class="houses h3 building"></div><div class="houses h4 building"></div>
+      </div>
+      <div class="route7"><span>RUTA 7</span></div>
+      <div class="roads r1"></div><div class="roads r2"></div><div class="roads r3"></div>
+      <div class="orchard o1"></div><div class="orchard o2"></div><div class="orchard o3"></div>
+      <div class="trees t1"></div><div class="trees t2"></div><div class="trees t3"></div>
+      <div class="zone-label z-urban">ZONA URBANA</div>
+      <div class="zone-label z-rural">ZONA RURAL</div>
+      <div class="zone-label z-rio">RÍO NEUQUÉN</div>
+      <div class="zone-label z-barda">BARDAS</div>
+      <div class="zone-label z-route">EJE RUTA 7</div>
+      <div class="player"><span>LUNA</span></div>
+      <div class="world-border"></div>
+    </div>
+  </div>
+
+  <header class="hud">
+    <div class="brand panel"><strong>VILLA PELÓN</strong><small>MUNDO VIVO · 8.200 × 8.200</small></div>
+    <div class="panel status"><span id="clock">12:00 · DÍA</span><span id="coord">X 4.100 · Y 4.100</span></div>
+    <div class="panel controls">
+      <button data-time="day" class="active">Día</button><button data-time="sunset">Tarde</button>
+      <button data-time="night">Noche</button><button data-time="dawn">Amanecer</button>
+    </div>
+  </header>
+
+  <aside class="map-info panel">
+    <b>ESCALA MUNDIAL</b>
+    <div>8.200 m × 8.200 m</div>
+    <div class="scale"><i></i><span>1.000 m</span></div>
+    <hr>
+    <div>🏘 Urbana</div><div>🌾 Rural productiva</div><div>🌊 Río</div><div>🏜 Barda</div><div>🛣 Ruta 7</div>
+  </aside>
+
+  <div class="north panel">N</div>
+  <div class="hint panel">Mundo fundacional · Luna comienza en el centro urbano</div>
 </main>
 <script>
-const root=document.querySelector('#game'), clock=document.querySelector('#clock'), buttons=[...document.querySelectorAll('[data-time]')];
+const game=document.getElementById('game'), world=document.getElementById('world'), viewport=document.getElementById('viewport');
+const player=document.querySelector('.player'), coord=document.getElementById('coord'), clock=document.getElementById('clock');
+const buttons=[...document.querySelectorAll('[data-time]')];
 const states={day:['12:00','DÍA'],sunset:['19:00','TARDE'],night:['23:00','NOCHE'],dawn:['07:00','AMANECER']};
-buttons.forEach(b=>b.addEventListener('click',()=>{buttons.forEach(x=>x.classList.remove('active'));b.classList.add('active');root.classList.toggle('night',b.dataset.time==='night');const s=states[b.dataset.time];clock.textContent=s[0]+' · '+s[1];if(b.dataset.time==='sunset')document.querySelector('.sky').style.background='linear-gradient(#7d8092,#d19d77)';else if(b.dataset.time==='dawn')document.querySelector('.sky').style.background='linear-gradient(#5f7787,#e0b38f)';else if(b.dataset.time==='day')document.querySelector('.sky').style.background='linear-gradient(#47718b,#c8d7d6)';else document.querySelector('.sky').style.background='';}));
+buttons.forEach(b=>b.addEventListener('click',()=>{
+ buttons.forEach(x=>x.classList.remove('active')); b.classList.add('active');
+ game.classList.toggle('night',b.dataset.time==='night');
+ const s=states[b.dataset.time]; clock.textContent=s[0]+' · '+s[1];
+ world.dataset.time=b.dataset.time;
+}));
+let x=4100,y=4100,scale=0.16;
+function clamp(v){return Math.max(420,Math.min(7780,v))}
+function render(){
+ player.style.left=x+'px'; player.style.top=y+'px';
+ coord.textContent='X '+Math.round(x).toLocaleString('es-AR')+' · Y '+Math.round(y).toLocaleString('es-AR');
+ const vw=game.clientWidth,vh=game.clientHeight;
+ const tx=vw/2-x*scale, ty=vh/2-y*scale;
+ world.style.transform='translate3d('+tx+'px,'+ty+'px,0) scale('+scale+')';
+}
+function move(dx,dy){x=clamp(x+dx);y=clamp(y+dy);render()}
+window.addEventListener('keydown',e=>{
+ if(['INPUT','TEXTAREA','BUTTON'].includes(e.target.tagName))return;
+ const k=e.key.toLowerCase();
+ if(k==='w'||k==='arrowup')move(0,-80);
+ if(k==='s'||k==='arrowdown')move(0,80);
+ if(k==='a'||k==='arrowleft')move(-80,0);
+ if(k==='d'||k==='arrowright')move(80,0);
+});
+let dragging=false,lastX=0,lastY=0;
+viewport.addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;viewport.setPointerCapture(e.pointerId)});
+viewport.addEventListener('pointermove',e=>{
+ if(!dragging)return;
+ const dx=(e.clientX-lastX)/scale,dy=(e.clientY-lastY)/scale;
+ x=clamp(x-dx);y=clamp(y-dy);lastX=e.clientX;lastY=e.clientY;render();
+});
+viewport.addEventListener('pointerup',()=>dragging=false);
+viewport.addEventListener('pointercancel',()=>dragging=false);
+window.addEventListener('resize',render);
+render();
 </script>
 </body></html>
