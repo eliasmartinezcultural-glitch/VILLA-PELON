@@ -10,16 +10,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#b49b70}
 #game{position:relative;width:100%;height:100%;overflow:hidden;background:#b49b70}
 .viewport{position:absolute;inset:0;overflow:hidden;touch-action:none;cursor:grab}
 .viewport:active{cursor:grabbing}
-.world{
- position:absolute;width:8200px;height:8200px;left:0;top:0;overflow:hidden;
- transform-origin:0 0;
- background:
- radial-gradient(ellipse at 18% 22%,rgba(111,91,58,.28) 0 9%,transparent 10%),
- radial-gradient(ellipse at 72% 18%,rgba(133,109,67,.24) 0 12%,transparent 13%),
- radial-gradient(ellipse at 45% 64%,rgba(95,80,52,.20) 0 15%,transparent 16%),
- radial-gradient(ellipse at 82% 73%,rgba(143,117,70,.24) 0 10%,transparent 11%),
- linear-gradient(135deg,#bca477 0%,#a99066 42%,#c0aa7b 72%,#a38a61 100%);
-}
+.world{position:absolute;width:8200px;height:8200px;left:0;top:0;overflow:hidden;transform-origin:0 0;
 .terrain{
  position:absolute;inset:0;
  background:
@@ -75,7 +66,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#b49b70}
  position:absolute;left:1000px;top:0;width:5800px;height:8200px;opacity:.18;
  background:repeating-linear-gradient(-8deg,transparent 0 480px,rgba(255,241,198,.7) 481px 488px,transparent 489px 900px);
 }
-.border{position:absolute;inset:0;border:70px solid rgba(61,49,35,.48);pointer-events:none}
+.border{position:absolute;left:0;top:0;width:8200px;height:8200px;border:0 solid transparent;pointer-events:none}
 @media(max-width:700px){.border{border-width:30px}}
 </style>
 </head>
