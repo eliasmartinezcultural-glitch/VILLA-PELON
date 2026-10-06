@@ -390,7 +390,7 @@ function updateNPCs(dt){
  for(const [id,n] of Object.entries(npcs)){
   const el=document.querySelector('[data-id="'+id+'"]');if(!el)continue;
   const target=scheduleTarget(n);
-  if(!n.path||!n.path.length||n.pathTarget!==target){n.path=aStar(n.x,n.y,target[0],target[1]);n.pathTarget=target}
+  const targetKey=target[0]+","+target[1];if(!n.path||!n.path.length||n.pathTarget!==targetKey){n.path=aStar(n.x,n.y,target[0],target[1]);n.pathTarget=targetKey}
   const p=n.path[1]||n.path[0]||target,dx=p[0]-n.x,dy=p[1]-n.y,d=Math.hypot(dx,dy);
   if(d>35){const s=Math.min(d,n.speed*dt);n.x+=dx/d*s;n.y+=dy/d*s;n.state=hour()>=21||hour()<6?"sleep":hour()<14?"work":"walk";setActorState(el,n.state)}
   else n.path.shift();
@@ -513,7 +513,7 @@ function drawFX(){
 function updateCamera(dt){
  const speed=Math.hypot(player.vx,player.vy),follow=1-Math.exp(-7*dt),lead=.38;
  camera.x=lerp(camera.x,player.x+player.vx*lead,follow);camera.y=lerp(camera.y,player.y+player.vy*lead,follow);
- const target=state.dialogue?.17:state.map?.08:.13;camera.scale=lerp(camera.scale,target,1-Math.exp(-5*dt));
+ const target=state.dialogue ? .17 : state.map ? .08 : .13;camera.scale=lerp(camera.scale,target,1-Math.exp(-5*dt));
  const vw=innerWidth/camera.scale,vh=innerHeight/camera.scale,cx=clamp(camera.x,vw/2,WORLD.w-vw/2),cy=clamp(camera.y,vh/2,WORLD.h-vh/2);
  world.style.transform="translate("+Math.round(innerWidth/2-cx*camera.scale)+"px,"+Math.round(innerHeight/2-cy*camera.scale)+"px) scale("+camera.scale+")";$("luna").style.left=player.x+"px";$("luna").style.top=player.y+"px";
  $("mapPlayer").style.left=(player.x/WORLD.w*100)+"%";$("mapPlayer").style.top=(player.y/WORLD.h*100)+"%";
