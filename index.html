@@ -43,13 +43,13 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#b49b70}
 
 #planLegend{display:none;position:fixed;z-index:20;left:12px;top:12px;padding:10px 12px;border-radius:10px;background:rgba(25,22,18,.78);color:#f4ead7;font:600 13px/1.5 Arial,sans-serif;pointer-events:none}
 #planLegend .sw{display:inline-block;width:14px;height:14px;margin:0 5px 0 10px;vertical-align:-2px;border-radius:3px}
-</style>
+.planned-line{position:absolute;pointer-events:none}.plan-route65{left:39%;top:0;width:32%;height:100%;border-left:18px solid rgba(100,78,54,.72);transform:rotate(8deg);transform-origin:center}.plan-town{position:absolute;left:25%;top:38%;width:25%;height:18%;border:12px dashed rgba(75,65,48,.65);background:rgba(130,115,80,.12)}.plan-picada{position:absolute;left:76%;top:2%;width:20%;height:22%;border:10px dotted rgba(85,70,45,.55)}.plan-mountain-n{position:absolute;left:5%;top:10%;width:90%;height:14%;background:linear-gradient(90deg,rgba(199,168,119,.28),rgba(92,64,43,.48),rgba(199,168,119,.24));clip-path:polygon(0 70%,12% 48%,24% 65%,37% 25%,50% 58%,63% 18%,76% 54%,88% 35%,100% 65%,100% 100%,0 100%)}.plan-mountain-s{position:absolute;left:8%;top:77%;width:84%;height:11%;background:linear-gradient(90deg,rgba(199,168,119,.22),rgba(92,64,43,.34),rgba(199,168,119,.2));clip-path:polygon(0 75%,18% 48%,33% 70%,49% 35%,64% 68%,80% 45%,100% 72%,100% 100%,0 100%)}</style>
 </head>
 <body>
 <div id="planLegend">PLANEAMIENTO · A1–A4 / D1–D4 <span class="sw" style="background:#c7a875"></span>baja <span class="sw" style="background:#62452e"></span>muy alta</div><main id="game">
 <div class="viewport" id="viewport">
 <div class="world" id="world">
-<div id="planningGrid" aria-hidden="true"></div>
+<div id="planningGrid" aria-hidden="true"></div><div class="planned-line plan-mountain-n"></div><div class="planned-line plan-mountain-s"></div><div class="planned-line plan-route65"></div><div class="plan-town"></div><div class="plan-picada"></div>
 <div class="terrain"></div>
 <div class="scrub s1"></div><div class="scrub s2"></div><div class="scrub s3"></div>
 <div class="scrub s4"></div><div class="scrub s5"></div><div class="scrub s6"></div>
@@ -91,6 +91,8 @@ const planLegend=document.getElementById('planLegend');
 let planningMode=false;
 function togglePlanning(){planningMode=!planningMode;planLegend.style.display=planningMode?'block':'none';document.getElementById('planningGrid').style.display=planningMode?'block':'none';}
 addEventListener('keydown',e=>{if(e.key.toLowerCase()==='g')togglePlanning()});
-</script>
+
+function syncPlanningLayers(){const on=planningMode;document.querySelectorAll('.planned-line,.plan-town,.plan-picada').forEach(e=>e.style.display=on?'block':'none')}
+const oldToggle=togglePlanning;togglePlanning=function(){oldToggle();syncPlanningLayers()};syncPlanningLayers();</script>
 </body>
 </html>
