@@ -244,6 +244,51 @@ rgba(126,108,78,.13)}
 /* cinturón periurbano: el pueblo grande sigue respirando antes de llegar a chacras */
 .town:after{top:4%;bottom:4%;left:49.5%;width:88px}
 .town:before{left:4%;right:4%;top:49%;height:96px}
+
+/* MOTOR DE MUNDO VIVO · personajes, protagonistas, tránsito y encuentros */
+.character{position:absolute;z-index:18;width:72px;height:72px;border-radius:50%;pointer-events:none;filter:drop-shadow(0 8px 5px rgba(45,35,25,.28));}
+.character:before{content:"";position:absolute;left:18px;top:4px;width:36px;height:36px;border-radius:50%;background:#c7956c;box-shadow:0 32px 0 7px #40506a;}
+.character:after{content:"";position:absolute;left:4px;right:4px;bottom:2px;height:24px;border-radius:45%;background:rgba(48,52,58,.9);}
+.luna{width:88px;height:88px;z-index:25;}
+.luna:before{left:22px;top:3px;width:44px;height:44px;background:#d39a70;box-shadow:0 38px 0 9px #526b8c;}
+.luna:after{left:8px;right:8px;bottom:0;height:30px;background:#39475b;}
+.character-label{position:absolute;z-index:26;padding:7px 12px;border-radius:14px;background:rgba(35,29,24,.82);color:#f7ead4;font:700 18px/1 Arial,sans-serif;white-space:nowrap;pointer-events:none;box-shadow:0 4px 12px rgba(30,24,18,.2)}
+.npc{opacity:.96}
+.npc.farmer:before{background:#b9835f;box-shadow:0 32px 0 7px #6c7652}
+.npc.worker:before{background:#c28d67;box-shadow:0 32px 0 7px #725d4c}
+.npc.child:before{width:30px;height:30px;left:21px;background:#d09a72;box-shadow:0 28px 0 6px #8b6d58}
+.npc.elder:before{background:#b88b70;box-shadow:0 32px 0 7px #6e6257}
+.character.home{opacity:.92}
+/* lugares de vida */
+.life-zone{position:absolute;z-index:16;pointer-events:none;border-radius:50%;border:3px dashed rgba(82,68,51,.18);background:rgba(231,211,171,.045)}
+.market-zone{left:3100px;top:3400px;width:850px;height:620px}
+.school-zone{left:2250px;top:3500px;width:850px;height:800px}
+.farm-life{left:1350px;top:2700px;width:1500px;height:1150px}
+.farm-life.two{left:5050px;top:2550px;width:1500px;height:1200px}
+/* tránsito */
+.vehicle{position:absolute;z-index:17;width:150px;height:78px;border-radius:22px;background:#6e685d;border:10px solid #4f493f;pointer-events:none;box-shadow:0 9px 0 rgba(48,40,32,.18)}
+.vehicle:before,.vehicle:after{content:"";position:absolute;width:30px;height:30px;border-radius:50%;background:#39352f;bottom:-22px}
+.vehicle:before{left:15px}.vehicle:after{right:15px}
+.vehicle.car2{background:#75614e}.vehicle.pickup{background:#66705d;width:180px}
+/* burbujas de conversación */
+.dialogue-trigger{position:absolute;z-index:24;width:34px;height:34px;border-radius:50%;background:#e0bd70;box-shadow:0 0 0 9px rgba(224,189,112,.16);pointer-events:none}
+.dialogue-trigger:after{content:"…";position:absolute;left:8px;top:2px;color:#493b2b;font:900 24px/1 Arial}
+/* pequeños eventos que hacen que el territorio no sea estático */
+.world-event{position:absolute;z-index:15;width:120px;height:120px;border-radius:50%;background:rgba(195,151,76,.16);box-shadow:0 0 0 20px rgba(195,151,76,.06);pointer-events:none}
+.event-smoke{width:80px;height:80px;background:radial-gradient(circle,rgba(116,104,82,.35),transparent 68%)}
+/* posiciones iniciales: personajes distribuidos por la escala ampliada */
+.char-luna{left:7950px;top:7950px}
+.char-abuela{left:4450px;top:3650px}.char-abuelo{left:4650px;top:3720px}
+.char-maestro{left:2750px;top:3850px}.char-fruticultora{left:1900px;top:3050px}
+.char-bodeguero{left:5550px;top:3300px}.char-niño{left:3300px;top:4300px}
+.char-rural{left:5650px;top:5150px}.char-picada{left:13200px;top:1800px}
+.char-viajera{left:9000px;top:4700px}
+.label-luna{left:8000px;top:7860px}.label-abuela{left:4430px;top:3540px}.label-abuelo{left:4630px;top:3610px}
+.label-maestro{left:2730px;top:3740px}.label-fruticultora{left:1880px;top:2940px}.label-bodeguero{left:5530px;top:3190px}
+.vehicle.v1{left:7350px;top:8200px;transform:rotate(-28deg)}.vehicle.v2{left:8450px;top:6500px;transform:rotate(-28deg)}
+.vehicle.v3{left:10600px;top:3900px;transform:rotate(-28deg)}.vehicle.v4{left:5200px;top:7600px;transform:rotate(-28deg)}
+.dialogue-trigger.d1{left:4450px;top:3480px}.dialogue-trigger.d2{left:2730px;top:3680px}.dialogue-trigger.d3{left:5530px;top:3130px}
+.world-event.e1{left:6700px;top:7600px}.world-event.e2{left:12000px;top:2550px}.world-event.e3{left:2850px;top:5800px}
 </style>
 </head>
 <body>
@@ -273,6 +318,24 @@ rgba(126,108,78,.13)}
 <div class="urban-block ub1"></div><div class="urban-block ub2"></div><div class="urban-block ub3"></div><div class="urban-block ub4"></div><div class="urban-block ub5"></div><div class="urban-block ub6"></div>
 <div class="plaza"></div><div class="tree t1"></div><div class="tree t2"></div><div class="tree t3"></div><div class="tree t4"></div><div class="tree t5"></div>
 <div class="picada-path"></div><div class="picada-home"></div><div class="picada-tree"></div>
+
+<!-- MUNDO VIVO · personajes y actividad -->
+<div class="character luna char-luna" aria-label="Luna · protagonista"></div>
+<div class="character-label label-luna">Luna</div>
+<div class="character npc elder char-abuela" aria-label="Abuela"></div><div class="character-label label-abuela">Abuela</div>
+<div class="character npc elder char-abuelo" aria-label="Abuelo"></div><div class="character-label label-abuelo">Abuelo</div>
+<div class="character npc char-maestro" aria-label="Maestro"></div><div class="character-label label-maestro">Maestro</div>
+<div class="character npc farmer char-fruticultora" aria-label="Fruticultora"></div><div class="character-label label-fruticultora">Fruticultora</div>
+<div class="character npc worker char-bodeguero" aria-label="Bodeguero"></div><div class="character-label label-bodeguero">Bodeguero</div>
+<div class="character npc child char-niño" aria-label="Niño del pueblo"></div>
+<div class="character npc farmer char-rural" aria-label="Trabajador rural"></div>
+<div class="character npc char-picada" aria-label="Vecina de Picada 21"></div>
+<div class="character npc char-viajera" aria-label="Viajera"></div>
+<div class="vehicle v1" aria-label="Vehículo"></div><div class="vehicle car2 v2" aria-label="Vehículo"></div><div class="vehicle pickup v3" aria-label="Camioneta"></div><div class="vehicle car2 v4" aria-label="Vehículo"></div>
+<div class="life-zone market-zone"></div><div class="life-zone school-zone"></div><div class="life-zone farm-life"></div><div class="life-zone farm-life two"></div>
+<div class="dialogue-trigger d1"></div><div class="dialogue-trigger d2"></div><div class="dialogue-trigger d3"></div>
+<div class="world-event e1"></div><div class="world-event e2"></div><div class="world-event e3"></div>
+<div class="world-event event-smoke" style="left:10100px;top:3400px"></div>
 <div class="atmosphere"></div>
 <!-- CAPA DE PLANEAMIENTO TEMPORAL -->
 <div class="planned-line plan-mountain-n"></div><div class="planned-line plan-mountain-s"></div><div class="planned-line plan-route65"></div><div class="plan-town"></div><div class="plan-picada"></div>
