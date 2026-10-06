@@ -15,7 +15,7 @@ body{background:#171716;font-family:system-ui,-apple-system,Segoe UI,sans-serif;
 #game{position:relative;background:#9e875f}
 .viewport{position:absolute;inset:0;overflow:hidden;touch-action:none}
 .world{
-  position:absolute;left:0;top:0;width:12000px;height:12000px;
+  position:absolute;left:0;top:0;width:24000px;height:24000px;
   transform-origin:0 0;
   background:#a98d61;
   overflow:hidden;
@@ -25,57 +25,57 @@ body{background:#171716;font-family:system-ui,-apple-system,Segoe UI,sans-serif;
   background:
     radial-gradient(ellipse at 28% 30%,rgba(238,213,165,.18),transparent 28%),
     radial-gradient(ellipse at 72% 70%,rgba(71,59,43,.12),transparent 30%),
-    repeating-linear-gradient(14deg,transparent 0 520px,rgba(68,58,43,.035) 523px 532px,transparent 536px 980px);
+    repeating-linear-gradient(14deg,transparent 0 1040px,rgba(68,58,43,.035) 1046px 1064px,transparent 1072px 1960px);
 }
-.ground:after{content:"";position:absolute;inset:0;opacity:.28;background-image:radial-gradient(rgba(53,44,34,.28) 1px,transparent 1px);background-size:47px 47px}
-.zone{position:absolute;border-radius:32px;pointer-events:none}
-.zone-town{left:3900px;top:4050px;width:4200px;height:3300px;background:rgba(153,130,91,.22);border:18px solid rgba(93,76,55,.13)}
-.zone-farms{left:2300px;top:2900px;width:7400px;height:6100px;border:20px dashed rgba(91,100,59,.16)}
-.zone-river{left:0;top:9000px;width:12000px;height:800px;background:#557978;clip-path:polygon(0 42%,12% 30%,25% 48%,39% 32%,52% 45%,67% 27%,81% 43%,100% 30%,100% 70%,83% 59%,68% 75%,52% 61%,38% 74%,23% 59%,9% 70%,0 61%)}
-.zone-river:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(-8deg,transparent 0 100px,rgba(228,235,218,.18) 103px 114px,transparent 117px 250px)}
-.barda{position:absolute;left:0;width:12000px;background:linear-gradient(180deg,rgba(194,159,111,.25),rgba(82,61,45,.48));clip-path:polygon(0 68%,8% 48%,17% 62%,26% 40%,35% 58%,44% 36%,53% 55%,62% 34%,71% 57%,80% 39%,90% 55%,100% 38%,100% 100%,0 100%)}
-.barda.n{top:500px;height:950px}.barda.s{top:10800px;height:850px;opacity:.75}
-.road{position:absolute;height:150px;background:#76644d;box-shadow:0 12px 25px rgba(42,34,25,.16);border-radius:100px;pointer-events:none}
-.road.main{left:2450px;top:6350px;width:8100px;transform:rotate(-10deg)}
-.road.route{left:7350px;top:1300px;width:9100px;transform:rotate(62deg);height:190px}
-.road.route:after,.road.main:after{content:"";position:absolute;inset:50% 0 auto;height:8px;background:repeating-linear-gradient(90deg,#e9ddbf 0 80px,transparent 80px 170px);opacity:.8}
-.town-core{position:absolute;left:4050px;top:4200px;width:3900px;height:3000px;border-radius:18%;background:rgba(126,107,78,.14)}
-.block{position:absolute;width:560px;height:360px;border-radius:22px;background:#9a8060;box-shadow:inset 0 -55px rgba(72,57,43,.13),0 16px 0 rgba(61,48,36,.1)}
-.street{position:absolute;background:rgba(94,79,61,.68);border-radius:40px}
-.plaza{position:absolute;left:5550px;top:5350px;width:850px;height:650px;border-radius:30%;background:#78805e;box-shadow:inset 0 0 0 34px rgba(217,199,158,.25)}
-.plaza:after{content:"";position:absolute;left:50%;top:50%;width:150px;height:150px;transform:translate(-50%,-50%);border-radius:50%;background:#a78b61}
-.field{position:absolute;border:10px solid rgba(91,100,59,.17);background:repeating-linear-gradient(7deg,rgba(91,105,58,.20) 0 45px,transparent 46px 100px);transform:rotate(-3deg)}
-.f1{left:1900px;top:2700px;width:2400px;height:1500px}.f2{left:7800px;top:2800px;width:2600px;height:1600px}
-.f3{left:1900px;top:7500px;width:2300px;height:1700px}.f4{left:8200px;top:7200px;width:2500px;height:1600px}
-.vineyard{position:absolute;width:1300px;height:850px;background:repeating-linear-gradient(90deg,rgba(76,91,47,.38) 0 18px,transparent 18px 58px);transform:rotate(-3deg);opacity:.85}
-.v1{left:3000px;top:2700px}.v2{left:8500px;top:4700px}.v3{left:3600px;top:7800px}
-.building{position:absolute;width:520px;height:360px;background:#795f48;border:28px solid #604d3c;border-radius:20px;box-shadow:0 18px 0 rgba(56,44,34,.13)}
-.w1{left:3850px;top:3150px}.w2{left:9000px;top:4850px}.w3{left:4150px;top:8100px}
-.picada{position:absolute;left:10100px;top:1000px;width:1300px;height:1200px;border-radius:50%;background:rgba(125,104,72,.15)}
-.picada .hut{position:absolute;width:190px;height:140px;background:#826a4d;border:14px solid #614c39;border-radius:14px}
-.h1{left:240px;top:250px}.h2{left:650px;top:500px}.h3{left:450px;top:800px}
-.tree{position:absolute;width:95px;height:95px;border-radius:50%;background:#596548;box-shadow:40px 18px #687253,-30px 28px #697351;opacity:.9}
-.t1{left:4850px;top:4500px}.t2{left:7400px;top:6100px}.t3{left:6500px;top:4750px}.t4{left:5200px;top:6900px}.t5{left:7850px;top:5200px}
-.actor{position:absolute;z-index:30;width:100px;height:120px;transform:translate(-50%,-50%);pointer-events:none}
-.actor .head{position:absolute;left:28px;top:0;width:44px;height:44px;border-radius:50%;background:#c89068;border:6px solid #44382f}
-.actor .body{position:absolute;left:18px;top:42px;width:64px;height:62px;border-radius:20px 20px 14px 14px;background:#456274;border:6px solid #44382f}
-.actor .leg{position:absolute;top:96px;width:22px;height:30px;background:#3e4145;border-radius:8px}
-.actor .l{left:25px}.actor .r{right:25px}
-.actor.luna .body{background:#d49c55}.actor.luna .head:after{content:"";position:absolute;left:-9px;top:-9px;width:58px;height:22px;border-radius:50%;background:#6f5037;z-index:-1}
-.actor .name{position:absolute;top:-42px;left:50%;transform:translateX(-50%);padding:7px 12px;border-radius:14px;background:rgba(35,30,25,.78);color:#fff8e8;font-size:22px;white-space:nowrap}
+.ground:after{content:"";position:absolute;inset:0;opacity:.28;background-image:radial-gradient(rgba(53,44,34,.28) 2px,transparent 2px);background-size:94px 94px}
+.zone{position:absolute;border-radius:64px;pointer-events:none}
+.zone-town{left:7800px;top:8100px;width:8400px;height:6600px;background:rgba(153,130,91,.22);border:36px solid rgba(93,76,55,.13)}
+.zone-farms{left:4600px;top:5800px;width:14800px;height:12200px;border:40px dashed rgba(91,100,59,.16)}
+.zone-river{left:0;top:18000px;width:24000px;height:1600px;background:#557978;clip-path:polygon(0 42%,12% 30%,25% 48%,39% 32%,52% 45%,67% 27%,81% 43%,100% 30%,100% 70%,83% 59%,68% 75%,52% 61%,38% 74%,23% 59%,9% 70%,0 61%)}
+.zone-river:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(-8deg,transparent 0 200px,rgba(228,235,218,.18) 206px 228px,transparent 234px 500px)}
+.barda{position:absolute;left:0;width:24000px;background:linear-gradient(180deg,rgba(194,159,111,.25),rgba(82,61,45,.48));clip-path:polygon(0 68%,8% 48%,17% 62%,26% 40%,35% 58%,44% 36%,53% 55%,62% 34%,71% 57%,80% 39%,90% 55%,100% 38%,100% 100%,0 100%)}
+.barda.n{top:1000px;height:1900px}.barda.s{top:21600px;height:1700px;opacity:.75}
+.road{position:absolute;height:300px;background:#76644d;box-shadow:0 24px 50px rgba(42,34,25,.16);border-radius:200px;pointer-events:none}
+.road.main{left:4900px;top:12700px;width:16200px;transform:rotate(-10deg)}
+.road.route{left:14700px;top:2600px;width:18200px;transform:rotate(62deg);height:380px}
+.road.route:after,.road.main:after{content:"";position:absolute;inset:50% 0 auto;height:16px;background:repeating-linear-gradient(90deg,#e9ddbf 0 160px,transparent 160px 340px);opacity:.8}
+.town-core{position:absolute;left:8100px;top:8400px;width:7800px;height:6000px;border-radius:18%;background:rgba(126,107,78,.14)}
+.block{position:absolute;width:1120px;height:720px;border-radius:44px;background:#9a8060;box-shadow:inset 0 -110px rgba(72,57,43,.13),0 32px 0 rgba(61,48,36,.1)}
+.street{position:absolute;background:rgba(94,79,61,.68);border-radius:80px}
+.plaza{position:absolute;left:11100px;top:10700px;width:1700px;height:1300px;border-radius:30%;background:#78805e;box-shadow:inset 0 0 0 68px rgba(217,199,158,.25)}
+.plaza:after{content:"";position:absolute;left:50%;top:50%;width:300px;height:300px;transform:translate(-50%,-50%);border-radius:50%;background:#a78b61}
+.field{position:absolute;border:20px solid rgba(91,100,59,.17);background:repeating-linear-gradient(7deg,rgba(91,105,58,.20) 0 90px,transparent 92px 200px);transform:rotate(-3deg)}
+.f1{left:3800px;top:5400px;width:4800px;height:3000px}.f2{left:15600px;top:5600px;width:5200px;height:3200px}
+.f3{left:3800px;top:15000px;width:4600px;height:3400px}.f4{left:16400px;top:14400px;width:5000px;height:3200px}
+.vineyard{position:absolute;width:2600px;height:1700px;background:repeating-linear-gradient(90deg,rgba(76,91,47,.38) 0 36px,transparent 36px 116px);transform:rotate(-3deg);opacity:.85}
+.v1{left:6000px;top:5400px}.v2{left:17000px;top:9400px}.v3{left:7200px;top:15600px}
+.building{position:absolute;width:1040px;height:720px;background:#795f48;border:56px solid #604d3c;border-radius:40px;box-shadow:0 36px 0 rgba(56,44,34,.13)}
+.w1{left:7700px;top:6300px}.w2{left:18000px;top:9700px}.w3{left:8300px;top:16200px}
+.picada{position:absolute;left:20200px;top:2000px;width:2600px;height:2400px;border-radius:50%;background:rgba(125,104,72,.15)}
+.picada .hut{position:absolute;width:380px;height:280px;background:#826a4d;border:28px solid #614c39;border-radius:28px}
+.h1{left:480px;top:500px}.h2{left:1300px;top:1000px}.h3{left:900px;top:1600px}
+.tree{position:absolute;width:190px;height:190px;border-radius:50%;background:#596548;box-shadow:80px 36px #687253,-60px 56px #697351;opacity:.9}
+.t1{left:9700px;top:9000px}.t2{left:14800px;top:12200px}.t3{left:13000px;top:9500px}.t4{left:10400px;top:13800px}.t5{left:15700px;top:10400px}
+.actor{position:absolute;z-index:30;width:200px;height:240px;transform:translate(-50%,-50%);pointer-events:none}
+.actor .head{position:absolute;left:56px;top:0;width:88px;height:88px;border-radius:50%;background:#c89068;border:12px solid #44382f}
+.actor .body{position:absolute;left:36px;top:84px;width:128px;height:124px;border-radius:40px 40px 28px 28px;background:#456274;border:12px solid #44382f}
+.actor .leg{position:absolute;top:192px;width:44px;height:60px;background:#3e4145;border-radius:16px}
+.actor .l{left:50px}.actor .r{right:50px}
+.actor.luna .body{background:#d49c55}.actor.luna .head:after{content:"";position:absolute;left:-18px;top:-18px;width:116px;height:44px;border-radius:50%;background:#6f5037;z-index:-1}
+.actor .name{position:absolute;top:-84px;left:50%;transform:translateX(-50%);padding:14px 24px;border-radius:28px;background:rgba(35,30,25,.78);color:#fff8e8;font-size:44px;white-space:nowrap}
 .actor.npc .body{background:#6e7a5a}.actor.child{transform:translate(-50%,-50%) scale(.78)}.actor.elder .body{background:#7b5d70}
-.vehicle{position:absolute;z-index:25;width:180px;height:95px;border-radius:28px;background:#4f5960;border:12px solid #353a3d;box-shadow:0 14px 18px rgba(40,33,27,.2)}
-.vehicle:before,.vehicle:after{content:"";position:absolute;bottom:-28px;width:38px;height:38px;border-radius:50%;background:#292b2d;border:7px solid #555}
-.vehicle:before{left:16px}.vehicle:after{right:16px}
-.dialogue{position:fixed;z-index:100;left:50%;bottom:28px;transform:translateX(-50%);width:min(760px,calc(100% - 28px));padding:22px 24px;border-radius:24px;background:rgba(29,26,22,.94);color:#f5ead5;box-shadow:0 18px 60px rgba(0,0,0,.3);display:none}
-.dialogue.show{display:block}.dialogue strong{display:block;color:#e5bb70;font-size:18px;margin-bottom:8px}.dialogue p{margin:0;font-size:18px;line-height:1.45}.dialogue button{margin-top:15px;border:0;border-radius:14px;padding:10px 16px;background:#d7a85e;color:#2d251c;font-weight:800}
-.hud{position:fixed;z-index:90;left:18px;top:18px;padding:12px 16px;border-radius:18px;background:rgba(28,25,21,.72);color:#fff4df;backdrop-filter:blur(8px);font-size:14px}
-.hud b{color:#e5bb70}.hint{position:fixed;z-index:90;right:18px;bottom:18px;padding:10px 14px;border-radius:15px;background:rgba(28,25,21,.68);color:#fff4df;font-size:13px}
+.vehicle{position:absolute;z-index:25;width:360px;height:190px;border-radius:56px;background:#4f5960;border:24px solid #353a3d;box-shadow:0 28px 36px rgba(40,33,27,.2)}
+.vehicle:before,.vehicle:after{content:"";position:absolute;bottom:-56px;width:76px;height:76px;border-radius:50%;background:#292b2d;border:14px solid #555}
+.vehicle:before{left:32px}.vehicle:after{right:32px}
+.dialogue{position:fixed;z-index:100;left:50%;bottom:56px;transform:translateX(-50%);width:min(1520px,calc(100% - 56px));padding:44px 48px;border-radius:48px;background:rgba(29,26,22,.94);color:#f5ead5;box-shadow:0 36px 120px rgba(0,0,0,.3);display:none}
+.dialogue.show{display:block}.dialogue strong{display:block;color:#e5bb70;font-size:36px;margin-bottom:16px}.dialogue p{margin:0;font-size:36px;line-height:1.45}.dialogue button{margin-top:30px;border:0;border-radius:28px;padding:20px 32px;background:#d7a85e;color:#2d251c;font-weight:800}
+.hud{position:fixed;z-index:90;left:36px;top:36px;padding:24px 32px;border-radius:36px;background:rgba(28,25,21,.72);color:#fff4df;backdrop-filter:blur(16px);font-size:28px}
+.hud b{color:#e5bb70}.hint{position:fixed;z-index:90;right:36px;bottom:36px;padding:20px 28px;border-radius:30px;background:rgba(28,25,21,.68);color:#fff4df;font-size:26px}
 #vignette{position:fixed;z-index:80;inset:0;pointer-events:none;background:radial-gradient(circle,transparent 45%,rgba(25,22,18,.18));transition:background 1s}
-#touch{position:fixed;z-index:95;right:18px;bottom:64px;display:none;grid-template-columns:repeat(3,54px);gap:6px}
-#touch button{width:54px;height:54px;border:0;border-radius:16px;background:rgba(30,27,23,.72);color:#fff;font-size:22px}
+#touch{position:fixed;z-index:95;right:36px;bottom:128px;display:none;grid-template-columns:repeat(3,108px);gap:12px}
+#touch button{width:108px;height:108px;border:0;border-radius:32px;background:rgba(30,27,23,.72);color:#fff;font-size:44px}
 #touch .empty{visibility:hidden}
-@media(max-width:700px){.hud{font-size:12px}.hint{display:none}#touch{display:grid}.dialogue{bottom:18px}.dialogue p{font-size:16px}}
+@media(max-width:1400px){.hud{font-size:24px}.hint{display:none}#touch{display:grid}.dialogue{bottom:36px}.dialogue p{font-size:32px}}
 </style>
 </head>
 <body>
@@ -94,22 +94,22 @@ body{background:#171716;font-family:system-ui,-apple-system,Segoe UI,sans-serif;
       <div class="picada"><div class="hut h1"></div><div class="hut h2"></div><div class="hut h3"></div></div>
       <div class="building w1"></div><div class="building w2"></div><div class="building w3"></div>
       <div class="plaza"></div>
-      <div class="block" style="left:4400px;top:4500px"></div><div class="block" style="left:5100px;top:4500px"></div>
-      <div class="block" style="left:6500px;top:4500px"></div><div class="block" style="left:7200px;top:4500px"></div>
-      <div class="block" style="left:4400px;top:6000px"></div><div class="block" style="left:6500px;top:6000px"></div>
-      <div class="street" style="left:4250px;top:5150px;width:3400px;height:100px"></div>
-      <div class="street" style="left:4250px;top:6500px;width:3400px;height:100px"></div>
-      <div class="street" style="left:5750px;top:4300px;width:100px;height:2500px"></div>
-      <div class="street" style="left:7200px;top:4300px;width:100px;height:2500px"></div>
+      <div class="block" style="left:8800px;top:9000px"></div><div class="block" style="left:10200px;top:9000px"></div>
+      <div class="block" style="left:13000px;top:9000px"></div><div class="block" style="left:14400px;top:9000px"></div>
+      <div class="block" style="left:8800px;top:12000px"></div><div class="block" style="left:13000px;top:12000px"></div>
+      <div class="street" style="left:8500px;top:10300px;width:6800px;height:200px"></div>
+      <div class="street" style="left:8500px;top:13000px;width:6800px;height:200px"></div>
+      <div class="street" style="left:11500px;top:8600px;width:200px;height:5000px"></div>
+      <div class="street" style="left:14400px;top:8600px;width:200px;height:5000px"></div>
       <div class="tree t1"></div><div class="tree t2"></div><div class="tree t3"></div><div class="tree t4"></div><div class="tree t5"></div>
-      <div class="vehicle" id="car1" style="left:8200px;top:5000px"></div>
-      <div class="vehicle" id="car2" style="left:9400px;top:3600px"></div>
+      <div class="vehicle" id="car1" style="left:16400px;top:10000px"></div>
+      <div class="vehicle" id="car2" style="left:18800px;top:7200px"></div>
       <div class="actor luna" id="luna"><div class="head"></div><div class="body"></div><div class="leg l"></div><div class="leg r"></div><span class="name">Luna</span></div>
-      <div class="actor npc" data-id="abuela" data-x="6100" data-y="5200"><div class="head"></div><div class="body"></div><div class="leg l"></div><div class="leg r"></div><span class="name">Abuela</span></div>
-      <div class="actor npc elder" data-id="abuelo" data-x="6900" data-y="5400"><div class="head"></div><div class="body"></div><div class="leg l"></div><div class="leg r"></div><span class="name">Abuelo</span></div>
-      <div class="actor npc" data-id="maestra" data-x="5000" data-y="5700"><div class="head"></div><div class="body"></div><div class="leg l"></div><div class="leg r"></div><span class="name">Maestra</span></div>
-      <div class="actor npc child" data-id="nina" data-x="7200" data-y="5800"><div class="head"></div><div class="body"></div><div class="leg l"></div><div class="leg r"></div><span class="name">Nina</span></div>
-      <div class="actor npc" data-id="bodeguero" data-x="4300" data-y="3300"><div class="head"></div><div class="body"></div><div class="leg l"></div><div class="leg r"></div><span class="name">Bodeguero</span></div>
+      <div class="actor npc" data-id="abuela" data-x="12200" data-y="10400"><div class="head"></div><div class="body"></div><div class="leg l"></div><div class="leg r"></div><span class="name">Abuela</span></div>
+      <div class="actor npc elder" data-id="abuelo" data-x="13800" data-y="10800"><div class="head"></div><div class="body"></div><div class="leg l"></div><div class="leg r"></div><span class="name">Abuelo</span></div>
+      <div class="actor npc" data-id="maestra" data-x="10000" data-y="11400"><div class="head"></div><div class="body"></div><div class="leg l"></div><div class="leg r"></div><span class="name">Maestra</span></div>
+      <div class="actor npc child" data-id="nina" data-x="14400" data-y="11600"><div class="head"></div><div class="body"></div><div class="leg l"></div><div class="leg r"></div><span class="name">Nina</span></div>
+      <div class="actor npc" data-id="bodeguero" data-x="8600" data-y="6600"><div class="head"></div><div class="body"></div><div class="leg l"></div><div class="leg r"></div><span class="name">Bodeguero</span></div>
     </div>
   </div>
   <div class="hud">Villa Pelón · <b id="clock">08:00</b> · <span id="status">Explorando</span></div>
@@ -127,9 +127,9 @@ body{background:#171716;font-family:system-ui,-apple-system,Segoe UI,sans-serif;
    Principio: motor primero, contenido después.
    Todo el estado importante vive en datos, no en posiciones sueltas.
 ========================================================= */
-const WORLD={w:12000,h:12000};
-const player={x:6200,y:5750,speed:105};
-const camera={x:6200,y:5750,scale:.15};
+const WORLD={w:24000,h:24000};
+const player={x:12400,y:11500,speed:210};
+const camera={x:12400,y:11500,scale:.15};
 const keys=new Set();
 let gameMinutes=8*60;
 let last=performance.now();
