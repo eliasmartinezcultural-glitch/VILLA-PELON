@@ -1,0 +1,14 @@
+{
+  "version":"1.0.0",
+  "modelo":"mundo_abierto_por_zonas_conectadas",
+  "eje_principal":"ruta_7",
+  "estructura":{
+    "norte_sur":"Ruta 7 como referencia longitudinal",
+    "centro":"Zona Urbana",
+    "bordes":"Rural, río y bardas conectados mediante corredores de transición",
+    "periferia":"anillo flexible entre urbano y rural"
+  },
+  "regla_de_lectura":"Nunca colocar todas las zonas como una misma textura. Cada zona debe cambiar progresivamente color, sonido, densidad, suelo, vegetación, arquitectura y comportamiento NPC.",
+  "nodos_iniciales":["entrada_ruta","centro_urbano","salida_rural","acceso_rio","ascenso_barda"],
+  "expansion":"Los nodos pueden crecer a barrios, chacras, instituciones, parajes y escenarios históricos sin romper las conexiones."
+}
