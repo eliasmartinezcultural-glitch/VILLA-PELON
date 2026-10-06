@@ -1,0 +1,108 @@
+{
+  "titulo": "Fuentes de investigación",
+  "criterio": "Prioridad a fuentes oficiales, documentos públicos, investigación académica y archivos periodísticos. Las fuentes secundarias no deben transformarse en verdad absoluta sin contraste.",
+  "fuentes": [
+    {
+      "id": "F01",
+      "nombre": "Municipalidad de San Patricio del Chañar — Nuestra Identidad",
+      "tipo": "oficial_municipal",
+      "url": "https://www.sanpatricio.gob.ar/identidad"
+    },
+    {
+      "id": "F02",
+      "nombre": "Referencias históricas locales sobre fortines y mensuras",
+      "tipo": "secundaria_local",
+      "url": "https://www.sanpatricio.gob.ar/identidad"
+    },
+    {
+      "id": "F03",
+      "nombre": "Consejo Federal de Inversiones — Plan de Ordenamiento Territorial y Ambiental",
+      "tipo": "documento_institucional",
+      "url": "https://www.argentina.gob.ar/sites/default/files/plan_de_ordenamiento_territorial_y_ambiental_para_las_localidades_des_anelo_san_patricio_del_chanar_y_sauzal_bonito_0.pdf"
+    },
+    {
+      "id": "F04",
+      "nombre": "La Mañana de Neuquén — Historia de las tierras del Chañar",
+      "tipo": "periodistico",
+      "url": "https://www.lmneuquen.com/san-patricio-del-chanar-inicia-hoy-su-30-fiesta-del-pelon-n500536"
+    },
+    {
+      "id": "F05",
+      "nombre": "Boletín Geográfico — Dinámica del paisaje agrario de San Patricio del Chañar",
+      "tipo": "academica",
+      "url": "https://www.researchgate.net/publication/312608478_Dinamica_del_paisaje_agrario_de_San_Patricio_del_Chanar_Neuquen_Argentina_a_traves_de_imagenes_satelitales_English_Dynamics_of_the_agricultural_landscape_of_San_Patricio_del_Chanar_Neuquen_Argentina_through_satellite_images"
+    },
+    {
+      "id": "F06",
+      "nombre": "Carta Orgánica Municipal de San Patricio del Chañar",
+      "tipo": "normativa_oficial",
+      "url": "https://boficial.neuquen.gov.ar/Boletines/bo04021302862a.pdf"
+    },
+    {
+      "id": "F07",
+      "nombre": "Neuquén Informa — Reseña histórica de San Patricio del Chañar",
+      "tipo": "oficial_provincial",
+      "url": "https://www.neuqueninforma.gob.ar/noticias/2014/05/22/48785-jorge-sapag-asistira-al-41-aniversario-de-san-patricio-del-chanar"
+    },
+    {
+      "id": "F08",
+      "nombre": "Informe ambiental / Dirección Provincial de Estadísticas y Censos",
+      "tipo": "estadistica_oficial",
+      "url": "https://ambiente.neuquen.gov.ar/wp-content/uploads/2023/07/11619-E2-AM-IN-001-0_DGP-Infraestructura-y-Loteos.pdf"
+    },
+    {
+      "id": "F09",
+      "nombre": "Más Neuquén — Cronología y memoria de la Fiesta del Pelón",
+      "tipo": "periodistico_local",
+      "url": "https://masp.lmneuquen.com/fruticultura/de-desierto-la-fiesta-del-pelon-la-evolucion-de-san-patricio-del-chanar-y-sus-tradiciones-n1228109"
+    },
+    {
+      "id": "F10",
+      "nombre": "Honorable Cámara de Diputados de la Nación — Proyecto sobre Fiesta del Pelón",
+      "tipo": "documento_publico",
+      "url": "https://www.hcdn.gob.ar/comisiones/permanentes/cdhygarantias/proyecto.html?exp=9105-D-2014"
+    },
+    {
+      "id": "F11",
+      "nombre": "Consejo Federal de Inversiones — documento territorial",
+      "tipo": "institucional",
+      "url": "https://cfi.org.ar/uploads/2024/05/Neuquen_114_0.pdf"
+    },
+    {
+      "id": "F12",
+      "nombre": "Neuquén Informa / reseñas provinciales sobre desarrollo vitivinícola",
+      "tipo": "oficial_provincial",
+      "url": "https://www.neuqueninforma.gob.ar/"
+    },
+    {
+      "id": "F13",
+      "nombre": "Municipalidad de San Patricio del Chañar — Bodega Schroeder",
+      "tipo": "oficial_municipal",
+      "url": "https://sanpatricio.gob.ar/quehacer"
+    },
+    {
+      "id": "F14",
+      "nombre": "Neuquén Informa — Fiesta Provincial del Pelón 2026",
+      "tipo": "oficial_provincial",
+      "url": "https://www.neuqueninforma.gob.ar/noticias/2026/02/10/255111-san-patricio-del-chanar-se-prepara-para-la-fiesta-del-pelon"
+    },
+    {
+      "id": "F15",
+      "nombre": "Honorable Legislatura del Neuquén — aniversario de San Patricio del Chañar",
+      "tipo": "documento_publico",
+      "url": "https://www.legislaturaneuquen.gob.ar/SVRFILES/hln/documentos/DiaSesio/XLVIII/DXLVIII_08.pdf"
+    },
+    {
+      "id": "F16",
+      "nombre": "Honorable Cámara de Diputados — fundamentos sobre producción frutícola",
+      "tipo": "documento_publico",
+      "url": "https://www.hcdn.gob.ar/comisiones/permanentes/cdhygarantias/proyecto.html?exp=9105-D-2014"
+    },
+    {
+      "id": "F17",
+      "nombre": "Cronología histórica local — instituciones, escuelas y vida comunitaria",
+      "tipo": "secundaria",
+      "url": "https://masneuquen.com/"
+    }
+  ]
+}
