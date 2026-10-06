@@ -44,80 +44,84 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#b49b70}
 #planLegend{display:none;position:fixed;z-index:20;left:12px;top:12px;padding:10px 12px;border-radius:10px;background:rgba(25,22,18,.78);color:#f4ead7;font:600 13px/1.5 Arial,sans-serif;pointer-events:none}
 #planLegend .sw{display:inline-block;width:14px;height:14px;margin:0 5px 0 10px;vertical-align:-2px;border-radius:3px}
 .planned-line{position:absolute;pointer-events:none}.plan-route65{left:39%;top:0;width:32%;height:100%;border-left:18px solid rgba(100,78,54,.72);transform:rotate(8deg);transform-origin:center}.plan-town{position:absolute;left:25%;top:38%;width:25%;height:18%;border:12px dashed rgba(75,65,48,.65);background:rgba(130,115,80,.12)}.plan-picada{position:absolute;left:76%;top:2%;width:20%;height:22%;border:10px dotted rgba(85,70,45,.55)}.plan-mountain-n{position:absolute;left:5%;top:10%;width:90%;height:14%;background:linear-gradient(90deg,rgba(199,168,119,.28),rgba(92,64,43,.48),rgba(199,168,119,.24));clip-path:polygon(0 70%,12% 48%,24% 65%,37% 25%,50% 58%,63% 18%,76% 54%,88% 35%,100% 65%,100% 100%,0 100%)}.plan-mountain-s{position:absolute;left:8%;top:77%;width:84%;height:11%;background:linear-gradient(90deg,rgba(199,168,119,.22),rgba(92,64,43,.34),rgba(199,168,119,.2));clip-path:polygon(0 75%,18% 48%,33% 70%,49% 35%,64% 68%,80% 45%,100% 72%,100% 100%,0 100%)}
-/* GEOGRAFIA REAL — convertida desde el planeamiento a motor */
+/* GEOGRAFIA REAL — VILLA PELÓN REFORMULADA
+   Jerarquía espacial:
+   CENTRO = pueblo urbano
+   ALREDEDOR = chacras + bodegas
+   MÁS LEJOS = río
+   MÁS LEJOS TODAVÍA = bardas
+   PUNTA REMOTA = Picada 21
+   RUTA = conecta Picada 21 con el núcleo urbano
+*/
 .mountain-range{position:absolute;z-index:3;pointer-events:none;overflow:hidden}
 
-/* BARDA NORTE — formación de meseta/barda, continua A1→A4 */
-.mountain-n{left:0;top:650px;width:8200px;height:1120px;
- background:
- linear-gradient(180deg,rgba(218,191,148,.42) 0%,rgba(184,148,103,.25) 22%,rgba(111,78,51,.48) 64%,rgba(74,53,39,.62) 100%);
- clip-path:polygon(0 69%,4% 60%,8% 63%,12% 50%,16% 58%,20% 42%,24% 55%,28% 36%,32% 48%,36% 31%,40% 51%,44% 38%,48% 56%,52% 29%,56% 45%,60% 34%,64% 53%,68% 27%,72% 47%,76% 33%,80% 52%,84% 29%,88% 43%,92% 34%,96% 48%,100% 39%,100% 100%,0 100%);
- filter:saturate(.65);
- box-shadow:inset 0 -150px 180px rgba(54,40,31,.25)}
-.mountain-n:before{content:"";position:absolute;inset:0;
- background:
- linear-gradient(164deg,transparent 0 10%,rgba(238,216,178,.42) 10.5% 12%,transparent 12.5% 28%,rgba(71,51,38,.34) 29% 34%,transparent 34.5% 49%,rgba(221,194,153,.27) 49.5% 52%,transparent 52.5% 69%,rgba(65,48,37,.28) 70% 75%,transparent 75.5%);
- opacity:.9}
-.mountain-n:after{content:"";position:absolute;left:0;right:0;bottom:0;height:380px;
- background:linear-gradient(180deg,transparent,rgba(56,42,32,.38));
- clip-path:polygon(0 55%,10% 39%,20% 58%,30% 32%,40% 54%,50% 28%,60% 57%,70% 35%,80% 53%,90% 31%,100% 48%,100% 100%,0 100%)}
+/* BARDAS — perímetro lejano, no protagonista */
+.mountain-n{left:0;top:180px;width:8200px;height:720px;
+ background:linear-gradient(180deg,rgba(194,159,110,.25),rgba(102,73,48,.58));
+ clip-path:polygon(0 62%,6% 52%,12% 60%,18% 43%,24% 56%,30% 38%,36% 52%,42% 34%,48% 50%,54% 31%,60% 48%,66% 36%,72% 53%,78% 33%,84% 49%,90% 37%,96% 51%,100% 42%,100% 100%,0 100%);
+ filter:saturate(.62)}
+.mountain-n:before{content:"";position:absolute;inset:0;background:linear-gradient(165deg,transparent 0 25%,rgba(226,202,162,.25) 26% 29%,transparent 30% 58%,rgba(65,48,38,.25) 59% 64%,transparent 65%)}
 
-/* BARDA SUR — D1→D4, relieve menor */
-.mountain-s{left:0;top:7040px;width:8200px;height:430px;
- background:linear-gradient(180deg,rgba(183,148,103,.18),rgba(92,68,49,.36));
- clip-path:polygon(0 76%,7% 63%,14% 70%,21% 55%,28% 68%,35% 57%,42% 72%,49% 52%,56% 67%,63% 55%,70% 70%,77% 51%,84% 66%,91% 54%,100% 64%,100% 100%,0 100%);
- filter:saturate(.65)}
-.mountain-s:before{content:"";position:absolute;inset:0;
- background:linear-gradient(165deg,transparent 0 25%,rgba(218,193,153,.22) 26% 29%,transparent 30% 58%,rgba(67,50,39,.24) 59% 64%,transparent 65%)}
+.mountain-s{left:0;top:7420px;width:8200px;height:580px;
+ background:linear-gradient(180deg,rgba(177,143,99,.20),rgba(87,65,48,.46));
+ clip-path:polygon(0 72%,9% 58%,18% 69%,27% 52%,36% 66%,45% 48%,54% 64%,63% 51%,72% 67%,81% 49%,90% 64%,100% 53%,100% 100%,0 100%)}
 
-/* RÍO — cauce único, sinuoso y continuo de borde a borde en D1→D4 */
-.river{position:absolute;z-index:5;left:0;top:5960px;width:8200px;height:1050px;
- pointer-events:none;background:#547876;opacity:.96;
- clip-path:polygon(0 50%,5% 44%,10% 49%,15% 39%,20% 45%,25% 34%,30% 42%,35% 30%,40% 38%,45% 25%,50% 34%,55% 22%,60% 31%,65% 19%,70% 28%,75% 16%,80% 25%,85% 14%,90% 22%,95% 12%,100% 19%,
- 100% 47%,95% 43%,90% 54%,85% 47%,80% 58%,75% 50%,70% 62%,65% 54%,60% 68%,55% 59%,50% 72%,45% 63%,40% 76%,35% 67%,30% 79%,25% 70%,20% 82%,15% 73%,10% 84%,5% 76%,0 88%)}
-.river:before{content:"";position:absolute;inset:0;
- background:
- repeating-linear-gradient(-8deg,transparent 0 82px,rgba(219,227,213,.20) 84px 90px,transparent 92px 185px),
- linear-gradient(180deg,rgba(28,57,56,.24),transparent 35%,rgba(24,49,49,.18) 78%,rgba(214,222,207,.10));
-}
-.river:after{content:"";position:absolute;left:0;right:0;top:51%;height:10px;
- background:rgba(225,231,216,.30);filter:blur(2px)}
+/* RÍO — lejano al pueblo, transversal al mundo */
+.river{position:absolute;z-index:4;left:0;top:6250px;width:8200px;height:700px;
+ pointer-events:none;background:#587b79;opacity:.94;
+ clip-path:polygon(0 46%,8% 39%,16% 47%,24% 34%,32% 44%,40% 31%,48% 42%,56% 29%,64% 40%,72% 26%,80% 38%,88% 25%,100% 34%,
+ 100% 62%,92% 55%,84% 66%,76% 57%,68% 70%,60% 60%,52% 73%,44% 63%,36% 75%,28% 65%,20% 77%,12% 68%,4% 79%,0 70%)}
+.river:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(-7deg,transparent 0 80px,rgba(220,229,215,.20) 82px 88px,transparent 90px 185px)}
+.river:after{content:"";position:absolute;left:0;right:0;top:49%;height:9px;background:rgba(224,231,217,.27);filter:blur(2px)}
 
-/* RUTA 65 — diagonal D1→A4, borde a borde */
+/* RUTA 65 — une el asentamiento remoto con el pueblo */
 .route{position:absolute;z-index:7;left:0;top:0;width:8200px;height:8200px;pointer-events:none}
-.route-65:before{content:"";position:absolute;inset:0;background:#78664e;
- clip-path:polygon(8% 100%,10.1% 100%,88.2% 0,90.3% 0);
- filter:drop-shadow(0 7px 12px rgba(48,39,30,.32))}
+.route-65:before{content:"";position:absolute;inset:0;background:#806d53;
+ clip-path:polygon(83% 0,85% 0,55% 47%,45% 61%,34% 74%,27% 83%,21% 91%,18% 100%,16% 100%,19% 90%,26% 81%,33% 72%,43% 59%,53% 45%,81% 0);
+ filter:drop-shadow(0 6px 10px rgba(52,42,31,.28))}
 .route-65:after{content:"";position:absolute;inset:0;
- background:repeating-linear-gradient(155deg,transparent 0 145px,rgba(233,221,195,.88) 146px 166px,transparent 167px 310px);
- clip-path:polygon(8.9% 100%,9.7% 100%,89% 0,89.8% 0);opacity:.82}
+ background:repeating-linear-gradient(151deg,transparent 0 150px,rgba(235,222,195,.86) 151px 170px,transparent 171px 320px);
+ clip-path:polygon(83.8% 0,84.5% 0,54% 47%,44% 61%,33% 74%,26% 83%,20% 91%,17.5% 100%,17% 100%,18.5% 91%,25.5% 82%,32.5% 73%,43.5% 60%,53.5% 46%,82.4% 0);opacity:.8}
 
-.town{position:absolute;z-index:8;left:2050px;top:4100px;width:2050px;height:1250px;
- border-radius:22%;background:
- radial-gradient(circle at 18% 25%,rgba(104,82,60,.78) 0 20px,transparent 22px),
- radial-gradient(circle at 31% 55%,rgba(104,82,60,.62) 0 18px,transparent 20px),
- radial-gradient(circle at 46% 36%,rgba(104,82,60,.70) 0 24px,transparent 26px),
- radial-gradient(circle at 63% 60%,rgba(104,82,60,.68) 0 21px,transparent 23px),
- radial-gradient(circle at 78% 30%,rgba(104,82,60,.72) 0 18px,transparent 20px),
- radial-gradient(circle at 84% 72%,rgba(104,82,60,.58) 0 20px,transparent 22px),
- rgba(126,108,78,.11);pointer-events:none}
-.town:before,.town:after{content:"";position:absolute;background:rgba(94,78,59,.55)}
-.town:before{left:8%;right:7%;top:52%;height:32px;transform:rotate(-6deg)}
-.town:after{top:9%;bottom:8%;left:52%;width:30px;transform:rotate(8deg)}
-
-.settlement{position:absolute;z-index:8;left:6250px;top:300px;width:1450px;height:1500px;pointer-events:none;
+/* PUEBLO — núcleo central */
+.town{position:absolute;z-index:9;left:3100px;top:3200px;width:2100px;height:1700px;border-radius:18%;
  background:
- radial-gradient(circle at 12% 20%,#806546 0 20px,transparent 23px),
- radial-gradient(circle at 28% 42%,#91724d 0 17px,transparent 20px),
- radial-gradient(circle at 45% 26%,#72573d 0 23px,transparent 26px),
- radial-gradient(circle at 63% 48%,#8d6d49 0 19px,transparent 22px),
- radial-gradient(circle at 78% 30%,#796043 0 16px,transparent 19px),
- radial-gradient(circle at 52% 72%,#806546 0 18px,transparent 21px),
- radial-gradient(circle at 25% 76%,#8d6d49 0 15px,transparent 18px)}
+ radial-gradient(circle at 15% 22%,rgba(99,77,56,.82) 0 22px,transparent 24px),
+ radial-gradient(circle at 28% 45%,rgba(99,77,56,.68) 0 19px,transparent 21px),
+ radial-gradient(circle at 43% 27%,rgba(99,77,56,.75) 0 23px,transparent 25px),
+ radial-gradient(circle at 57% 52%,rgba(99,77,56,.72) 0 20px,transparent 22px),
+ radial-gradient(circle at 73% 31%,rgba(99,77,56,.78) 0 21px,transparent 23px),
+ radial-gradient(circle at 82% 65%,rgba(99,77,56,.64) 0 18px,transparent 20px),
+ radial-gradient(circle at 37% 76%,rgba(99,77,56,.60) 0 17px,transparent 19px),
+ rgba(126,108,78,.13);pointer-events:none}
+.town:before,.town:after{content:"";position:absolute;background:rgba(87,70,51,.58)}
+.town:before{left:8%;right:8%;top:51%;height:34px;transform:rotate(-4deg)}
+.town:after{top:10%;bottom:9%;left:53%;width:30px;transform:rotate(7deg)}
 
-/* BORDES GEOGRÁFICOS: nada puede salir del mundo 8200×8200 */
-.border{z-index:20}
-</style>
+/* CHACRAS — cinturón productivo alrededor del pueblo */
+.farm{position:absolute;z-index:6;pointer-events:none;border:3px solid rgba(116,96,61,.28);background:repeating-linear-gradient(8deg,rgba(111,119,67,.18) 0 18px,transparent 18px 42px)}
+.farm.f1{left:1200px;top:2500px;width:1550px;height:1050px;transform:rotate(-4deg)}
+.farm.f2{left:5000px;top:2350px;width:1450px;height:1150px;transform:rotate(5deg)}
+.farm.f3{left:1250px;top:4550px;width:1750px;height:1150px;transform:rotate(3deg)}
+.farm.f4{left:5300px;top:4500px;width:1450px;height:1250px;transform:rotate(-5deg)}
+.farm.f5{left:2700px;top:1800px;width:1200px;height:850px;transform:rotate(2deg)}
+.farm.f6{left:3100px;top:5150px;width:1250px;height:850px;transform:rotate(-3deg)}
+
+/* BODEGAS — pocas, separadas, rodeadas de viñedos */
+.winery{position:absolute;z-index:8;width:260px;height:180px;background:#856b4e;border:14px solid #6c5743;border-radius:8px;pointer-events:none;box-shadow:0 10px 0 rgba(61,48,37,.16)}
+.winery:after{content:"";position:absolute;left:-100px;right:-100px;top:-75px;height:45px;background:repeating-linear-gradient(90deg,rgba(101,112,61,.34) 0 12px,transparent 12px 34px)}
+.w1{left:1950px;top:3250px}.w2{left:5350px;top:3300px}.w3{left:2050px;top:5050px}.w4{left:5150px;top:4950px}
+
+/* PICADA 21 — asentamiento pequeño y remoto en una punta */
+.settlement{position:absolute;z-index:8;left:6350px;top:650px;width:950px;height:900px;pointer-events:none;
+ background:
+ radial-gradient(circle at 18% 24%,#806546 0 20px,transparent 23px),
+ radial-gradient(circle at 36% 45%,#91724d 0 17px,transparent 20px),
+ radial-gradient(circle at 56% 29%,#72573d 0 21px,transparent 24px),
+ radial-gradient(circle at 72% 55%,#8d6d49 0 18px,transparent 21px),
+ radial-gradient(circle at 47% 73%,#796043 0 16px,transparent 19px)}
+
+.border{z-index:20}</style>
 </head>
 <body>
 <div id="planLegend">PLANEAMIENTO · A1–A4 / D1–D4 <span class="sw" style="background:#c7a875"></span>baja <span class="sw" style="background:#62452e"></span>muy alta</div><main id="game">
@@ -130,7 +134,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#b49b70}
 <div class="mountain-range mountain-s" aria-label="Barda y montañas del sur"></div>
 <div class="river" aria-label="Río del sector D1-D4"></div>
 <div class="route route-65" aria-label="Ruta 65"></div>
-<div class="town" aria-label="Pueblo urbano"></div>
+<div class="town" aria-label="Villa Pelón · sector urbano"></div><div class="farm f1"></div><div class="farm f2"></div><div class="farm f3"></div><div class="farm f4"></div><div class="farm f5"></div><div class="farm f6"></div><div class="winery w1"></div><div class="winery w2"></div><div class="winery w3"></div><div class="winery w4"></div>
 <div class="settlement" aria-label="Asentamientos de Picada 21"></div>
 <!-- CAPA DE PLANEAMIENTO TEMPORAL -->
 <div class="planned-line plan-mountain-n"></div><div class="planned-line plan-mountain-s"></div><div class="planned-line plan-route65"></div><div class="plan-town"></div><div class="plan-picada"></div>
