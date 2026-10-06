@@ -1,0 +1,18 @@
+{
+  "version":"1.0.0",
+  "ciclo_diario":[
+    {"id":"amanecer","hora_aprox":"06:00-08:00","luz":"suave","mundo":"comienzan actividades"},
+    {"id":"dia","hora_aprox":"08:00-17:00","luz":"alta","mundo":"máxima actividad"},
+    {"id":"tarde","hora_aprox":"17:00-20:30","luz":"dorada","mundo":"cambio de rutinas"},
+    {"id":"noche","hora_aprox":"20:30-06:00","luz":"baja","mundo":"actividad reducida y nuevas oportunidades"}
+  ],
+  "reglas":"Las horas son configurables por temporada y no representan una afirmación astronómica exacta.",
+  "clima":[
+    {"id":"despejado","efectos":["visibilidad alta","paisaje abierto"]},
+    {"id":"nublado","efectos":["luz difusa","ambiente diferente"]},
+    {"id":"viento","efectos":["sonido ambiental","vegetación en movimiento","posibles cambios de rutina"]},
+    {"id":"lluvia","efectos":["suelo mojado","visibilidad reducida","cambios de recorrido"]},
+    {"id":"frio","efectos":["ropa NPC","horarios adaptados","atmósfera estacional"]}
+  ],
+  "principio":"Clima y hora modifican el mundo sin bloquear el progreso principal salvo que una misión lo establezca explícitamente."
+}
