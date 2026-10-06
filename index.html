@@ -263,54 +263,26 @@ body{background:#171716;font-family:system-ui,-apple-system,Segoe UI,sans-serif;
   </div>
   <div id="vignette"></div>
 </div>
-<script>
-/* =========================================================
-   LUNA EN VILLA PELÓN · MOTOR VIVO v2
-   Arquitectura:
-   - simulación desacoplada del render
-   - movimiento acelerado con inercia
-   - colisiones por volúmenes
-   - navegación por waypoints
-   - rutinas horarias
-   - vehículos sobre rutas
-   - fauna ambiental
-   - clima con partículas
-   - cámara con seguimiento dinámico
-   - guardado local
-   - objetivos dinámicos
-========================================================= */
-
+<script>/* LUNA EN VILLA PELÓN · CORE v3 · núcleo de videojuego */
 const WORLD={w:32000,h:32000};
-const player={
-  x:12400,y:11500,vx:0,vy:0,
-  maxSpeed:520,accel:1750,friction:8.5,
-  facing:1,moving:false,step:0
-};
-const camera={x:player.x,y:player.y,scale:.13,zoomTarget:.13};
-const keys=new Set();
+const player={x:12400,y:11500,vx:0,vy:0,maxSpeed:520,accel:1900,friction:9,facing:1,state:"idle",anim:0};
+const camera={x:player.x,y:player.y,scale:.13};
+const keys=new Set(), FIXED=1/60;
 const state={
-  gameMinutes:8*60,
-  weatherIndex:0,weatherTimer:0,
-  dialogue:false,menu:false,map:false,
-  missionIndex:Number(localStorage.getItem("villaPelonMission")||0),
-  discovered:Number(localStorage.getItem("villaPelonDiscoveries")||0),
-  last:performance.now(),time:0
+  sim:0,gameMinutes:8*60,weatherIndex:0,weatherTimer:0,
+  dialogue:false,menu:false,map:false,journal:false,
+  missionIndex:Number(localStorage.getItem("vp3_mission")||0),
+  discovered:Number(localStorage.getItem("vp3_discovered")||0),
+  inventory:JSON.parse(localStorage.getItem("vp3_inventory")||"[]"),
+  journal:JSON.parse(localStorage.getItem("vp3_journal")||"[]"),
+  flags:JSON.parse(localStorage.getItem("vp3_flags")||"{}"),
+  events:JSON.parse(localStorage.getItem("vp3_events")||"{}"),
+  last:performance.now(),accumulator:0,dirty:false
 };
-
-const RULES={
-  worldScale:"32 km x 32 km",
-  noBuildingsOnRoads:true,noHousesInStreets:true,noBuildingsInRiver:true,
-  noVehiclesInRiver:true,noAnimalsInRiver:true,noAnimalsInsideBuildings:true,
-  roadsRemainPassable:true,riverRemainsNatural:true,
-  npcsLive:true,npcSchedules:true,npcNavigation:true,
-  timeAffectsWorld:true,dayNightCycle:true,
-  weatherChanges:true,weatherAffectsMovement:true,
-  vehiclesFollowRoads:true,animalsUseHabitats:true,
-  playerCollision:true,cameraSmoothing:true,
-  mobileFirst:true,desktopFirst:true,
-  noRandomBuildings:true,noRandomCars:true,
-  historicalFactsMustComeFromLibrary:true,fictionMustRemainFiction:true
-};
+const RULES={worldScale:"32x32 km",fixedSimulation:true,aStarNavigation:true,spatialQueries:true,
+  stateAnimations:true,poiSystem:true,inventory:true,fullSave:true,dynamicEvents:true,
+  persistentWorld:true,faunaBehaviors:true,traffic:true,spatialAudio:true,
+  roadsRemainPassable:true,riverRemainsNatural:true,historicalFactsMustComeFromLibrary:true};
 
 const WEATHER=[
  {name:"Despejado",sky:"clear",speed:1},
@@ -318,378 +290,276 @@ const WEATHER=[
  {name:"Viento",sky:"wind",speed:.91},
  {name:"Llovizna",sky:"rain",speed:.88}
 ];
-
 const missions=[
  {title:"Primer paseo",goal:"Recorré el pueblo y encontrá a Abuela.",target:"abuela",reward:"La memoria del pueblo empieza caminando."},
  {title:"Una historia para guardar",goal:"Hablá con Abuelo y escuchá su pista.",target:"abuelo",reward:"Nueva pista histórica desbloqueada."},
  {title:"El cuaderno",goal:"Visitá a la Maestra para ordenar tus descubrimientos.",target:"maestra",reward:"Cuaderno de Luna actualizado."},
  {title:"La mirada de Nina",goal:"Encontrá a Nina y preguntale por los lugares que casi nadie mira.",target:"nina",reward:"Ruta secreta de exploración desbloqueada."}
 ];
-
 const npcs={
- abuela:{name:"Abuela",x:12200,y:10400,home:[12200,10400],work:[11100,11200],speed:110,dialogue:["Villa Pelón se conoce caminándolo. Cada lugar guarda una historia.","No mires solamente: preguntá, observá y seguí las pistas."]},
- abuelo:{name:"Abuelo",x:13800,y:10800,home:[13800,10800],work:[12400,12800],speed:96,dialogue:["Hay caminos que parecen comunes hasta que alguien te cuenta por qué están ahí.","La historia también está en sus calles, sus chacras y su gente."]},
- maestra:{name:"Maestra",x:10000,y:11400,home:[10000,11400],work:[9400,11100],speed:124,dialogue:["En este pueblo aprender no ocurre solamente dentro de la escuela.","Tu cuaderno va a reunir tus descubrimientos."]},
- nina:{name:"Nina",x:14400,y:11600,home:[14400,11600],work:[14000,11800],speed:156,dialogue:["¿Venís a explorar? Conozco lugares que casi nadie mira."]},
- bodeguero:{name:"Bodeguero",x:8600,y:6600,home:[8600,6600],work:[8240,6600],speed:104,dialogue:["Las chacras y las bodegas forman parte del paisaje productivo.","Hay mucho para descubrir alrededor del pueblo."]}
+ abuela:{name:"Abuela",x:12200,y:10400,home:[12200,10400],work:[11100,11200],speed:110,state:"idle",dialogue:["Villa Pelón se conoce caminándolo. Cada lugar guarda una historia.","No mires solamente: preguntá, observá y seguí las pistas."]},
+ abuelo:{name:"Abuelo",x:13800,y:10800,home:[13800,10800],work:[12400,12800],speed:96,state:"idle",dialogue:["Hay caminos que parecen comunes hasta que alguien te cuenta por qué están ahí.","La historia también está en sus calles, sus chacras y su gente."]},
+ maestra:{name:"Maestra",x:10000,y:11400,home:[10000,11400],work:[9400,11100],speed:124,state:"idle",dialogue:["En este pueblo aprender no ocurre solamente dentro de la escuela.","Tu cuaderno va a reunir tus descubrimientos."]},
+ nina:{name:"Nina",x:14400,y:11600,home:[14400,11600],work:[14000,11800],speed:156,state:"idle",dialogue:["¿Venís a explorar? Conozco lugares que casi nadie mira."]},
+ bodeguero:{name:"Bodeguero",x:8600,y:6600,home:[8600,6600],work:[8240,6600],speed:104,state:"idle",dialogue:["Las chacras y las bodegas forman parte del paisaje productivo.","Hay mucho para descubrir alrededor del pueblo."]}
 };
-
-const npcEls=[...document.querySelectorAll(".actor.npc")];
-const luna=document.getElementById("luna");
-const world=document.getElementById("world");
-const clockEl=document.getElementById("clock");
-const statusEl=document.getElementById("status");
-const dialogue=document.getElementById("dialogue");
-const speaker=document.getElementById("speaker");
-const text=document.getElementById("text");
-const weatherFX=document.getElementById("weatherFX");
-const canvas=document.getElementById("fx");
-const ctx=canvas.getContext("2d");
-const flash=document.getElementById("worldFlash");
-
-function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
-function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
-function lerp(a,b,t){return a+(b-a)*t}
-function hour(){return state.gameMinutes/60}
-function save(){
-  localStorage.setItem("villaPelonMission",String(state.missionIndex));
-  localStorage.setItem("villaPelonDiscoveries",String(state.discovered));
-}
-function currentMission(){return missions[state.missionIndex]||null}
-
-/* ---------- GEOGRAFÍA / COLISIONES ---------- */
 const solids=[
- {x:8800,y:9000,w:1120,h:720},{x:10200,y:9000,w:1120,h:720},
- {x:13000,y:9000,w:1120,h:720},{x:14400,y:9000,w:1120,h:720},
- {x:8800,y:12000,w:1120,h:720},{x:13000,y:12000,w:1120,h:720},
+ {x:8800,y:9000,w:1120,h:720},{x:10200,y:9000,w:1120,h:720},{x:13000,y:9000,w:1120,h:720},
+ {x:14400,y:9000,w:1120,h:720},{x:8800,y:12000,w:1120,h:720},{x:13000,y:12000,w:1120,h:720},
  {x:7700,y:6300,w:1040,h:720},{x:18000,y:9700,w:1040,h:720},{x:8300,y:16200,w:1040,h:720}
 ];
-const river={x:0,y:18000,w:32000,h:1900};
-const bridges=[{x:13400,y:18020,w:900,h:250}];
-
-function pointInRect(x,y,r,pad=0){
- return x>r.x-pad&&x<r.x+r.w+pad&&y>r.y-pad&&y<r.y+r.h+pad;
-}
-function inRiver(x,y){
- if(!pointInRect(x,y,river,90))return false;
- return !bridges.some(b=>pointInRect(x,y,b,120));
-}
-function collidesWorld(x,y,r=105){
- if(x<r||y<r||x>WORLD.w-r||y>WORLD.h-r)return true;
- if(inRiver(x,y))return true;
- return solids.some(s=>x>s.x-r&&x<s.x+s.w+r&&y>s.y-r&&y<s.y+s.h+r);
-}
-function moveWithCollision(x,y,dx,dy){
- let nx=x+dx,ny=y+dy;
- if(!collidesWorld(nx,y,105))x=nx;else player.vx=0;
- if(!collidesWorld(x,ny,105))y=ny;else player.vy=0;
- return [x,y];
-}
-
-/* ---------- MOVIMIENTO PROFESIONAL ---------- */
-function inputVector(){
- let x=0,y=0;
- if(keys.has("ArrowLeft")||keys.has("a"))x--;
- if(keys.has("ArrowRight")||keys.has("d"))x++;
- if(keys.has("ArrowUp")||keys.has("w"))y--;
- if(keys.has("ArrowDown")||keys.has("s"))y++;
- const len=Math.hypot(x,y);
- return len?[x/len,y/len]:[0,0];
-}
-function updatePlayer(dt){
- if(state.dialogue)return;
- const [ix,iy]=inputVector();
- const moving=!!(ix||iy);
- const weather=WEATHER[state.weatherIndex];
- const target=player.maxSpeed*weather.speed;
- if(moving){
-   player.vx=lerp(player.vx,ix*target,1-Math.exp(-player.accel*dt/target));
-   player.vy=lerp(player.vy,iy*target,1-Math.exp(-player.accel*dt/target));
-   player.facing=ix<0?-1:ix>0?1:player.facing;
-   player.step+=dt*(Math.hypot(player.vx,player.vy)/90);
- }else{
-   const damp=Math.exp(-player.friction*dt);
-   player.vx*=damp;player.vy*=damp;
- }
- const speed=Math.hypot(player.vx,player.vy);
- [player.x,player.y]=moveWithCollision(player.x,player.y,player.vx*dt,player.vy*dt);
- player.moving=speed>30;
- luna.classList.toggle("moving",player.moving);
- luna.classList.toggle("idle",!player.moving);
- luna.style.transform="translate(-50%,-50%) scaleX("+player.facing+")";
- const speedBar=document.querySelector("#speedIndicator i");
- if(speedBar)speedBar.style.width=Math.min(100,speed/player.maxSpeed*100)+"%";
- document.getElementById("speedIndicator").style.opacity=player.moving?"1":"0";
-}
-
-/* ---------- NPC NAVIGATION ---------- */
-function scheduleTarget(n){
- const h=hour();
- if(h<9)return n.home;
- if(h<14)return n.work;
- if(h<18)return [(n.home[0]+n.work[0])/2,(n.home[1]+n.work[1])/2];
- return n.home;
-}
-function routeFor(n){
- const t=scheduleTarget(n);
- const nearRiver=Math.abs(t[1]-river.y)<700;
- if(nearRiver)return [ [n.x,n.y],[n.work[0],n.work[1]],[t[0],t[1]] ];
- return [ [n.x,n.y],t ];
-}
-function updateNPCs(dt){
- npcEls.forEach(el=>{
-   const n=npcs[el.dataset.id];if(!n)return;
-   if(!n.path)n.path=[];
-   const target=scheduleTarget(n);
-   if(!n.path.length||dist({x:n.path[n.path.length-1][0],y:n.path[n.path.length-1][1]}, {x:target[0],y:target[1]})>80)n.path=routeFor(n);
-   const next=n.path[1]||target;
-   const dx=next[0]-n.x,dy=next[1]-n.y,d=Math.hypot(dx,dy);
-   if(d>24){
-     const step=Math.min(d,n.speed*dt);
-     const nx=n.x+dx/d*step,ny=n.y+dy/d*step;
-     if(!collidesWorld(nx,ny,95)){n.x=nx;n.y=ny}
-     else n.path=[];
-   }else if(n.path.length>1)n.path.shift();
-   el.style.left=n.x+"px";el.style.top=n.y+"px";
-   el.classList.toggle("moving",d>24);
-   el.classList.toggle("idle",d<=24);
- });
-}
-
-/* ---------- VEHÍCULOS SOBRE RUTAS ---------- */
-const vehicles=[
- {el:document.getElementById("car1"),x:15800,y:12700,t:0,route:"main",speed:420,dir:1},
- {el:document.getElementById("car2"),x:17800,y:7200,t:.35,route:"route",speed:360,dir:1}
+const river={x:0,y:18000,w:32000,h:1900},bridges=[{x:13400,y:18020,w:900,h:250}];
+const roads=[
+ {id:"main",a:[4900,12700],b:[21100,12700],angle:-10},
+ {id:"route",a:[14700,2600],b:[32000,21500],angle:62},
+ {id:"townA",a:[8500,10300],b:[15300,10300],angle:0},
+ {id:"townB",a:[8500,13000],b:[15300,13000],angle:0}
 ];
-function updateVehicles(dt){
- vehicles.forEach(v=>{
-   v.t=(v.t+dt*v.speed/18000*v.dir)%1;if(v.t<0)v.t+=1;
-   let x,y,angle;
-   if(v.route==="main"){
-     const a={x:4900,y:12700},b={x:21100,y:12700};
-     x=lerp(a.x,b.x,v.t);y=a.y- Math.tan(-10*Math.PI/180)*(x-a.x);angle=-10;
-   }else{
-     const a={x:14700,y:2600},b={x:32900,y:2600};
-     x=lerp(a.x,b.x,v.t);y=a.y+Math.tan(62*Math.PI/180)*(x-a.x);angle=62;
-   }
-   v.x=x;v.y=y;
-   v.el.style.left=x+"px";v.el.style.top=y+"px";
-   v.el.style.transform="rotate("+angle+"deg)";
- });
+const POIS=[
+ {id:"plaza",name:"Plaza",x:11950,y:11350,r:900,type:"landmark",note:"Centro de encuentro de Villa Pelón."},
+ {id:"bodega",name:"Bodega",x:8200,y:6600,r:850,type:"landmark",note:"Paisaje productivo y memoria del trabajo."},
+ {id:"picada21",name:"Picada 21",x:21400,y:2300,r:1100,type:"route",note:"Camino para explorar y observar."},
+ {id:"river",name:"Río",x:15000,y:18900,r:1200,type:"nature",note:"El río es una zona natural: cruzalo solamente por los pasos habilitados."}
+];
+const interactables=[
+ {id:"plaza-bench",x:11700,y:11800,name:"Banco de la plaza",kind:"observe",text:"Un lugar para detenerse y mirar cómo se mueve el pueblo.",item:"Recuerdo de la plaza"},
+ {id:"bodega-sign",x:8600,y:7000,name:"Cartel de la bodega",kind:"observe",text:"Una pista sobre el paisaje productivo.",item:"Pista de las chacras"},
+ {id:"river-stone",x:14200,y:17700,name:"Piedra del río",kind:"observe",text:"El paisaje cambia antes de llegar al agua.",item:"Rastro del río"}
+];
+
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function lerp(a,b,t){return a+(b-a)*t}
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+function hour(){return state.gameMinutes/60}
+function pointInRect(x,y,r,p=0){return x>r.x-p&&x<r.x+r.w+p&&y>r.y-p&&y<r.y+r.h+p}
+function inRiver(x,y){return pointInRect(x,y,river,90)&&!bridges.some(b=>pointInRect(x,y,b,120))}
+function collidesWorld(x,y,r=105){return x<r||y<r||x>WORLD.w-r||y>WORLD.h-r||inRiver(x,y)||solids.some(s=>x>s.x-r&&x<s.x+s.w+r&&y>s.y-r&&y<s.y+s.h+r)}
+function moveCollision(x,y,dx,dy,r=105){
+ let nx=x+dx,ny=y+dy;if(!collidesWorld(nx,y,r))x=nx;else player.vx=0;
+ if(!collidesWorld(x,ny,r))y=ny;else player.vy=0;return [x,y];
 }
 
-/* ---------- FAUNA / AMBIENTE ---------- */
-const fauna=[];
-function seedFauna(){
- const r=()=>Math.random();
- for(let i=0;i<18;i++){
-   fauna.push({x:3000+r()*26000,y:4500+r()*12000,vx:(r()-.5)*80,vy:(r()-.5)*45,phase:r()*7,type:r()>.55?"bird":"butterfly"});
+/* ---------- ENTITY + STATE MACHINE ---------- */
+const Entity={states:["idle","walk","interact","flee","wander","work","sleep","drive"]};
+function setActorState(el,next){if(!Entity.states.includes(next))next="idle";el.dataset.state=next;el.classList.toggle("moving",next==="walk"||next==="wander"||next==="drive");el.classList.toggle("idle",next==="idle"||next==="sleep"||next==="work")}
+function inputVector(){
+ let x=0,y=0;if(keys.has("ArrowLeft")||keys.has("a"))x--;if(keys.has("ArrowRight")||keys.has("d"))x++;
+ if(keys.has("ArrowUp")||keys.has("w"))y--;if(keys.has("ArrowDown")||keys.has("s"))y++;
+ const n=Math.hypot(x,y);return n?[x/n,y/n]:[0,0];
+}
+function simulatePlayer(dt){
+ if(state.dialogue||state.map||state.menu||state.journal)return;
+ const [ix,iy]=inputVector(),moving=!!(ix||iy),weather=WEATHER[state.weatherIndex],target=player.maxSpeed*weather.speed;
+ if(moving){
+   const k=1-Math.exp(-player.accel*dt/target);player.vx=lerp(player.vx,ix*target,k);player.vy=lerp(player.vy,iy*target,k);
+   if(ix)player.facing=ix<0?-1:1;player.anim+=dt*Math.hypot(player.vx,player.vy)/55;
+ }else{const d=Math.exp(-player.friction*dt);player.vx*=d;player.vy*=d}
+ const speed=Math.hypot(player.vx,player.vy);[player.x,player.y]=moveCollision(player.x,player.y,player.vx*dt,player.vy*dt);
+ player.state=speed>30?"walk":"idle";setActorState($("luna"),player.state);$("luna").style.transform="translate(-50%,-50%) scaleX("+player.facing+")";
+ const bar=document.querySelector("#speedIndicator i");if(bar)bar.style.width=Math.min(100,speed/player.maxSpeed*100)+"%";$("speedIndicator").style.opacity=speed>30?"1":"0";
+}
+
+/* ---------- A* NAVIGATION ---------- */
+const NAV={step:900,nodes:[],map:new Map()};
+function nodeKey(x,y){return x+","+y}
+function buildNav(){
+ NAV.nodes=[];NAV.map.clear();
+ const blocked=(x,y)=>collidesWorld(x,y,220);
+ for(let y=900;y<WORLD.h;y+=NAV.step)for(let x=900;x<WORLD.w;x+=NAV.step)if(!blocked(x,y)){const n={x,y};NAV.nodes.push(n);NAV.map.set(nodeKey(x,y),n)}
+}
+function nearestNode(x,y){let best=null,bd=Infinity;for(const n of NAV.nodes){const d=(n.x-x)**2+(n.y-y)**2;if(d<bd){bd=d;best=n}}return best}
+function neighbors(n){
+ const out=[];for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]]){
+  const q=NAV.map.get(nodeKey(n.x+dx*NAV.step,n.y+dy*NAV.step));if(q)out.push(q)
+ }return out
+}
+function aStar(sx,sy,tx,ty){
+ const s=nearestNode(sx,sy),g=nearestNode(tx,ty);if(!s||!g)return [[tx,ty]];
+ const open=[s],came=new Map(),gs=new Map([[nodeKey(s.x,s.y),0]]),fs=new Map([[nodeKey(s.x,s.y),Math.hypot(s.x-g.x,s.y-g.y)]]);
+ const key=n=>nodeKey(n.x,n.y);
+ while(open.length){
+   open.sort((a,b)=>(fs.get(key(a))||Infinity)-(fs.get(key(b))||Infinity));const cur=open.shift();
+   if(cur===g){const path=[];let c=cur;while(c){path.push([c.x,c.y]);c=came.get(key(c))}path.reverse();path.push([tx,ty]);return path}
+   for(const q of neighbors(cur)){const nk=key(q),tent=(gs.get(key(cur))||Infinity)+Math.hypot(q.x-cur.x,q.y-cur.y);if(tent<(gs.get(nk)||Infinity)){came.set(nk,cur);gs.set(nk,tent);fs.set(nk,tent+Math.hypot(q.x-g.x,q.y-g.y));if(!open.includes(q))open.push(q)}}
+ }
+ return [[tx,ty]]
+}
+function scheduleTarget(n){const h=hour();if(h<9||h>=18)return n.home;if(h<14)return n.work;return [(n.home[0]+n.work[0])/2,(n.home[1]+n.work[1])/2]}
+function updateNPCs(dt){
+ for(const [id,n] of Object.entries(npcs)){
+  const el=document.querySelector('[data-id="'+id+'"]');if(!el)continue;
+  const target=scheduleTarget(n);
+  if(!n.path||!n.path.length||n.pathTarget!==target){n.path=aStar(n.x,n.y,target[0],target[1]);n.pathTarget=target}
+  const p=n.path[1]||n.path[0]||target,dx=p[0]-n.x,dy=p[1]-n.y,d=Math.hypot(dx,dy);
+  if(d>35){const s=Math.min(d,n.speed*dt);n.x+=dx/d*s;n.y+=dy/d*s;n.state=hour()>=21||hour()<6?"sleep":hour()<14?"work":"walk";setActorState(el,n.state)}
+  else n.path.shift();
+  el.style.left=n.x+"px";el.style.top=n.y+"px";
  }
 }
+
+/* ---------- SPATIAL HASH ---------- */
+const HASH={size:1200,bins:new Map()};
+function hkey(x,y){return Math.floor(x/HASH.size)+":"+Math.floor(y/HASH.size)}
+function hashReset(){HASH.bins.clear()}
+function hashAdd(obj){const k=hkey(obj.x,obj.y);if(!HASH.bins.has(k))HASH.bins.set(k,[]);HASH.bins.get(k).push(obj)}
+function hashQuery(x,y,r){
+ const out=[],minX=Math.floor((x-r)/HASH.size),maxX=Math.floor((x+r)/HASH.size),minY=Math.floor((y-r)/HASH.size),maxY=Math.floor((y+r)/HASH.size);
+ for(let yy=minY;yy<=maxY;yy++)for(let xx=minX;xx<=maxX;xx++){const a=HASH.bins.get(xx+":"+yy)||[];for(const o of a)if(Math.hypot(o.x-x,o.y-y)<=r)out.push(o)}return out
+}
+function rebuildSpatial(){hashReset();Object.entries(npcs).forEach(([id,n])=>hashAdd({id,type:"npc",x:n.x,y:n.y}));interactables.forEach(o=>hashAdd({...o,type:"object"}));POIS.forEach(p=>hashAdd({...p,type:"poi"}))}
+
+/* ---------- INVENTORY / CUADERNO ---------- */
+function addItem(name){
+ if(!state.inventory.includes(name)){state.inventory.push(name);state.discovered++;journalAdd("Descubrimiento","Encontraste: "+name);saveGame()}
+}
+function journalAdd(title,body){
+ state.journal.unshift({title,body,time:Math.floor(state.gameMinutes)});state.journal=state.journal.slice(0,30);saveGame()
+}
+function renderJournal(){
+ const list=state.journal.map(x=>"<div class='menu-section'><b>"+x.title+"</b><span>"+x.body+"</span></div>").join("");
+ const inv=state.inventory.length?state.inventory.map(x=>"<span>• "+x+"</span>").join(""):"<span>Todavía no guardaste objetos.</span>";
+ $("journalContent").innerHTML="<div class='menu-section'><b>Inventario</b>"+inv+"</div>"+list;
+}
+function openJournal(){state.journal=true;renderJournal();$("journal").classList.add("show")}
+function closeJournal(){state.journal=false;$("journal").classList.remove("show")}
+
+/* ---------- INTERACCIÓN CON MUNDO ---------- */
+function nearestInteractive(){
+ let best=null,bd=560;for(const o of interactables){const d=dist(player,o);if(d<bd){bd=d;best=o}}
+ const npc=nearestNPC();if(npc&&bd>520)return {type:"npc",...npc};return best?{type:"object",...best}:npc?{type:"npc",...npc}:null
+}
+function nearestNPC(){let best=null,bd=720;for(const [id,n] of Object.entries(npcs)){const d=dist(player,n);if(d<bd){bd=d;best={id,n}}}return best}
+function interact(){
+ const hit=nearestInteractive();if(!hit)return;
+ if(hit.type==="npc"){talk(hit);return}
+ state.dialogue=true;speaker.textContent=hit.name;text.textContent=hit.text;dialogue.classList.add("show");statusEl.textContent="Observando";addItem(hit.item);audio.play("discover")
+}
+function talk(found=nearestNPC()){if(!found)return;const {id,n}=found;state.dialogue=true;speaker.textContent=n.name;text.textContent=n.dialogue[Math.floor(state.gameMinutes)%n.dialogue.length];dialogue.classList.add("show");statusEl.textContent="Conversando";$("luna").classList.add("interacting");
+ const m=missions[state.missionIndex];if(m&&m.target===id){state.discovered++;state.missionIndex=Math.min(state.missionIndex+1,missions.length);journalAdd("Misión completada",m.title+" · "+m.reward);saveGame();updateMissionUI();audio.play("success")}
+ audio.resume()
+}
+function closeDialogue(){state.dialogue=false;dialogue.classList.remove("show");$("luna").classList.remove("interacting");statusEl.textContent="Explorando"}
+function updateInteraction(){
+ document.querySelectorAll(".actor.npc").forEach(e=>e.classList.remove("near"));const n=nearestNPC();if(n){const e=document.querySelector('[data-id="'+n.id+'"]');if(e)e.classList.add("near")}
+ const hit=nearestInteractive();$("interaction").classList.toggle("show",!!hit&&!state.dialogue);if(hit&&!state.dialogue)statusEl.textContent=hit.type==="npc"?"Cerca de "+hit.n.name+" · E / HABLAR":"Cerca de "+hit.name+" · E / OBSERVAR"
+}
+function updateMissionUI(){const m=missions[state.missionIndex];$("missionText").textContent=m?m.title+" · "+m.goal:"Historia completada · exploración libre";$("menuMission").textContent=m?.title||"Exploración libre"}
+
+/* ---------- DINAMISMO DEL MUNDO ---------- */
+const events=[
+ {id:"morning",start:8,end:10,text:"La mañana empieza a mover el pueblo.",done:false},
+ {id:"school",start:10,end:13,text:"La escuela está en actividad.",done:false},
+ {id:"afternoon",start:14,end:17,text:"La tarde cambia el ritmo de las chacras.",done:false},
+ {id:"sunset",start:18,end:20,text:"El atardecer baja sobre Villa Pelón.",done:false}
+];
+function updateEvents(){
+ const h=hour();for(const e of events){const active=h>=e.start&&h<e.end;if(active&&!state.events[e.id]){state.events[e.id]=true;journalAdd("Evento del mundo",e.text)}if(!active&&state.events[e.id])state.events[e.id]=false}
+}
+function saveGame(){
+ const payload={player:{x:player.x,y:player.y},gameMinutes:state.gameMinutes,weatherIndex:state.weatherIndex,missionIndex:state.missionIndex,discovered:state.discovered,inventory:state.inventory,journal:state.journal,flags:state.flags,events:state.events,npcs:Object.fromEntries(Object.entries(npcs).map(([k,n])=>[k,{x:n.x,y:n.y}]))};
+ localStorage.setItem("vp3_save",JSON.stringify(payload));localStorage.setItem("vp3_mission",state.missionIndex);localStorage.setItem("vp3_discovered",state.discovered);localStorage.setItem("vp3_inventory",JSON.stringify(state.inventory));localStorage.setItem("vp3_journal",JSON.stringify(state.journal));localStorage.setItem("vp3_flags",JSON.stringify(state.flags));localStorage.setItem("vp3_events",JSON.stringify(state.events))
+}
+function loadGame(){
+ try{const p=JSON.parse(localStorage.getItem("vp3_save")||"null");if(!p)return;if(p.player){player.x=p.player.x;player.y=p.player.y}if(typeof p.gameMinutes==="number")state.gameMinutes=p.gameMinutes;if(typeof p.weatherIndex==="number")state.weatherIndex=p.weatherIndex;if(Array.isArray(p.inventory))state.inventory=p.inventory;if(Array.isArray(p.journal))state.journal=p.journal;if(p.npcs)for(const [k,v] of Object.entries(p.npcs))if(npcs[k]){npcs[k].x=v.x;npcs[k].y=v.y}}catch(e){console.warn("save corrupt",e)}
+}
+
+/* ---------- FAUNA CON CONDUCTA ---------- */
+const fauna=[];
+function seedFauna(){for(let i=0;i<26;i++)fauna.push({x:3200+Math.random()*25000,y:4200+Math.random()*12500,vx:0,vy:0,state:"wander",energy:.5+Math.random()*.5,homeX:3200+Math.random()*25000,homeY:4200+Math.random()*12500,phase:Math.random()*20,type:i%5===0?"bird":i%3===0?"butterfly":"hare"})}
 seedFauna();
 function updateFauna(dt){
- fauna.forEach(a=>{
-   a.phase+=dt;
-   a.vx+=Math.sin(a.phase*1.7)*5*dt;
-   a.vy+=Math.cos(a.phase*1.3)*4*dt;
-   const sp=Math.hypot(a.vx,a.vy);if(sp>110){a.vx*=.97;a.vy*=.97}
-   const nx=a.x+a.vx*dt,ny=a.y+a.vy*dt;
-   if(!collidesWorld(nx,ny,35)){a.x=nx;a.y=ny}else{a.vx*=-1;a.vy*=-1}
- });
+ for(const a of fauna){
+  a.phase+=dt;const near=dist(a,player)<1200;
+  if(near){a.state="flee";const dx=a.x-player.x,dy=a.y-player.y,d=Math.hypot(dx,dy)||1;a.vx=dx/d*140;a.vy=dy/d*140}
+  else if(dist(a,{x:a.homeX,y:a.homeY})>2600){a.state="return";const dx=a.homeX-a.x,dy=a.homeY-a.y,d=Math.hypot(dx,dy)||1;a.vx=dx/d*65;a.vy=dy/d*65}
+  else {a.state="wander";a.vx=lerp(a.vx,Math.cos(a.phase*.73)*55,dt*1.5);a.vy=lerp(a.vy,Math.sin(a.phase*.91)*40,dt*1.5)}
+  const nx=a.x+a.vx*dt,ny=a.y+a.vy*dt;if(!collidesWorld(nx,ny,35)){a.x=nx;a.y=ny}else{a.vx*=-1;a.vy*=-1}
+ }
 }
 
-/* ---------- CLIMA / PARTÍCULAS ---------- */
-const particles=[];
+/* ---------- TRÁFICO ---------- */
+const vehicles=[{el:$("car1"),route:roads[0],t:.18,speed:420,dir:1},{el:$("car2"),route:roads[1],t:.42,speed:360,dir:1}];
+function roadPoint(r,t){const x=lerp(r.a[0],r.b[0],t),y=lerp(r.a[1],r.b[1],t);return [x,y]}
+function updateTraffic(dt){
+ for(const v of vehicles){v.t=(v.t+dt*v.speed/18000*v.dir)%1;if(v.t<0)v.t+=1;const [x,y]=roadPoint(v.route,v.t);v.el.style.left=x+"px";v.el.style.top=y+"px";v.el.style.transform="translate(-50%,-50%) rotate("+v.route.angle+"deg)"}
+}
+
+/* ---------- AUDIO ESPACIAL SIN ASSETS ---------- */
+const audio={ctx:null,master:null,enabled:true,ensure(){if(this.ctx)return;const C=window.AudioContext||window.webkitAudioContext;if(!C)return;this.ctx=new C();this.master=this.ctx.createGain();this.master.gain.value=.055;this.master.connect(this.ctx.destination)},resume(){this.ensure();if(this.ctx&&this.ctx.state==="suspended")this.ctx.resume()},play(kind,source=player){
+ this.resume();if(!this.ctx||!this.enabled)return;const o=this.ctx.createOscillator(),g=this.ctx.createGain(),p=this.ctx.createStereoPanner();const dx=clamp((source.x-player.x)/1800,-1,1);
+ const cfg={discover:[520,.09,"sine"],success:[760,.14,"triangle"],step:[130,.025,"square"],event:[240,.12,"sine"]}[kind]||[300,.06,"sine"];
+ o.type=cfg[2];o.frequency.value=cfg[0];g.gain.setValueAtTime(.001,this.ctx.currentTime);g.gain.exponentialRampToValueAtTime(cfg[1],this.ctx.currentTime+.01);g.gain.exponentialRampToValueAtTime(.001,this.ctx.currentTime+cfg[1]+.05);p.pan.value=dx;o.connect(g);g.connect(p);p.connect(this.master);o.start();o.stop(this.ctx.currentTime+cfg[1]+.08)
+}};
+
+/* ---------- CLIMA / FX ---------- */
+const canvas=$("fx"),ctx=canvas.getContext("2d"),particles=[];
 function resizeFX(){canvas.width=innerWidth*devicePixelRatio;canvas.height=innerHeight*devicePixelRatio;canvas.style.width=innerWidth+"px";canvas.style.height=innerHeight+"px";ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)}
-function resetParticles(){
- particles.length=0;
- for(let i=0;i<140;i++)particles.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,s:20+Math.random()*100,a:Math.random()*Math.PI*2});
-}
-function updateWeather(dt){
- state.weatherTimer+=dt;
- if(state.weatherTimer>78){
-   state.weatherTimer=0;
-   state.weatherIndex=(state.weatherIndex+1)%WEATHER.length;
-   flash.style.background="rgba(255,239,198,.07)";
-   setTimeout(()=>flash.style.background="rgba(255,239,198,0)",260);
- }
- const w=WEATHER[state.weatherIndex];
- document.getElementById("weather").textContent=w.name;
- weatherFX.className=w.sky==="clear"?"":w.sky;
-}
+function resetParticles(){particles.length=0;for(let i=0;i<180;i++)particles.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,s:20+Math.random()*100})}
+function updateWeather(dt){state.weatherTimer+=dt;if(state.weatherTimer>78){state.weatherTimer=0;state.weatherIndex=(state.weatherIndex+1)%WEATHER.length;$("worldFlash").style.background="rgba(255,239,198,.08)";setTimeout(()=>$("worldFlash").style.background="rgba(255,239,198,0)",240)}const w=WEATHER[state.weatherIndex];$("weather").textContent=w.name;weatherFX.className=w.sky==="clear"?"":w.sky}
 function drawFX(){
- ctx.clearRect(0,0,innerWidth,innerHeight);
- const w=WEATHER[state.weatherIndex];
- if(w.sky==="rain"){
-   ctx.beginPath();ctx.lineWidth=1;
-   particles.forEach(p=>{p.y+=p.s*.18;p.x+=p.s*.05;if(p.y>innerHeight){p.y=-10;p.x=Math.random()*innerWidth}ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-5,p.y+18)});
-   ctx.strokeStyle="rgba(220,235,240,.28)";ctx.stroke();
- }
- if(w.sky==="wind"){
-   ctx.beginPath();
-   for(let i=0;i<50;i++){const p=particles[i];p.x+=p.s*.018;if(p.x>innerWidth+80)p.x=-80;ctx.moveTo(p.x,p.y);ctx.lineTo(p.x+70,p.y-10)}
-   ctx.strokeStyle="rgba(245,226,190,.15)";ctx.stroke();
- }
- fauna.forEach(a=>{
-   const vw=innerWidth/camera.scale,vh=innerHeight/camera.scale;
-   const sx=innerWidth/2+(a.x-camera.x)*camera.scale,sy=innerHeight/2+(a.y-camera.y)*camera.scale;
-   if(sx<-40||sx>innerWidth+40||sy<-40||sy>innerHeight+40)return;
-   ctx.save();ctx.translate(sx,sy);
-   if(a.type==="bird"){ctx.strokeStyle="rgba(46,43,36,.65)";ctx.lineWidth=3;ctx.beginPath();ctx.arc(-7,0,7,Math.PI,Math.PI*2);ctx.arc(7,0,7,Math.PI,Math.PI*2);ctx.stroke()}
-   else{ctx.fillStyle="rgba(214,168,92,.7)";ctx.beginPath();ctx.arc(0,0,3,0,Math.PI*2);ctx.fill()}
-   ctx.restore();
- });
+ ctx.clearRect(0,0,innerWidth,innerHeight);const w=WEATHER[state.weatherIndex];
+ if(w.sky==="rain"){ctx.beginPath();particles.forEach(p=>{p.y+=p.s*.18;p.x+=p.s*.05;if(p.y>innerHeight){p.y=-10;p.x=Math.random()*innerWidth}ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-5,p.y+18)});ctx.strokeStyle="rgba(220,235,240,.28)";ctx.stroke()}
+ if(w.sky==="wind"){ctx.beginPath();for(let i=0;i<70;i++){const p=particles[i];p.x+=p.s*.018;if(p.x>innerWidth+80)p.x=-80;ctx.moveTo(p.x,p.y);ctx.lineTo(p.x+70,p.y-10)}ctx.strokeStyle="rgba(245,226,190,.15)";ctx.stroke()}
+ fauna.forEach(a=>{const sx=innerWidth/2+(a.x-camera.x)*camera.scale,sy=innerHeight/2+(a.y-camera.y)*camera.scale;if(sx<-30||sx>innerWidth+30||sy<-30||sy>innerHeight+30)return;ctx.save();ctx.translate(sx,sy);
+  if(a.type==="bird"){ctx.strokeStyle="rgba(46,43,36,.65)";ctx.lineWidth=3;ctx.beginPath();ctx.arc(-7,0,7,Math.PI,Math.PI*2);ctx.arc(7,0,7,Math.PI,Math.PI*2);ctx.stroke()}
+  else if(a.type==="butterfly"){ctx.fillStyle="rgba(214,168,92,.75)";ctx.beginPath();ctx.arc(-4,0,4,0,7);ctx.arc(4,0,4,0,7);ctx.fill()}
+  else{ctx.fillStyle="rgba(80,70,53,.72)";ctx.fillRect(-5,-3,10,7)}
+  ctx.restore()
+ })
 }
 
-/* ---------- DÍA / NOCHE ---------- */
-function updateDayNight(){
- const h=hour();
- let opacity=.14;
- if(h>=21||h<6)opacity=.56;
- else if(h<8)opacity=.34;
- else if(h>=18)opacity=.28;
- const night=h>=21||h<6;
- document.getElementById("vignette").style.background=night
-  ?"radial-gradient(circle,transparent 28%,rgba(8,16,28,"+opacity+"))"
-  :"radial-gradient(circle,transparent 46%,rgba(25,22,18,"+opacity+"))";
-}
-
-/* ---------- CÁMARA ---------- */
+/* ---------- CÁMARA / UI ---------- */
 function updateCamera(dt){
- const speed=Math.hypot(player.vx,player.vy);
- const leadX=player.vx*.38,leadY=player.vy*.38;
- const follow=1-Math.exp(-7*dt);
- camera.x=lerp(camera.x,player.x+leadX,follow);
- camera.y=lerp(camera.y,player.y+leadY,follow);
- const targetZoom=state.dialogue ? 0.105 : state.map ? 0.08 : 0.13;
- camera.zoomTarget=targetZoom;
- camera.scale=lerp(camera.scale,camera.zoomTarget,1-Math.exp(-5*dt));
- const vw=innerWidth/camera.scale,vh=innerHeight/camera.scale;
- const cx=clamp(camera.x,vw/2,WORLD.w-vw/2),cy=clamp(camera.y,vh/2,WORLD.h-vh/2);
- world.style.transform="translate("+Math.round(innerWidth/2-cx*camera.scale)+"px,"+Math.round(innerHeight/2-cy*camera.scale)+"px) scale("+camera.scale+")";
- luna.style.left=player.x+"px";luna.style.top=player.y+"px";
- updateMapPlayer();
+ const speed=Math.hypot(player.vx,player.vy),follow=1-Math.exp(-7*dt),lead=.38;
+ camera.x=lerp(camera.x,player.x+player.vx*lead,follow);camera.y=lerp(camera.y,player.y+player.vy*lead,follow);
+ const target=state.dialogue?.17:state.map?.08:.13;camera.scale=lerp(camera.scale,target,1-Math.exp(-5*dt));
+ const vw=innerWidth/camera.scale,vh=innerHeight/camera.scale,cx=clamp(camera.x,vw/2,WORLD.w-vw/2),cy=clamp(camera.y,vh/2,WORLD.h-vh/2);
+ world.style.transform="translate("+Math.round(innerWidth/2-cx*camera.scale)+"px,"+Math.round(innerHeight/2-cy*camera.scale)+"px) scale("+camera.scale+")";$("luna").style.left=player.x+"px";$("luna").style.top=player.y+"px";
+ $("mapPlayer").style.left=(player.x/WORLD.w*100)+"%";$("mapPlayer").style.top=(player.y/WORLD.h*100)+"%";
 }
+function updateDayNight(){const h=hour(),night=h>=21||h<6,o=night?.56:h<8?.34:h>=18?.28:.14;$("vignette").style.background=night?"radial-gradient(circle,transparent 28%,rgba(8,16,28,"+o+"))":"radial-gradient(circle,transparent 46%,rgba(25,22,18,"+o+"))"}
+function updateClock(dt){state.gameMinutes=(state.gameMinutes+dt*2.5)%1440;const h=Math.floor(state.gameMinutes/60),m=Math.floor(state.gameMinutes%60);$("clock").textContent=String(h).padStart(2,"0")+":"+String(m).padStart(2,"0");updateDayNight()}
 
-/* ---------- INTERACCIÓN / MISIONES ---------- */
-function nearestNPC(){
- let best=null,bestD=720;
- for(const [id,n] of Object.entries(npcs)){
-   const d=dist(player,n);
-   if(d<bestD){best={id,n};bestD=d}
+/* ---------- GUARDADO + MENÚ ---------- */
+function toggleMenu(){state.menu=!state.menu;$("menu").classList.toggle("show",state.menu);if(state.menu)saveGame()}
+function toggleMap(){state.map=!state.map;$("mapOverlay").classList.toggle("show",state.map)}
+function saveButton(){saveGame();$("saveStatus").textContent="Partida guardada · "+new Date().toLocaleTimeString()}
+function loadButton(){loadGame();$("saveStatus").textContent="Partida recuperada";updateMissionUI()}
+function addGameplayUI(){
+ if(!$("journal")){
+  const j=document.createElement("aside");j.id="journal";j.innerHTML="<div class='menu-card'><button id='journalClose'>×</button><h2>Cuaderno de Luna</h2><p class='menu-sub'>Descubrimientos, pistas y objetos</p><div id='journalContent'></div></div>";document.getElementById("game").appendChild(j);
+  const style=document.createElement("style");style.textContent="#journal{position:fixed;z-index:120;inset:0;background:rgba(12,11,9,.72);backdrop-filter:blur(12px);display:none;padding:40px}#journal.show{display:block}#journalClose{position:absolute;right:28px;top:24px;border:0;background:none;font-size:56px}#journalContent{max-height:65vh;overflow:auto}#journalContent .menu-section{font-size:23px}";
+  document.head.appendChild(style);$("journalClose").onclick=closeJournal;
  }
- return best;
+ if(!$("journalButton")){const b=document.createElement("button");b.id="journalButton";b.textContent="📖";b.title="Cuaderno";b.style.cssText="position:fixed;z-index:110;right:276px;top:32px;width:104px;height:104px;border:0;border-radius:32px;background:rgba(30,27,23,.78);color:#fff;font-size:42px";$("game").appendChild(b);b.onclick=openJournal}
+ if(!$("saveStatus")){const s=document.createElement("div");s.id="saveStatus";s.style.cssText="margin-top:16px;font-size:20px;opacity:.7";$("resume").after(s)}
 }
-function updateMissionUI(){
- const m=currentMission();
- document.getElementById("missionText").textContent=m?m.title+" · "+m.goal:"Historia completada · exploración libre";
- document.getElementById("menuMission").textContent=m?.title||"Exploración libre";
-}
-function talk(){
- const found=nearestNPC();if(!found)return;
- const {id,n}=found;
- state.dialogue=true;
- speaker.textContent=n.name;
- text.textContent=n.dialogue[Math.floor(state.gameMinutes)%n.dialogue.length];
- dialogue.classList.add("show");
- statusEl.textContent="Conversando";
- luna.classList.add("interacting");
- const m=currentMission();
- if(m&&m.target===id){
-   state.discovered++;
-   state.missionIndex=Math.min(state.missionIndex+1,missions.length);
-   save();updateMissionUI();
- }
-}
-function closeDialogue(){
- state.dialogue=false;dialogue.classList.remove("show");luna.classList.remove("interacting");statusEl.textContent="Explorando";
-}
-function updateInteraction(){
- const found=nearestNPC();
- npcEls.forEach(el=>el.classList.remove("near"));
- if(found){
-   const el=document.querySelector('[data-id="'+found.id+'"]');if(el)el.classList.add("near");
-   if(!state.dialogue)statusEl.textContent="Cerca de "+found.n.name+" · E / HABLAR";
- }
- const box=document.getElementById("interaction");
- box.classList.toggle("show",!!found&&!state.dialogue);
-}
+function bindMenuExtras(){addGameplayUI();const b=document.createElement("button");b.id="saveNow";b.textContent="GUARDAR PARTIDA";b.style.cssText="border:0;border-radius:28px;padding:20px 30px;margin-top:16px;background:#d7a85e;font-weight:800;width:100%";$("resume").after(b);b.onclick=saveButton}
 
-/* ---------- MAPA ---------- */
-const mapOverlay=document.getElementById("mapOverlay"),mapPlayer=document.getElementById("mapPlayer");
-function updateMapPlayer(){
- if(!mapPlayer)return;
- mapPlayer.style.left=(player.x/WORLD.w*100)+"%";mapPlayer.style.top=(player.y/WORLD.h*100)+"%";
+/* ---------- FIXED TIMESTEP ---------- */
+function simulate(dt){
+ state.sim+=dt;simulatePlayer(dt);updateNPCs(dt);updateTraffic(dt);updateFauna(dt);updateClock(dt);updateWeather(dt);updateEvents();rebuildSpatial();
 }
-function toggleMap(){
- state.map=!state.map;mapOverlay.classList.toggle("show",state.map);updateMapPlayer();
-}
-
-/* ---------- MENÚ ---------- */
-function toggleMenu(){
- state.menu=!state.menu;
- document.getElementById("menu").classList.toggle("show",state.menu);
-}
-
-/* ---------- RELOJ ---------- */
-function updateClock(dt){
- state.gameMinutes+=dt*2.5;
- if(state.gameMinutes>=1440)state.gameMinutes-=1440;
- const h=Math.floor(state.gameMinutes/60),m=Math.floor(state.gameMinutes%60);
- clockEl.textContent=String(h).padStart(2,"0")+":"+String(m).padStart(2,"0");
- updateDayNight();
-}
-
-/* ---------- LOOP ---------- */
 function frame(now){
- const dt=Math.min(.033,(now-state.last)/1000);state.last=now;state.time+=dt;
- updatePlayer(dt);
- updateNPCs(dt);
- updateVehicles(dt);
- updateFauna(dt);
- updateClock(dt);
- updateWeather(dt);
- updateCamera(dt);
- drawFX();
- requestAnimationFrame(frame);
+ let elapsed=Math.min(.25,(now-state.last)/1000);state.last=now;state.accumulator+=elapsed;
+ while(state.accumulator>=FIXED){simulate(FIXED);state.accumulator-=FIXED}
+ updateCamera(Math.min(elapsed,.033));drawFX();requestAnimationFrame(frame)
 }
 
 /* ---------- INPUT ---------- */
-addEventListener("keydown",e=>{
- const k=e.key;
- keys.add(k);
- if(k===" "||k.toLowerCase()==="e"){e.preventDefault();talk()}
- if(k.toLowerCase()==="m")toggleMenu();
- if(k.toLowerCase()==="p")toggleMap();
- if(k==="Escape"){if(state.dialogue)closeDialogue();else if(state.map)toggleMap();else if(state.menu)toggleMenu()}
-});
+addEventListener("keydown",e=>{const k=e.key;keys.add(k);if(k===" "||k.toLowerCase()==="e"){e.preventDefault();if(state.dialogue)closeDialogue();else interact()}if(k.toLowerCase()==="m")toggleMenu();if(k.toLowerCase()==="p")toggleMap();if(k.toLowerCase()==="j")openJournal();if(k==="Escape"){if(state.dialogue)closeDialogue();else if(state.journal)closeJournal();else if(state.map)toggleMap();else if(state.menu)toggleMenu()}if(k.toLowerCase()==="g")saveButton()});
 addEventListener("keyup",e=>keys.delete(e.key));
-document.getElementById("closeDialogue").onclick=closeDialogue;
-document.getElementById("talkButton").onclick=talk;
-document.getElementById("menuButton").onclick=toggleMenu;
-document.getElementById("menuClose").onclick=toggleMenu;
-document.getElementById("resume").onclick=toggleMenu;
-document.getElementById("mapToggle").onclick=toggleMap;
-document.getElementById("mapClose").onclick=toggleMap;
-
-document.querySelectorAll("#touch button[data-key]").forEach(b=>{
- const k=b.dataset.key;
- const down=e=>{e.preventDefault();keys.add(k)};
- const up=e=>{e.preventDefault();keys.delete(k)};
- b.addEventListener("pointerdown",down);b.addEventListener("pointerup",up);b.addEventListener("pointercancel",up);b.addEventListener("pointerleave",up);
-});
-
+$("closeDialogue").onclick=closeDialogue;$("talkButton").onclick=interact;$("menuButton").onclick=toggleMenu;$("menuClose").onclick=toggleMenu;$("resume").onclick=toggleMenu;$("mapToggle").onclick=toggleMap;$("mapClose").onclick=toggleMap;
+document.querySelectorAll("#touch button[data-key]").forEach(b=>{const k=b.dataset.key;const down=e=>{e.preventDefault();keys.add(k)};const up=e=>{e.preventDefault();keys.delete(k)};b.addEventListener("pointerdown",down);b.addEventListener("pointerup",up);b.addEventListener("pointercancel",up);b.addEventListener("pointerleave",up)});
 addEventListener("resize",()=>{resizeFX();resetParticles()});
 
-/* ---------- ARRANQUE ---------- */
+/* ---------- BOOT ---------- */
 function validateWorldRules(){
- if(!RULES.roadsRemainPassable||!RULES.riverRemainsNatural||!RULES.playerCollision)throw new Error("Motor: reglas inválidas");
+ if(!RULES.fixedSimulation||!RULES.aStarNavigation||!RULES.fullSave||!RULES.persistentWorld)throw new Error("Core inválido");
  document.querySelectorAll(".vehicle").forEach(v=>v.style.display="block");
 }
-validateWorldRules();
-resizeFX();resetParticles();updateMissionUI();updateWeather(0);updateDayNight();updateInteraction();
-setInterval(updateInteraction,100);
-requestAnimationFrame(frame);
+loadGame();buildNav();rebuildSpatial();addGameplayUI();bindMenuExtras();updateMissionUI();updateWeather(0);updateDayNight();updateInteraction();resizeFX();resetParticles();validateWorldRules();setInterval(updateInteraction,120);setInterval(saveGame,30000);requestAnimationFrame(frame);
 </script>
 </body>
 </html>
