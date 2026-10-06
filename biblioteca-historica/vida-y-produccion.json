@@ -1,0 +1,49 @@
+{
+  "titulo": "Vida cotidiana, trabajo y producción",
+  "ejes": [
+    {
+      "id": "riego",
+      "nombre": "El agua cambia el territorio",
+      "historia": "Las obras de captación, bombeo, bocatomas y distribución hicieron posible transformar tierras áridas en superficie agrícola.",
+      "fuentes": ["F01", "F03"]
+    },
+    {
+      "id": "primeros-cultivos",
+      "nombre": "Los primeros cultivos",
+      "historia": "Las fuentes oficiales locales señalan una etapa piloto con papas y posteriormente plantaciones frutales.",
+      "fuentes": ["F01"]
+    },
+    {
+      "id": "fruticultura",
+      "nombre": "La fruticultura",
+      "historia": "Peras, manzanas, duraznos y pelones forman parte de la historia productiva que dio identidad a la localidad.",
+      "fuentes": ["F10", "F16"]
+    },
+    {
+      "id": "pelon",
+      "nombre": "El pelón",
+      "historia": "El pelón se convirtió en uno de los símbolos productivos y culturales más reconocibles de San Patricio del Chañar y dio nombre a una fiesta local.",
+      "fuentes": ["F10", "F16"]
+    },
+    {
+      "id": "trabajo-temporada",
+      "nombre": "Trabajo de temporada",
+      "historia": "La cosecha y las tareas rurales son parte esencial de la memoria productiva de la localidad.",
+      "fuentes": ["F10", "F14"]
+    },
+    {
+      "id": "vitivinicultura",
+      "nombre": "El nuevo paisaje del vino",
+      "historia": "Desde fines del siglo XX la vitivinicultura transforma parte del paisaje productivo y posiciona a San Patricio del Chañar como zona vitivinícola.",
+      "fuentes": ["F11", "F12", "F13"]
+    }
+  ],
+  "mecanicas_rpg": [
+    "aprender oficios",
+    "resolver problemas de riego",
+    "ayudar en una cosecha",
+    "identificar frutas y herramientas",
+    "reconstruir una chacra",
+    "descubrir cómo una decisión económica cambia un territorio"
+  ]
+}
