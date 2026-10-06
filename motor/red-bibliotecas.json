@@ -1,0 +1,42 @@
+{
+  "nombre": "Red de conocimiento histórico",
+  "descripcion": "Conecta todas las bibliotecas mediante identificadores compartidos.",
+  "nodos": [
+    "cronologia",
+    "territorio",
+    "personas_y_comunidades",
+    "vida_y_produccion",
+    "identidad_y_cultura",
+    "fuentes",
+    "lugares",
+    "objetos",
+    "fotografias",
+    "instituciones",
+    "clima",
+    "misiones",
+    "dialogos"
+  ],
+  "relaciones": [
+    {
+      "origen": "cronologia",
+      "puede_conectar_con": ["territorio","personas_y_comunidades","vida_y_produccion","identidad_y_cultura","lugares","misiones","dialogos"]
+    },
+    {
+      "origen": "territorio",
+      "puede_conectar_con": ["cronologia","vida_y_produccion","lugares","clima","fotografias","misiones"]
+    },
+    {
+      "origen": "personas_y_comunidades",
+      "puede_conectar_con": ["cronologia","lugares","instituciones","misiones","dialogos","fuentes"]
+    },
+    {
+      "origen": "vida_y_produccion",
+      "puede_conectar_con": ["territorio","personas_y_comunidades","objetos","lugares","misiones","dialogos"]
+    },
+    {
+      "origen": "identidad_y_cultura",
+      "puede_conectar_con": ["cronologia","instituciones","personas_y_comunidades","lugares","misiones"]
+    }
+  ],
+  "regla": "Un dato importante nunca debe existir aislado si puede relacionarse con otra dimensión del mundo."
+}
