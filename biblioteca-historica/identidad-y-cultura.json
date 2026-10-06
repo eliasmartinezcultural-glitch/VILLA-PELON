@@ -1,0 +1,35 @@
+{
+  "titulo": "Identidad, cultura y memoria",
+  "elementos": [
+    {
+      "id": "nombre",
+      "nombre": "San Patricio del Chañar",
+      "historia": "La denominación combina San Patricio, vinculada según fuentes oficiales a Campo Filone, Italia, con Chañar, nombre asociado a la vegetación característica del territorio.",
+      "fuentes": ["F01", "F07"]
+    },
+    {
+      "id": "fundacion",
+      "nombre": "21 de mayo de 1973",
+      "historia": "Fecha reconocida oficialmente como fundación de la ciudad.",
+      "fuentes": ["F06"]
+    },
+    {
+      "id": "fiesta-pelon",
+      "nombre": "Fiesta Provincial del Pelón",
+      "historia": "Iniciada en 1985, se convirtió en una celebración de la producción frutícola, la cosecha y el trabajador rural.",
+      "fuentes": ["F09", "F10"]
+    },
+    {
+      "id": "instituciones",
+      "nombre": "Instituciones locales",
+      "historia": "La construcción de la comunidad incluyó la Comisión de Fomento, escuela, comisaría, consorcio de riego, clubes, parroquia y otras instituciones.",
+      "fuentes": ["F07", "F17"]
+    },
+    {
+      "id": "crecimiento",
+      "nombre": "De paraje rural a ciudad",
+      "historia": "La población creció fuertemente desde la década de 1980, acompañando la consolidación urbana y productiva.",
+      "fuentes": ["F08"]
+    }
+  ]
+}
