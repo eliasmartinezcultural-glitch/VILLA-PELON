@@ -1,15 +1,24 @@
 {
   "estado": "ACTIVO_SOLO_CONSTRUCCION",
   "nombre": "GRID-MAESTRA",
-  "mundo": {"ancho": 8200, "alto": 8200},
+  "mundo": {
+    "ancho": 8200,
+    "alto": 8200
+  },
   "objetivo": "Planificar ubicaciones sin escribirlas sobre el territorio definitivo.",
   "regla": "Toda nueva zona, conexión o punto de interés se registra aquí antes de construirse.",
   "divisiones": {
     "columnas": 4,
     "filas": 4,
-    "celda": {"ancho": 2050, "alto": 2050},
+    "celda": {
+      "ancho": 2050,
+      "alto": 2050
+    },
     "nomenclatura": "A1-D4",
-    "ejes": {"X": "Oeste -> Este", "Y": "Norte -> Sur"}
+    "ejes": {
+      "X": "Oeste -> Este",
+      "Y": "Norte -> Sur"
+    }
   },
   "modos": {
     "construccion": true,
@@ -23,11 +32,66 @@
     "reservas": true,
     "coordenadas": true
   },
-  "zonas": [],
+  "zonas": [
+    {
+      "id": "BARDA_NORTE",
+      "tipo": "barda",
+      "sectores": [
+        "A1",
+        "A2",
+        "A3",
+        "A4"
+      ],
+      "recorrido": "transversal por la franja central de A1-A4",
+      "ancho_aprox": 420,
+      "altura": "variable",
+      "paleta": {
+        "baja": "marron claro",
+        "alta": "marron oscuro"
+      },
+      "regla": "Debe permanecer claramente menor que el mundo y dejar espacio territorial libre al norte y sur."
+    },
+    {
+      "id": "BARDA_SUR",
+      "tipo": "barda",
+      "sectores": [
+        "D1",
+        "D2",
+        "D3",
+        "D4"
+      ],
+      "recorrido": "transversal por la franja central de D1-D4",
+      "ancho_aprox": 260,
+      "altura": "variable",
+      "paleta": {
+        "baja": "marron claro",
+        "alta": "marron oscuro"
+      },
+      "regla": "Más pequeña que BARDA_NORTE porque comparte la franja D con el futuro río."
+    }
+  ],
   "conexiones": [],
   "puntos_interes": [],
-  "reservas": [],
-  "notas": [],
+  "reservas": [
+    {
+      "id": "RIO_D1_D4",
+      "tipo": "rio",
+      "sectores": [
+        "D1",
+        "D2",
+        "D3",
+        "D4"
+      ],
+      "estado": "RESERVADO",
+      "regla": "No construir todavía; el río ocupará parte de esta misma franja."
+    }
+  ],
+  "notas": [
+    "La barda se expresa por altura mediante tonos marrones: marrón claro = baja altura; marrón oscuro = muy alta.",
+    "BARDA_NORTE recorre A1-A4 por la zona media de esa franja.",
+    "BARDA_SUR recorre D1-D4 por la zona media, pero con menor escala para convivir con el futuro río.",
+    "La ubicación es planificación; todavía no convierte estas formas en geografía definitiva."
+  ],
   "protocolo": [
     "No construir una ubicación definitiva directamente en index.html.",
     "Registrar primero la ubicación aquí.",
