@@ -288,12 +288,30 @@ rgba(126,108,78,.13)}
 <script>
 const viewport=document.getElementById('viewport'),world=document.getElementById('world');
 let scale=.16,x=4100,y=4100,drag=false,lx=0,ly=0;
-const clamp=v=>Math.max(0,Math.min(8200,v));
+// Cámara con límites reales: puede recorrer TODO el mundo sin que las teclas
+// lleven la vista fuera del territorio. Los bordes del mundo coinciden con
+// los límites máximos de la cámara.
+function getHalfView(){
+ const vw=innerWidth/scale, vh=innerHeight/scale;
+ return {x:vw/2,y:vh/2};
+}
+function clampX(v){
+ const h=getHalfView().x;
+ return Math.max(h,Math.min(8200-h,v));
+}
+function clampY(v){
+ const h=getHalfView().y;
+ return Math.max(h,Math.min(8200-h,v));
+}
 function render(){
  const tx=innerWidth/2-x*scale,ty=innerHeight/2-y*scale;
  world.style.transform='translate3d('+tx+'px,'+ty+'px,0) scale('+scale+')';
 }
-function move(dx,dy){x=clamp(x+dx);y=clamp(y+dy);render()}
+function move(dx,dy){
+ x=clampX(x+dx);
+ y=clampY(y+dy);
+ render();
+}
 addEventListener('keydown',e=>{
  const k=e.key.toLowerCase();
  if(k==='w'||k==='arrowup')move(0,-90);
@@ -304,12 +322,13 @@ addEventListener('keydown',e=>{
 viewport.addEventListener('pointerdown',e=>{drag=true;lx=e.clientX;ly=e.clientY;viewport.setPointerCapture(e.pointerId)});
 viewport.addEventListener('pointermove',e=>{
  if(!drag)return;
- x=clamp(x-(e.clientX-lx)/scale);y=clamp(y-(e.clientY-ly)/scale);
+ x=clampX(x-(e.clientX-lx)/scale);
+ y=clampY(y-(e.clientY-ly)/scale);
  lx=e.clientX;ly=e.clientY;render();
 });
 viewport.addEventListener('pointerup',()=>drag=false);
 viewport.addEventListener('pointercancel',()=>drag=false);
-addEventListener('resize',render);
+addEventListener('resize',()=>{x=clampX(x);y=clampY(y);render()});
 render();
 
 const planLegend=document.getElementById('planLegend');
