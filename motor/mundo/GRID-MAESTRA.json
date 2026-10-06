@@ -1,0 +1,39 @@
+{
+  "estado": "ACTIVO_SOLO_CONSTRUCCION",
+  "nombre": "GRID-MAESTRA",
+  "mundo": {"ancho": 8200, "alto": 8200},
+  "objetivo": "Planificar ubicaciones sin escribirlas sobre el territorio definitivo.",
+  "regla": "Toda nueva zona, conexión o punto de interés se registra aquí antes de construirse.",
+  "divisiones": {
+    "columnas": 4,
+    "filas": 4,
+    "celda": {"ancho": 2050, "alto": 2050},
+    "nomenclatura": "A1-D4",
+    "ejes": {"X": "Oeste -> Este", "Y": "Norte -> Sur"}
+  },
+  "modos": {
+    "construccion": true,
+    "juego": false
+  },
+  "capas": {
+    "grid": true,
+    "zonas": true,
+    "conexiones": true,
+    "puntos": true,
+    "reservas": true,
+    "coordenadas": true
+  },
+  "zonas": [],
+  "conexiones": [],
+  "puntos_interes": [],
+  "reservas": [],
+  "notas": [],
+  "protocolo": [
+    "No construir una ubicación definitiva directamente en index.html.",
+    "Registrar primero la ubicación aquí.",
+    "Definir X/Y y dimensiones aproximadas.",
+    "Revisar proporción respecto de 8200x8200.",
+    "Solo después convertir la planificación en mundo jugable.",
+    "La capa de planificación podrá ocultarse sin borrar datos."
+  ]
+}
