@@ -68,9 +68,55 @@
         "alta": "marron oscuro"
       },
       "regla": "Más pequeña que BARDA_NORTE porque comparte la franja D con el futuro río."
+    },
+    {
+      "id": "MONTAÑAS_NORTE",
+      "tipo": "montañas",
+      "sectores": [
+        "A1",
+        "A2",
+        "A3",
+        "A4"
+      ],
+      "relacion": "asociadas a la barda norte",
+      "regla": "Formación baja respecto del mundo; altura representada por marrones claros/oscuros sin exceder el límite del mapa."
+    },
+    {
+      "id": "MONTAÑAS_SUR",
+      "tipo": "montañas",
+      "sectores": [
+        "D1",
+        "D2",
+        "D3",
+        "D4"
+      ],
+      "relacion": "asociadas a la barda sur",
+      "regla": "Más pequeñas que las del norte y subordinadas al futuro río."
+    },
+    {
+      "id": "PUEBLO_URBANO",
+      "tipo": "zona urbana",
+      "sectores": [
+        "C1",
+        "C2"
+      ],
+      "regla": "Núcleo urbano compacto y pequeño respecto del mundo."
+    },
+    {
+      "id": "ASENTAMIENTOS_PICADA_21",
+      "tipo": "asentamientos",
+      "sector_principal": "A4",
+      "regla": "Asentamientos pequeños y dispersos; no formar una segunda ciudad."
     }
   ],
-  "conexiones": [],
+  "conexiones": [
+    {
+      "id": "RUTA_65",
+      "tipo": "ruta",
+      "recorrido": "D1 → D2 → C2 → C1 → B1 → B2 → A2 → A3 → A4",
+      "regla": "Cruza el mundo de sur a norte pasando por C1 y C2; ancho visual pequeño respecto del territorio."
+    }
+  ],
   "puntos_interes": [],
   "reservas": [
     {
@@ -84,13 +130,26 @@
       ],
       "estado": "RESERVADO",
       "regla": "No construir todavía; el río ocupará parte de esta misma franja."
+    },
+    {
+      "id": "RIO_D1_D4",
+      "tipo": "rio",
+      "sectores": [
+        "D1",
+        "D2",
+        "D3",
+        "D4"
+      ],
+      "estado": "RESERVADO",
+      "regla": "El río se diseñará después dentro de esta franja, manteniendo escala pequeña."
     }
   ],
   "notas": [
     "La barda se expresa por altura mediante tonos marrones: marrón claro = baja altura; marrón oscuro = muy alta.",
     "BARDA_NORTE recorre A1-A4 por la zona media de esa franja.",
     "BARDA_SUR recorre D1-D4 por la zona media, pero con menor escala para convivir con el futuro río.",
-    "La ubicación es planificación; todavía no convierte estas formas en geografía definitiva."
+    "La ubicación es planificación; todavía no convierte estas formas en geografía definitiva.",
+    "Ruta 65: eje de conexión territorial que cruza desde D1 hacia A4 y atraviesa el pueblo urbano en C1-C2."
   ],
   "protocolo": [
     "No construir una ubicación definitiva directamente en index.html.",
