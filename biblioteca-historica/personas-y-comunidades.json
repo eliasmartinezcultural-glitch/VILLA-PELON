@@ -1,0 +1,51 @@
+{
+  "titulo": "Personas, familias, grupos y comunidades",
+  "regla": "No todo personaje histórico debe convertirse automáticamente en héroe o villano.",
+  "actores": [
+    {
+      "id": "pueblos-originarios",
+      "nombre": "Poblaciones indígenas del territorio",
+      "categoria": "comunidades",
+      "estado": "investigacion_prioritaria",
+      "descripcion": "La historia del territorio no comienza con la fundación de 1973. El juego deberá investigar específicamente las poblaciones indígenas vinculadas al área antes de la ocupación estatal y evitar simplificaciones.",
+      "fuentes": []
+    },
+    {
+      "id": "gasparri",
+      "nombre": "Familia Gasparri",
+      "categoria": "familia_pionera_empresarial",
+      "descripcion": "Familia de origen italiano vinculada al desarrollo agrícola y posteriormente a la transformación productiva de El Chañar.",
+      "fuentes": ["F01", "F07"]
+    },
+    {
+      "id": "trabajadores-rurales",
+      "nombre": "Trabajadores rurales",
+      "categoria": "comunidad_trabajadora",
+      "descripcion": "Actor central para comprender la construcción cotidiana de las chacras, la cosecha y la identidad productiva.",
+      "fuentes": ["F03", "F10", "F14"]
+    },
+    {
+      "id": "productores-valle",
+      "nombre": "Productores familiares del Alto Valle",
+      "categoria": "productores",
+      "descripcion": "Productores de Cinco Saltos, Centenario, Campo Grande y Cipolletti participaron en la etapa de subdivisión y adquisición de parcelas.",
+      "fuentes": ["F03", "F05"]
+    },
+    {
+      "id": "juan-y-berta-deitieux",
+      "nombre": "Juan y Berta Deitieux",
+      "categoria": "primeros_titulares_reportados",
+      "estado": "requiere_documentacion_primaria",
+      "descripcion": "Son mencionados por una fuente legislativa como primeros titulares vinculados al proyecto de riego.",
+      "fuentes": ["F15"]
+    },
+    {
+      "id": "roberto-gasparri",
+      "nombre": "Roberto Gasparri",
+      "categoria": "ingeniero_empresario",
+      "descripcion": "Figura central en la compra de las grandes extensiones y en el impulso de la transformación agrícola mediante riego y plantaciones.",
+      "fuentes": ["F01", "F05"]
+    }
+  ],
+  "regla_de_juego": "Los personajes históricos reales deberán aparecer con ficha documental. Los personajes jugables ficticios podrán interactuar con ellos sin alterar los hechos comprobados."
+}
