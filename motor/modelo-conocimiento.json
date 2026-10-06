@@ -1,0 +1,26 @@
+{
+  "entidad_base": {
+    "id": "unico",
+    "nombre": "texto",
+    "tipo": "historico|lugar|persona|objeto|institucion|evento|mision|dialogo|fuente|clima",
+    "fecha_inicio": "opcional",
+    "fecha_fin": "opcional",
+    "fuentes": [],
+    "relaciones": []
+  },
+  "ejemplo": {
+    "id": "evento-riego-1969",
+    "tipo": "evento",
+    "nombre": "Primeras obras de riego",
+    "fecha_inicio": "1969",
+    "relaciones": [
+      "rio-neuquen",
+      "campo-el-chanar",
+      "primeros-cultivos",
+      "trabajadores-rurales"
+    ],
+    "desbloquea": ["mision-aprender-riego"],
+    "dialogos": ["abuelo-explica-el-agua"],
+    "fuentes": ["F01","F03"]
+  }
+}
