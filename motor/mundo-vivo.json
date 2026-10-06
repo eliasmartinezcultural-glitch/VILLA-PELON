@@ -1,0 +1,42 @@
+{
+  "nombre": "Villa Pelón",
+  "tipo": "RPG histórico de mundo vivo",
+  "referencia_real": "San Patricio del Chañar",
+  "multidispositivo": true,
+  "sistemas": {
+    "tiempo": {
+      "dia_noche": true,
+      "estaciones": true,
+      "calendario": true,
+      "el_tiempo_modifica_el_mundo": true
+    },
+    "clima": {
+      "lluvia": true,
+      "viento": true,
+      "nubosidad": true,
+      "temperatura": true,
+      "impacta_movilidad": true,
+      "impacta_dialogos": true,
+      "impacta_misiones": true
+    },
+    "npc": {
+      "rutinas": true,
+      "relaciones": true,
+      "horarios": true,
+      "memoria": true,
+      "dialogos_contextuales": true
+    },
+    "misiones": {
+      "principales": true,
+      "secundarias": true,
+      "investigacion": true,
+      "descubrimiento": true,
+      "educativas": true,
+      "ramificadas": true
+    },
+    "protagonista": {
+      "nombre": "Luna",
+      "funcion": "descubrir la historia mediante la exploracion y las misiones"
+    }
+  }
+}
