@@ -561,7 +561,7 @@ function updateCamera(dt){
  const follow=1-Math.exp(-7*dt);
  camera.x=lerp(camera.x,player.x+leadX,follow);
  camera.y=lerp(camera.y,player.y+leadY,follow);
- const targetZoom=state.dialogue?.105:state.map?.08:.13;
+ const targetZoom=state.dialogue ? 0.105 : state.map ? 0.08 : 0.13;
  camera.zoomTarget=targetZoom;
  camera.scale=lerp(camera.scale,camera.zoomTarget,1-Math.exp(-5*dt));
  const vw=innerWidth/camera.scale,vh=innerHeight/camera.scale;
@@ -689,7 +689,6 @@ function validateWorldRules(){
 validateWorldRules();
 resizeFX();resetParticles();updateMissionUI();updateWeather(0);updateDayNight();updateInteraction();
 setInterval(updateInteraction,100);
-render();
 requestAnimationFrame(frame);
 </script>
 </body>
