@@ -40,10 +40,13 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#b49b70}
  background-image:linear-gradient(to right,rgba(35,30,20,.22) 1px,transparent 1px),linear-gradient(to bottom,rgba(35,30,20,.22) 1px,transparent 1px);
  background-size:2050px 2050px}
 #planningGrid::after{content:"A1       A2       A3       A4\A\A\A B1       B2       B3       B4\A\A\A C1       C2       C3       C4\A\A\A D1       D2       D3       D4";white-space:pre;position:absolute;inset:0;padding:80px;font:700 90px/1050px Arial,sans-serif;letter-spacing:8px;color:rgba(30,25,18,.45);text-align:center}
+
+#planLegend{display:none;position:fixed;z-index:20;left:12px;top:12px;padding:10px 12px;border-radius:10px;background:rgba(25,22,18,.78);color:#f4ead7;font:600 13px/1.5 Arial,sans-serif;pointer-events:none}
+#planLegend .sw{display:inline-block;width:14px;height:14px;margin:0 5px 0 10px;vertical-align:-2px;border-radius:3px}
 </style>
 </head>
 <body>
-<main id="game">
+<div id="planLegend">PLANEAMIENTO · A1–A4 / D1–D4 <span class="sw" style="background:#c7a875"></span>baja <span class="sw" style="background:#62452e"></span>muy alta</div><main id="game">
 <div class="viewport" id="viewport">
 <div class="world" id="world">
 <div id="planningGrid" aria-hidden="true"></div>
@@ -83,6 +86,11 @@ viewport.addEventListener('pointerup',()=>drag=false);
 viewport.addEventListener('pointercancel',()=>drag=false);
 addEventListener('resize',render);
 render();
+
+const planLegend=document.getElementById('planLegend');
+let planningMode=false;
+function togglePlanning(){planningMode=!planningMode;planLegend.style.display=planningMode?'block':'none';document.getElementById('planningGrid').style.display=planningMode?'block':'none';}
+addEventListener('keydown',e=>{if(e.key.toLowerCase()==='g')togglePlanning()});
 </script>
 </body>
 </html>
