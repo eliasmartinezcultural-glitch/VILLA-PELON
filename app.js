@@ -15,7 +15,8 @@ function goHome(){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 document.querySelectorAll("[data-door]").forEach(button=>button.addEventListener("click",()=>showDoor(button.dataset.door)));
-homeButton.addEventListener("click",goHome);\ndocument.addEventListener("keydown",event=>{if(event.key==="Escape"&&!homeButton.hidden)goHome();});
+homeButton.addEventListener("click",goHome);
+document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!homeButton.hidden)goHome();});
 const facts=[
 {icon:"🦕",title:"Un dinosaurio muy cerca de casa",text:"En la zona se encontraron restos de un dinosaurio herbívoro enorme: Panamericansaurus schroederi. Su descripción científica se publicó en 2010.",source:"https://seer.ufu.br/index.php/braziliangeojournal/article/view/8170",label:"Ver la investigación científica"},
 {icon:"🐦",title:"¡Hay más de 25 especies de aves!",text:"La Municipalidad menciona más de 25 especies en la zona. Entre ellas están la calandria grande, el carpintero real y la golondrina patagónica.",source:"https://sanpatricio.gob.ar/quehacer",label:"Ver información municipal"},
