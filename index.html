@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <meta name="color-scheme" content="light">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -51,6 +52,31 @@
         <a class="quick-card quick-photo" href="#memoria"><span class="quick-number">02</span><span class="quick-icon">▧</span><strong>Mirar los recuerdos</strong><small>Fotografías, archivos y memoria compartida.</small><b>Ver la memoria ↗</b></a>
         <a class="quick-card quick-facts" href="#curiosidades"><span class="quick-number">03</span><span class="quick-icon">✳</span><strong>Descubrir algo nuevo</strong><small>Datos reales y curiosidades de nuestra tierra.</small><b>Asombrarme ↗</b></a>
         <a class="quick-card quick-take" href="#recuerdos"><span class="quick-number">04</span><span class="quick-icon">✉</span><strong>Llevar un pedacito</strong><small>Postales, tarjetas y pequeñas colecciones.</small><b>Ver recuerdos ↗</b></a>
+      </div>
+    </section>
+
+
+    <section class="arrival-section section-wrap" aria-labelledby="arrivalTitle">
+      <div class="arrival-topline"><span>UN PASEO CORTITO POR NUESTRO LUGAR</span><span>HECHO PARA DISFRUTAR SIN APURO</span></div>
+      <div class="arrival-card">
+        <div class="arrival-copy">
+          <div class="section-kicker">UN MINUTO PARA SENTIR EL CHAÑAR</div>
+          <h2 id="arrivalTitle">¿Cuánto de nuestro<br><em>Chañar llevás adentro?</em></h2>
+          <p>Jugá un ratito. Tres preguntas sencillas, tres pequeñas historias de un lugar que tiene mucho para contar.</p>
+          <div class="quiz-progress" aria-label="Progreso del juego"><span id="quizProgress"></span></div>
+          <p class="quiz-step" id="quizStep">PREGUNTA 1 DE 3</p>
+          <h3 class="quiz-question" id="quizQuestion">¿En qué año se fundó oficialmente San Patricio del Chañar?</h3>
+          <div class="quiz-options" id="quizOptions">
+            <button type="button" data-answer="0">1968</button><button type="button" data-answer="1">1973</button><button type="button" data-answer="2">1985</button>
+          </div>
+          <p class="quiz-feedback" id="quizFeedback" role="status" aria-live="polite">Elegí una respuesta. ¡No hace falta saberlo todo para disfrutar el paseo!</p>
+          <button class="quiz-next" id="quizNext" type="button" hidden>Seguir descubriendo →</button>
+        </div>
+        <div class="arrival-art" aria-hidden="true"><span class="arrival-sun"></span><span class="arrival-hill hill-one"></span><span class="arrival-hill hill-two"></span><span class="arrival-river"></span><span class="arrival-tree">♣</span><span class="arrival-caption">MI LUGAR<br>EN EL MUNDO</span></div>
+      </div>
+      <div class="welcome-tools">
+        <span>¿Querés leer más cómodo?</span>
+        <div class="text-tools"><button type="button" id="textSmaller" aria-label="Disminuir tamaño del texto">A−</button><button type="button" id="textLarger" aria-label="Aumentar tamaño del texto">A+</button><button type="button" id="contrastToggle" aria-pressed="false">Más contraste</button></div>
       </div>
     </section>
 
@@ -157,7 +183,8 @@
           <article class="fact-card fact-dino"><div class="fact-visual"><span class="fact-emoji">🦕</span><span class="fact-tag">PALEONTOLOGÍA</span></div><div class="fact-body"><span class="fact-index">CURIOSIDAD 01</span><h3>Un dinosaurio lleva el nombre de una bodega del Chañar</h3><p><i>Panamericansaurus schroederi</i> fue un saurópodo titanosaurio herbívoro. Sus restos fósiles fueron recuperados aproximadamente a 3 km al oeste de San Patricio del Chañar, en el área donde hoy se encuentra la bodega. Fue descrito científicamente en 2010.</p><a href="https://seer.ufu.br/index.php/braziliangeojournal/article/view/8170" target="_blank" rel="noopener">Leer el artículo científico de Calvo y Porfiri ↗</a></div></article>
           <article class="fact-card fact-name"><div class="fact-visual"><span class="fact-emoji">🌳</span><span class="fact-tag">NOMBRE E IDENTIDAD</span></div><div class="fact-body"><span class="fact-index">CURIOSIDAD 02</span><h3>El nombre también cuenta una historia</h3><p>«San Patricio» remite al santo patrono de Campo Filone, Italia, localidad vinculada a la familia Gasparri. «El Chañar» recuerda el nombre histórico del paraje y al árbol que crecía en la zona.</p><a href="https://www.neuqueninforma.gob.ar/amp/noticias/2013/05/17/29151-ana-pechen-preside-la-ceremonia-aniversario-de-san-patricio-del-chanar" target="_blank" rel="noopener">Leer la reseña provincial ↗</a></div></article>
           <article class="fact-card fact-water"><div class="fact-visual"><span class="fact-emoji">💧</span><span class="fact-tag">PAISAJE Y PRODUCCIÓN</span></div><div class="fact-body"><span class="fact-index">CURIOSIDAD 03</span><h3>El paisaje productivo no estuvo siempre así</h3><p>Las obras de riego fueron decisivas en la transformación del valle. El estudio del CFI documenta el desarrollo de infraestructura, plantaciones y sistemas productivos desde fines de los años sesenta.</p><a href="https://cfi.org.ar/uploads/2024/05/Neuquen_114_0.pdf" target="_blank" rel="noopener">Consultar estudio del CFI ↗</a></div></article>
-          <article class="fact-card fact-festival"><div class="fact-visual"><span class="fact-emoji">🍑</span><span class="fact-tag">FIESTAS Y TRADICIONES</span></div><div class="fact-body"><span class="fact-index">CURIOSIDAD 04</span><h3>Una fiesta para celebrar el pelón</h3><p>La primera edición se realizó el 1 de marzo de 1985. La fiesta nació para homenajear al pelón, a la producción frutícola y a quienes trabajaban en las chacras. Desde 1999 sumó el reconocimiento al trabajador rural.</p><a href="https://www.facebook.com/MunicipalidadSPCh/" target="_blank" rel="noopener">Municipalidad · canal oficial ↗</a></div></article>
+          <article class="fact-card fact-festival"><div class="fact-visual"><span class="fact-emoji">🍑</span><span class="fact-tag">FIESTAS Y TRADICIONES</span></div><div class="fact-body"><span class="fact-index">CURIOSIDAD 04</span><h3>Una fiesta para celebrar el pelón</h3><p>La primera edición se realizó el 1 de marzo de 1985. La fiesta nació para homenajear al pelón, a la producción frutícola y a quienes trabajaban en las chacras. Desde 1999 sumó el reconocimiento al trabajador rural.</p><a href="https://masp.lmneuquen.com/fruticultura/de-desierto-la-fiesta-del-pelon-la-evolucion-san-patricio-del-chanar-y-sus-tradiciones-n1228109" target="_blank" rel="noopener">Leer la reconstrucción histórica ↗</a></div></article>
+          <article class="fact-card fact-birds"><div class="fact-visual"><span class="fact-emoji">🐦</span><span class="fact-tag">NATURALEZA Y VIDA</span></div><div class="fact-body"><span class="fact-index">CURIOSIDAD 05</span><h3>También hay mucho para mirar en el cielo</h3><p>La información turística municipal menciona más de 25 especies de aves registradas en la zona, entre ellas calandria grande, carpintero real y golondrina patagónica.</p><a href="https://sanpatricio.gob.ar/quehacer" target="_blank" rel="noopener">Consultar información municipal ↗</a></div></article>
         </div>
       </div>
     </section>
@@ -187,10 +214,10 @@
         <article class="souvenir-card"><div class="souvenir-art postcard-art"><span>UN LUGAR<br>EN EL MUNDO</span><strong>MI CHAÑAR</strong><small>NEUQUÉN · PATAGONIA</small></div><div class="souvenir-info"><span class="pill">POSTAL</span><h3>Saludos desde el Chañar</h3><p>Una postal ilustrada para imprimir y compartir.</p><button class="small-button" data-print="postal">Imprimir postal ↗</button></div></article>
         <article class="souvenir-card"><div class="souvenir-art card-art"><span>✳</span><strong>YO SOY<br>DEL CHAÑAR</strong><small>Y ESO SE LLEVA CON ORGULLO</small></div><div class="souvenir-info"><span class="pill">TARJETA</span><h3>Orgullo chañarense</h3><p>Una tarjeta sencilla para guardar o regalar.</p><button class="small-button" data-print="orgullo">Imprimir tarjeta ↗</button></div></article>
         <article class="souvenir-card"><div class="souvenir-art bookmark-art"><span>UN RINCÓN</span><strong>QUE<br>SIEMPRE<br>VUELVE</strong><small>SAN PATRICIO DEL CHAÑAR</small></div><div class="souvenir-info"><span class="pill">SEÑALADOR</span><h3>Un recuerdo entre páginas</h3><p>Un señalador para libros y cuadernos.</p><button class="small-button" data-print="senalador">Imprimir señalador ↗</button></div></article>
-      </div>
       <article class="souvenir-card"><div class="souvenir-art sticker-art"><span>HECHO DE</span><strong>ACÁ</strong><small>CHAÑARENSE</small></div><div class="souvenir-info"><span class="pill">MINI AFICHE</span><h3>Hecho de acá</h3><p>Una pieza simple para imprimir y pegar en tu cuaderno.</p><button class="small-button" data-print="hecho">Imprimir mini afiche ↗</button></div></article>
         <article class="souvenir-card"><div class="souvenir-art sticker-art sticker-sun"><span>MI TIERRA</span><strong>MI LUGAR</strong><small>SAN PATRICIO DEL CHAÑAR</small></div><div class="souvenir-info"><span class="pill">TARJETA</span><h3>Mi tierra, mi lugar</h3><p>Un recuerdo para regalar o guardar.</p><button class="small-button" data-print="mitierra">Imprimir tarjeta ↗</button></div></article>
         <article class="souvenir-card"><div class="souvenir-art sticker-art sticker-river"><span>RÍO · BARDA · CHACRA</span><strong>CHAÑAR</strong><small>UN PAISAJE QUE NOS UNE</small></div><div class="souvenir-info"><span class="pill">POSTAL</span><h3>Río, barda y chacra</h3><p>Una postal ilustrada inspirada en el paisaje local.</p><button class="small-button" data-print="paisaje">Imprimir postal ↗</button></div></article>
+      </div>
         <div class="map-note"><div class="map-icon">⌖</div><div><strong>Un mapa chañarense está en preparación.</strong><p>Primero vamos a verificar calles, lugares, referencias y permisos cartográficos. No publicaremos un mapa inventado ni una ubicación aproximada como si fuera oficial.</p></div><span class="status status-research">En preparación</span></div>
     </section>
 
@@ -203,9 +230,10 @@
           <a href="https://www.mininterior.gob.ar/planificacion/pdf/planes-loc/NEUQUEN/Plan-de-Ordenamiento-Territorial-Ambiental-para-las-localidades-A%C3%B1elo-San-Patricio-del-Cha%C3%B1ar-y-Sauzal-Bonito.pdf" target="_blank" rel="noopener"><span>03</span><div><strong>CFI · Plan territorial 2006</strong><small>Historia regional, Tratayén y transformación del valle</small></div><b>↗</b></a>
           <a href="https://masp.lmneuquen.com/fruticultura/de-desierto-la-fiesta-del-pelon-la-evolucion-san-patricio-del-chanar-y-sus-tradiciones-n1228109" target="_blank" rel="noopener"><span>04</span><div><strong>Más Producción · La Mañana Neuquén</strong><small>Historia de la Fiesta del Pelón y la fruticultura</small></div><b>↗</b></a>
           <a href="https://cfi.org.ar/" target="_blank" rel="noopener"><span>05</span><div><strong>Consejo Federal de Inversiones</strong><small>Estudios territoriales y productivos</small></div><b>↗</b></a>
-          <a href="https://www.neuqueninforma.gob.ar/" target="_blank" rel="noopener"><span>06</span><div><strong>Neuquén Informa</strong><small>Reseñas y registros provinciales</small></div><b>↗</b></a>
-          <a href="https://www.uncoma.edu.ar/" target="_blank" rel="noopener"><span>07</span><div><strong>Universidad Nacional del Comahue</strong><small>Investigación histórica y regional</small></div><b>↗</b></a>
-          <a href="https://chanardigital.com.ar/" target="_blank" rel="noopener"><span>08</span><div><strong>Chañar Digital</strong><small>Memoria visual y actualidad local</small></div><b>↗</b></a>
+          <a href="https://www.estadisticaneuquen.gob.ar/static/archivos/Publicaciones/InfMunBasica/Basica20062007/Inicio/cartografia/San%20Patricio.pdf" target="_blank" rel="noopener"><span>06</span><div><strong>Dirección Provincial de Estadística y Censos</strong><small>Ficha municipal y cartografía histórica</small></div><b>↗</b></a>
+          <a href="https://www.neuqueninforma.gob.ar/" target="_blank" rel="noopener"><span>07</span><div><strong>Neuquén Informa</strong><small>Reseñas y registros provinciales</small></div><b>↗</b></a>
+          <a href="https://www.uncoma.edu.ar/" target="_blank" rel="noopener"><span>08</span><div><strong>Universidad Nacional del Comahue</strong><small>Investigación histórica y regional</small></div><b>↗</b></a>
+          <a href="https://chanardigital.com.ar/" target="_blank" rel="noopener"><span>09</span><div><strong>Chañar Digital</strong><small>Memoria visual y actualidad local</small></div><b>↗</b></a>
         </div>
       </div>
     </section>
@@ -214,7 +242,7 @@
   <footer class="site-footer">
     <a class="brand footer-brand" href="#inicio"><span class="brand-mark">VP</span><span><strong>VILLA PELÓN</strong><small>Un rincón bien chañarense</small></span></a>
     <p>Hecho con cariño por y para quienes sienten San Patricio del Chañar.</p>
-    <div class="footer-bottom"><span>Proyecto cultural independiente · 2026</span><a href="#inicio">Volver arriba ↑</a></div>
+    <div class="footer-bottom"><span>Proyecto cultural independiente · 2026</span><div class="footer-actions"><button type="button" id="shareSite">Compartir Villa Pelón ↗</button><a href="#inicio">Volver arriba ↑</a></div></div>
   </footer>
 
   <div class="print-sheet" id="printSheet" aria-hidden="true"></div>
