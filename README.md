@@ -68,3 +68,24 @@ La dirección esperada será https://eliasmartinezcultural-glitch.github.io/VILL
 
 ## Nota de derechos de imagen
 Las imágenes remotas se cargan desde los sitios de origen y se enlazan a sus artículos. Los créditos son informativos y no equivalen a una licencia. Para una versión estable y legalmente clara se recomienda obtener permisos por escrito o reemplazar cada imagen por fotografías propias con autorización de las personas retratadas y del titular de la fotografía.
+
+
+## Nueva organización por puertas
+La experiencia se reorganizó en cinco puertas:
+1. Mirar nuestro Chañar: galería visual con créditos y enlaces a publicaciones originales.
+2. ¡Sorprendeme!: curiosidades de a una, con ocho datos y fuentes.
+3. Un viaje en el tiempo: seis momentos históricos interactivos.
+4. Rincones de acá: río, aves, chacras, ruta del vino y espacios naturales.
+5. Llevarme un recuerdo: cuatro piezas imprimibles y una invitación a sumar memoria vecinal.
+
+La portada es corta y cada puerta se abre por separado. No hay que recorrer todo el contenido para llegar a lo que interesa. Se evita la navegación desplegable compleja: cada puerta es un botón grande, con nombre y explicación.
+La nueva experiencia usa lenguaje cotidiano, títulos claros, controles grandes, un solo panel abierto a la vez, diseño adaptable y respeto por la preferencia de movimiento reducido.
+
+## Referencias de diseño accesible
+- W3C WAI, recomendaciones para personas mayores: https://www.w3.org/WAI/older-users/developing/
+- W3C, contenido usable para personas con dificultades cognitivas y de aprendizaje: https://www.w3.org/TR/coga-usable/
+- Nielsen Norman Group, UX Design for Seniors: https://www.nngroup.com/reports/senior-citizens-on-the-web/
+- Municipalidad de San Patricio del Chañar, información de naturaleza y turismo: https://sanpatricio.gob.ar/quehacer
+- Turismo Neuquén, ruta del vino y chacras: https://turismo.neuquen.gob.ar/descubri-dinosaurios-playas-chacras-y-vinos-muy-cerca-de-neuquen/
+
+Las fotos de medios y portales se enlazan con crédito. El crédito no equivale a autorización de reproducción; para la versión final se deben pedir permisos o sustituirlas por fotos propias y aportes autorizados.
