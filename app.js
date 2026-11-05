@@ -37,6 +37,27 @@ const printTemplates = {
     title: "UN RINCÓN<br>QUE SIEMPRE<br>VUELVE",
     subtitle: "UN RECUERDO ENTRE PÁGINAS",
     footer: "SAN PATRICIO DEL CHAÑAR"
+  },
+  hecho: {
+    className: "postcard",
+    ornament: "✳  ✳  ✳",
+    title: "HECHO DE ACÁ",
+    subtitle: "ORGULLO CHAÑARENSE",
+    footer: "SAN PATRICIO DEL CHAÑAR · NEUQUÉN"
+  },
+  mitierra: {
+    className: "postcard",
+    ornament: "♡",
+    title: "MI TIERRA<br>MI LUGAR",
+    subtitle: "UN PEDACITO DE PATAGONIA",
+    footer: "SAN PATRICIO DEL CHAÑAR"
+  },
+  paisaje: {
+    className: "postcard",
+    ornament: "≈  ✳  ⌁",
+    title: "RÍO · BARDA<br>Y CHACRA",
+    subtitle: "UN PAISAJE QUE NOS UNE",
+    footer: "SAN PATRICIO DEL CHAÑAR · NEUQUÉN"
   }
 };
 
