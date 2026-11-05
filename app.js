@@ -150,9 +150,10 @@ contrastToggle?.addEventListener("click",()=>{
 /* Compartir: usa la función nativa del dispositivo cuando está disponible. */
 document.getElementById("shareSite")?.addEventListener("click",async()=>{
   const shareData={title:"Villa Pelón · Un rincón bien chañarense",text:"Un paseo para descubrir, recordar y celebrar San Patricio del Chañar.",url:window.location.href};
+  const feedback=document.getElementById("shareFeedback");
   try{
-    if(navigator.share)await navigator.share(shareData);
-    else if(navigator.clipboard){await navigator.clipboard.writeText(shareData.url);alert("¡Enlace copiado! Compartí Villa Pelón con alguien del Chañar.");}
-    else alert("Copiá la dirección de esta página para compartir Villa Pelón.");
-  }catch(error){if(error.name!=="AbortError")alert("No se pudo compartir automáticamente. Podés copiar la dirección de esta página.");}
+    if(navigator.share){await navigator.share(shareData);if(feedback)feedback.textContent="¡Gracias por compartir este rincón chañarense!";}
+    else if(navigator.clipboard){await navigator.clipboard.writeText(shareData.url);if(feedback)feedback.textContent="Enlace copiado. ¡Compartilo con alguien del Chañar!";}
+    else if(feedback)feedback.textContent="Copiá la dirección de esta página para compartir Villa Pelón.";
+  }catch(error){if(error.name!=="AbortError"&&feedback)feedback.textContent="No se pudo compartir automáticamente. Podés copiar la dirección de esta página.";}
 });
