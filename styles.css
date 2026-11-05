@@ -229,3 +229,66 @@ body.high-contrast .quick-card,body.high-contrast .landscape-card,body.high-cont
 @media print{
  .site-header,.arrival-section,.welcome-tools,.site-footer,.sources-section{display:none!important}
 }
+
+
+/* ACCESIBILIDAD, FOTOGRAFIA REAL Y EXPERIENCIA SIMPLE */
+:root{--serif:"Lora",Georgia,serif;--sans:"Atkinson Hyperlegible",Arial,sans-serif}
+body{font-size:18px;line-height:1.65}
+p{line-height:1.65}
+.main-nav a{font-size:15px;padding:12px 0}
+.menu-toggle{min-width:48px;min-height:48px}
+.hero{isolation:isolate}
+.hero-photo{position:absolute;inset:0;background:url("https://media.lmneuquen.com/p/4ddf83889e6243f4e39bb55ce3980856/adjuntos/195/imagenes/007/676/0007676644/770x0/smart/chacra-chanarwebp.png") center/cover no-repeat;z-index:-2}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#123b34ed 0%,#123b34a8 58%,#123b3440 100%);z-index:-1}
+.hero-art{display:none}
+.hero-content>p{font-size:19px;line-height:1.6}
+.eyebrow,.section-kicker{font-size:13px;letter-spacing:1.6px}
+.button,.text-link{font-size:15px;min-height:48px;align-items:center}
+.section-heading>p,.welcome-grid p{font-size:17px;line-height:1.65}
+.quick-card{border-radius:7px;min-height:215px}
+.quick-card strong{font-size:22px}
+.quick-card small{font-size:15px}
+.quick-card b{font-size:14px}
+.real-gallery{padding-top:72px;padding-bottom:76px}
+.photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.photo-grid figure{margin:0;background:#fff;border:1px solid #e5e0d4;border-radius:7px;overflow:hidden}
+.photo-grid figure>a{display:block;height:220px;overflow:hidden;background:#e5e8df}
+.photo-grid img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .25s}
+.photo-grid figure>a:hover img{transform:scale(1.04)}
+.photo-grid figcaption{padding:13px 15px 16px}
+.photo-grid figcaption strong,.photo-grid figcaption span{display:block}
+.photo-grid figcaption strong{font-family:var(--serif);font-size:18px;line-height:1.3}
+.photo-grid figcaption span{font-size:13px;color:#637469;margin-top:6px;line-height:1.5}
+.photo-grid figcaption a{color:#985b3d;font-weight:700}
+.rights-note{font-size:14px;color:#596d61;background:#f3eee2;padding:15px 18px;margin-top:16px;border-left:4px solid #c18a4f}
+.quiz-question{font-size:23px}
+.quiz-options button,.quiz-next,.text-tools button{font-size:16px;min-height:48px}
+.quiz-feedback{font-size:15px}
+.welcome-tools>span{font-size:15px}
+.time-item p,.fact-body p,.landscape-card p,.souvenir-info p{font-size:15px;line-height:1.6}
+.time-item h3,.fact-body h3{font-size:21px}
+.fact-body a,.small-button{font-size:15px;min-height:44px}
+.word-grid article p{font-size:15px}
+.source-list strong{font-size:15px}
+.source-list small{font-size:13px}
+@media(max-width:900px){.photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){
+ body{font-size:17px}
+ .hero-photo{background-position:58% center}
+ .hero:before{background:linear-gradient(90deg,#123b34e8,#123b3488)}
+ .hero-content>p{font-size:18px}
+ .quick-grid{grid-template-columns:1fr 1fr}
+ .quick-card{min-height:185px;padding:15px}
+ .quick-card strong{font-size:18px}
+ .quick-card small{font-size:14px}
+ .quick-card b{font-size:13px}
+ .real-gallery{padding:55px 18px}
+ .photo-grid{grid-template-columns:1fr;gap:12px}
+ .photo-grid figure>a{height:225px}
+ .photo-grid figcaption strong{font-size:18px}
+ .photo-grid figcaption span,.rights-note{font-size:13px}
+ .quiz-options{gap:8px}
+ .quiz-options button{font-size:17px;min-height:50px}
+ .time-item p,.fact-body p,.landscape-card p,.souvenir-info p{font-size:15px}
+}
+@media(prefers-reduced-motion:reduce){.photo-grid img{transition:none}}
