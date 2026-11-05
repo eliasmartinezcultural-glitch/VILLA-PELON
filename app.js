@@ -7,7 +7,7 @@ function showDoor(name){
   homeButton.hidden=false;
   window.scrollTo({top:0,behavior:"smooth"});
   const panel=document.getElementById("panel-"+name);
-  panel?.querySelector(".panel-head")?.focus?.();
+  panel?.querySelector(".panel-head")?.focus?.({preventScroll:true});
 }
 function goHome(){
   panels.forEach(panel=>panel.hidden=true);
@@ -15,7 +15,7 @@ function goHome(){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 document.querySelectorAll("[data-door]").forEach(button=>button.addEventListener("click",()=>showDoor(button.dataset.door)));
-homeButton.addEventListener("click",goHome);
+homeButton.addEventListener("click",goHome);\ndocument.addEventListener("keydown",event=>{if(event.key==="Escape"&&!homeButton.hidden)goHome();});
 const facts=[
 {icon:"🦕",title:"Un dinosaurio muy cerca de casa",text:"En la zona se encontraron restos de un dinosaurio herbívoro enorme: Panamericansaurus schroederi. Fue descrito por científicos en 2010.",source:"https://seer.ufu.br/index.php/braziliangeojournal/article/view/8170",label:"Ver la investigación científica"},
 {icon:"🐦",title:"¡Hay más de 25 especies de aves!",text:"La Municipalidad menciona más de 25 especies en la zona. Entre ellas están la calandria grande, el carpintero real y la golondrina patagónica.",source:"https://sanpatricio.gob.ar/quehacer",label:"Ver información municipal"},
@@ -44,4 +44,4 @@ document.querySelectorAll(".time-stop").forEach((b,i)=>b.addEventListener("click
 const printData={postal:["MI CHAÑAR","UN LUGAR EN EL MUNDO","SAN PATRICIO DEL CHAÑAR · NEUQUÉN"],orgullo:["YO SOY DEL CHAÑAR","Y ESO SE LLEVA CON ORGULLO","SAN PATRICIO DEL CHAÑAR"],senalador:["UN RINCÓN QUE SIEMPRE VUELVE","UN RECUERDO ENTRE PÁGINAS","SAN PATRICIO DEL CHAÑAR"],hecho:["HECHO DE ACÁ","ORGULLO CHAÑARENSE","SAN PATRICIO DEL CHAÑAR"]};
 document.querySelectorAll("[data-print]").forEach(b=>b.addEventListener("click",()=>{const d=printData[b.dataset.print];const sheet=document.getElementById("printSheet");sheet.innerHTML='<article class="print-page"><div class="print-border"><small>UN RINCÓN BIEN CHAÑARENSE</small><div class="print-ornament">✳ ❧ ✳</div><h1>'+d[0]+'</h1><p>'+d[1]+'</p><small>'+d[2]+'</small></div></article>';window.print();}));
 document.getElementById("copyMemory").addEventListener("click",async()=>{const guide="Quiero compartir un recuerdo para Villa Pelón.\nQué aparece: \nLugar: \nFecha aproximada: \nAutor de la foto o recuerdo: \nPermiso para publicar: sí / no / consultar.";const fb=document.getElementById("memoryFeedback");try{await navigator.clipboard.writeText(guide);fb.textContent="¡Listo! Copiaste la guía. Ahora podés pegarla en un mensaje."; }catch{fb.textContent="Anotá estos datos: qué aparece, lugar, fecha, autor y permiso para publicar."; }});
-document.getElementById("shareSite").addEventListener("click",async()=>{try{if(navigator.share)await navigator.share({title:"Villa Pelón",text:"Un paseo bien chañarense",url:location.href});else{await navigator.clipboard.writeText(location.href);alert("Enlace copiado para compartir.");}}catch(e){}});
+document.getElementById("shareSite").addEventListener("click",async()=>{const fb=document.getElementById("shareFeedback");try{if(navigator.share){await navigator.share({title:"Villa Pelón",text:"Un paseo bien chañarense",url:location.href});if(fb)fb.textContent="¡Gracias por compartir!";}else if(navigator.clipboard){await navigator.clipboard.writeText(location.href);if(fb)fb.textContent="Enlace copiado. ¡Compartilo!";}else if(fb)fb.textContent="Podés copiar la dirección de esta página desde el navegador.";}catch(e){if(e.name!=="AbortError"&&fb)fb.textContent="No se pudo compartir automáticamente. Copiá la dirección desde el navegador.";}});
