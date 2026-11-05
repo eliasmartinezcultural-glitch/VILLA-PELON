@@ -2,3 +2,79 @@
 @media(max-width:900px){.hero{min-height:590px;padding-left:7vw}.hero-art{left:30%;opacity:.7}.hero-stamp{right:5%;bottom:12%}.quick-grid{grid-template-columns:repeat(2,1fr)}.fact-grid{grid-template-columns:repeat(2,1fr)}.section-heading,.welcome-grid,.sources-grid{gap:28px}.memory-callout{flex-wrap:wrap}.button-dark{margin-left:70px}.souvenir-art{height:210px}}
 @media(max-width:620px){.site-header{height:66px;padding:0 18px}.menu-toggle{display:block}.main-nav{display:none;position:absolute;top:65px;left:0;right:0;background:var(--paper);padding:18px 22px 22px;flex-direction:column;gap:17px;border-bottom:1px solid var(--line)}.main-nav.open{display:flex}.hero{min-height:650px;padding:65px 24px 90px;align-items:flex-start}.hero-content{max-width:100%}.hero h1{font-size:58px}.hero-content>p{font-size:14px;max-width:340px}.hero-art{left:0;top:36%;opacity:.56}.sun{width:140px;height:140px;right:18%;top:10%}.hero-stamp{right:20px;bottom:76px;transform:rotate(-5deg) scale(.8);transform-origin:right bottom}.hero-bottom{left:24px;right:24px;font-size:7px}.hero-bottom span:last-child{display:none}.section-wrap{padding:72px 22px}.welcome{padding-top:68px}.welcome-grid,.section-heading,.sources-grid{grid-template-columns:1fr;gap:16px}.welcome h2,.section-heading h2{font-size:43px}.quick-grid{gap:9px;margin-top:34px}.quick-card{min-height:190px;padding:15px}.quick-card strong{font-size:17px}.quick-card small{font-size:10px}.quick-icon{font-size:25px;margin-bottom:16px}.section-heading{margin-bottom:30px}.section-heading>p{margin:0}.history-intro,.memory-feature{grid-template-columns:1fr}.history-photo{min-height:230px}.history-copy,.memory-feature-copy{padding:26px}.history-copy h3,.memory-feature h3{font-size:27px}.timeline-title{align-items:flex-start;flex-direction:column;gap:5px;margin:42px 0 22px}.timeline{margin-left:6px}.time-item{grid-template-columns:83px 1fr;gap:10px;padding-left:18px;padding-bottom:27px}.time-date{font-size:9px}.time-item h3{font-size:18px}.time-item p{font-size:11px}.history-footnote{margin-left:6px}.memory-feature>img{min-height:240px;max-height:270px}.memory-callout{padding:20px;gap:12px}.memory-callout>div:nth-child(2){width:calc(100% - 65px)}.memory-callout h3{font-size:19px}.button-dark{margin:6px 0 0;width:100%;justify-content:center}.fact-grid{gap:10px}.fact-visual{height:115px}.fact-emoji{font-size:45px}.fact-body{padding:14px}.fact-body h3{font-size:17px}.fact-body p{font-size:10px}.souvenir-grid{grid-template-columns:1fr;gap:14px}.souvenir-card{display:grid;grid-template-columns:42% 58%;align-items:center}.souvenir-art{height:180px;margin:9px;width:auto}.bookmark-art{width:60%;margin-left:auto;margin-right:auto}.postcard-art strong{font-size:24px}.card-art strong{font-size:25px}.souvenir-info{padding:10px}.souvenir-info h3{font-size:17px}.souvenir-info p{font-size:10px}.map-note{align-items:flex-start;flex-wrap:wrap;padding:16px}.map-note>div:nth-child(2){width:calc(100% - 55px)}.map-note .status{margin-left:46px}.sources-grid h2{font-size:39px}.site-footer{padding:35px 22px 18px}.footer-bottom{gap:10px}.footer-bottom span{max-width:220px}}
 @media print{body>*:not(#printSheet){display:none!important}#printSheet{display:block!important}.print-page{width:100%;min-height:90vh;display:flex;align-items:center;justify-content:center;padding:25mm;text-align:center;page-break-after:always;color:#25483c}.print-border{border:3px double #8d9f79;padding:25mm 15mm;width:100%;min-height:220mm;display:flex;align-items:center;justify-content:center;flex-direction:column}.print-page h1{font-family:var(--serif);font-size:48pt;line-height:1.1}.print-page p{font-size:14pt;letter-spacing:2px}.print-page small{font-size:10pt;letter-spacing:3px}.print-ornament{font-size:34pt;margin:15mm 0}.print-page.bookmark{width:90mm;min-height:230mm;margin:auto;border:3px double #8d9f79}.print-page.bookmark .print-border{min-height:220mm;padding:15mm 8mm}.print-page.bookmark h1{font-size:30pt}}
+
+/* Ampliación editorial: territorio, tradición y nuevas piezas */
+:root{--paper:#fffef9;--cream:#f3efe3}
+:focus-visible{outline:3px solid #c86f4c;outline-offset:3px}
+button,a{-webkit-tap-highlight-color:transparent}
+.main-nav a{padding:10px 0}
+.hero{background:linear-gradient(115deg,#173e3a 0%,#1e4a40 56%,#315d4c 100%)}
+.hero-content>p{line-height:1.8}
+.button,.small-button{transition:transform .18s ease,background .18s ease,color .18s ease}
+.button:hover{transform:translateY(-2px)}
+.section-kicker{line-height:1.5}
+.territory-section{background:#f7f3e9}
+.landscape-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.landscape-card{min-height:290px;padding:28px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+.landscape-card:before,.landscape-card:after{content:"";position:absolute;pointer-events:none}
+.landscape-card:before{width:230px;height:230px;border:1px solid currentColor;border-radius:50%;right:-70px;top:-95px;opacity:.22}
+.landscape-card:after{width:160px;height:160px;border:1px solid currentColor;border-radius:50%;right:-36px;top:-58px;opacity:.22}
+.landscape-river{background:#d2e1dc;color:#244e49}
+.landscape-barda{background:#e8d9bc;color:#66523c}
+.landscape-chacra{background:#dce4d1;color:#385b44}
+.landscape-icon{font-family:var(--serif);font-size:64px;line-height:1;margin-bottom:auto;position:relative;z-index:1}
+.landscape-card>span{font-size:9px;font-weight:800;letter-spacing:1.7px;position:relative;z-index:1}
+.landscape-card h3{font-family:var(--serif);font-size:27px;margin:9px 0;position:relative;z-index:1}
+.landscape-card p{font-size:12px;max-width:310px;margin:0;position:relative;z-index:1;line-height:1.7}
+.landscape-note{margin-top:16px;padding:23px 25px;background:#fff;border:1px solid #e6e0d2}
+.landscape-note strong{font-family:var(--serif);font-size:19px}
+.landscape-note p{font-size:12px;color:var(--muted);margin:5px 0 10px}
+.landscape-note a{font-size:11px;font-weight:800;color:#9b5b3e;text-decoration:none}
+.micro-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#d7d2c5;margin-top:16px;border:1px solid #d7d2c5}
+.micro-facts>div{background:#f7f3e9;padding:22px}
+.micro-facts strong,.micro-facts span{display:block}
+.micro-facts strong{font-family:var(--serif);font-size:26px;color:#31584a}
+.micro-facts span{font-size:10px;color:#6c7c70;line-height:1.55;margin-top:5px}
+.festival-section{background:#e8dfcc}
+.festival-banner{display:grid;grid-template-columns:.8fr 1.2fr;background:#fffdf7;min-height:390px}
+.festival-art{background:#c86f4c;color:#fff5df;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:30px;position:relative;overflow:hidden}
+.festival-art:before,.festival-art:after{content:"";position:absolute;width:320px;height:320px;border:1px solid #fff6df66;border-radius:50%}
+.festival-art:after{width:240px;height:240px}
+.festival-art span{font-size:55px;z-index:1}
+.festival-art strong{font-family:var(--serif);font-size:clamp(30px,4vw,50px);line-height:1.02;z-index:1}
+.festival-art small{font-size:10px;letter-spacing:3px;margin-top:18px;z-index:1}
+.festival-copy{padding:clamp(28px,5vw,60px);align-self:center}
+.festival-copy h2{font-family:var(--serif);font-size:clamp(38px,5vw,58px);line-height:1.08;margin:14px 0}
+.festival-copy h2 em{color:#bd704f}
+.festival-copy p{font-size:13px;color:#66766b;line-height:1.8}
+.festival-copy .button{margin-top:10px}
+.festival-bottom{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#d3c8b4;margin-top:16px}
+.festival-bottom>div{padding:22px;background:#f4ecdd}
+.festival-bottom span,.festival-bottom strong,.festival-bottom small{display:block}
+.festival-bottom span{font-family:var(--serif);font-size:24px;color:#b36b4b}
+.festival-bottom strong{font-size:12px;margin:4px 0}
+.festival-bottom small{font-size:10px;color:#778276;line-height:1.5}
+.sticker-art{background:#e4e9d8;color:#28483d;border:1px dashed #80967a}
+.sticker-art strong{font-family:var(--serif);font-size:36px;line-height:1.05}
+.sticker-art span{font-size:9px;letter-spacing:2px}
+.sticker-art small{font-size:8px;letter-spacing:1.4px;margin-top:10px}
+.sticker-sun{background:#f0dfad;color:#64502d}
+.sticker-river{background:#d4e2df;color:#315a58}
+.souvenir-grid{grid-template-columns:repeat(3,1fr)}
+.source-list a:hover{padding-left:8px;background:#ffffff0b}
+@media(max-width:900px){.landscape-grid{grid-template-columns:1fr 1fr}.landscape-card:last-child{grid-column:span 2}.festival-banner{grid-template-columns:.7fr 1.3fr}}
+@media(max-width:620px){
+ .main-nav{max-height:calc(100vh - 66px);overflow:auto}
+ .hero{min-height:630px}
+ .landscape-grid{grid-template-columns:1fr}
+ .landscape-card,.landscape-card:last-child{grid-column:auto;min-height:225px}
+ .micro-facts{grid-template-columns:1fr}
+ .micro-facts>div{padding:17px 20px}
+ .festival-banner{grid-template-columns:1fr}
+ .festival-art{min-height:230px}
+ .festival-art strong{font-size:40px}
+ .festival-bottom{grid-template-columns:1fr}
+ .festival-bottom>div{padding:16px 20px}
+ .souvenir-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
