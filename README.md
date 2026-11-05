@@ -89,3 +89,26 @@ La nueva experiencia usa lenguaje cotidiano, títulos claros, controles grandes,
 - Turismo Neuquén, ruta del vino y chacras: https://turismo.neuquen.gob.ar/descubri-dinosaurios-playas-chacras-y-vinos-muy-cerca-de-neuquen/
 
 Las fotos de medios y portales se enlazan con crédito. El crédito no equivale a autorización de reproducción; para la versión final se deben pedir permisos o sustituirlas por fotos propias y aportes autorizados.
+
+
+## Ampliación de contenidos · noviembre de 2026
+
+Se amplió el contenido sin modificar la arquitectura congelada de cinco puertas ni la identidad visual:
+- **Mirar nuestro Chañar:** se conserva la galería inicial de seis imágenes con crédito y enlaces a sus publicaciones de origen. No se agregaron imágenes sin procedencia comprobable ni se atribuyeron permisos que no constan.
+- **¡Sorprendeme!:** se amplió el repertorio de curiosidades con datos sobre paleontología, aves, nombres, riego, fruticultura, Fiesta del Pelón, caminos e historia institucional.
+- **Un viaje en el tiempo:** la cronología ahora incluye 13 paradas, desde 1898 hasta 2010. Se incorporaron hitos sobre concesiones y obras de riego, bocatomas, creación de la Comisión de Fomento, escuela, club, caminos, Fiesta del Pelón y jerarquía municipal.
+- **Rincones de acá:** se amplió a 12 fichas breves sobre río, aves, chacras, viñedos, dique, balneario, canales, estaciones de la chacra, frutas y paisaje.
+- **Llevarme un recuerdo:** se mantienen las cuatro piezas imprimibles y la invitación a aportar memoria vecinal.
+
+### Fuentes agregadas y ampliadas
+- Neuquén Informa, aniversario y reseña histórica: https://www.neuqueninforma.gob.ar/noticias/2013/05/17/29151-ana-pechen-preside-la-ceremonia-aniversario-de-san-patricio-del-chanar
+- Neuquén Informa, reseña de la fundación, escuela y club: https://www.neuqueninforma.gob.ar/noticias/2014/05/22/48785-jorge-sapag-asistira-al-41-aniversario-de-san-patricio-del-chanar
+- Legislatura del Neuquén, antecedentes del riego y desarrollo territorial: https://www.legislaturaneuquen.gob.ar/SVRFILES/hln/documentos/DiaSesio/XLVIII/DXLVIII_08.pdf
+- Más Neuquén, cronología local de bocatomas, instituciones y servicios: https://masneuquen.com/efemerides-cronologia-de-san-patricio-del-chanar-a-traves-de-los-anos/
+- Más Producción / La Mañana Neuquén, Fiesta del Pelón y trabajador rural: https://masp.lmneuquen.com/fruticultura/de-desierto-la-fiesta-del-pelon-la-evolucion-san-patricio-del-chanar-y-sus-tradiciones-n1228109
+- Cámara de Diputados de la Nación, antecedentes históricos de San Patricio del Chañar: https://www4.hcdn.gob.ar/dependencias/dsecretaria/Periodo2023/PDF2023/TP2023/1347-D-2023.pdf
+- Dirección Provincial de Estadística y Censos, ficha municipal: https://www.estadisticaneuquen.gob.ar/static/archivos/Publicaciones/InfMunBasica/Basica20062007/Inicio/cartografia/San%20Patricio.pdf
+- Turismo Neuquén, Prehistoria viviente: https://turismo.neuquen.gob.ar/que-hacer/prehistoria-viviente/
+
+### Criterio de rigor
+Las fechas de cronologías periodísticas se presentan identificando su fuente y no como sustituto de documentación primaria. Las referencias a 1898, 1966–1969 y al desarrollo de las chacras se distinguen de la fundación oficial de 1973. Los datos antiguos de población no se presentan como cifras actuales. Los recuerdos vecinales sólo se incorporarán con consentimiento y atribución acordada.
