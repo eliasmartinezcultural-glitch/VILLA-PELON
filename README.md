@@ -40,3 +40,17 @@ La dirección esperada será https://eliasmartinezcultural-glitch.github.io/VILL
 - Cartografía local verificada.
 - Recopilación de programas y afiches de la Fiesta del Pelón.
 - Historia del deporte, la educación, la música y las instituciones.
+
+## Experiencia multidispositivo y accesibilidad
+- Navegación adaptada a pantallas pequeñas, medianas y grandes.
+- Tarjetas reordenables por CSS sin perder el orden de lectura.
+- Mini juego de tres preguntas con datos documentados.
+- Controles locales para aumentar/disminuir el tamaño de lectura y activar mayor contraste.
+- Compartir mediante el menú nativo del dispositivo cuando el navegador lo permite.
+- Soporte para movimiento reducido y foco de teclado visible.
+- No usa cuentas, cookies propias, almacenamiento de datos personales ni servicios pagos.
+
+## Nuevas fuentes de referencia
+- Dirección Provincial de Estadística y Censos, ficha municipal: https://www.estadisticaneuquen.gob.ar/static/archivos/Publicaciones/InfMunBasica/Basica20062007/Inicio/cartografia/San%20Patricio.pdf
+- Municipalidad, naturaleza, aves y actividades: https://sanpatricio.gob.ar/quehacer
+- Neuquén Informa, cronología de la fundación, autoridades, escuela y club: https://www.neuqueninforma.gob.ar/noticias/2014/05/22/48785-jorge-sapag-asistira-al-41-aniversario-de-san-patricio-del-chanar
