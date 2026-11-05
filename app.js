@@ -1,6 +1,7 @@
 const homeScreen=document.getElementById("homeScreen");
 const homeButton=document.getElementById("homeButton");
 const panels=[...document.querySelectorAll(".door-panel")];
+
 function showDoor(name){
   homeScreen.hidden=true;
   panels.forEach(panel=>panel.hidden=panel.id!=="panel-"+name);
@@ -11,12 +12,14 @@ function showDoor(name){
 }
 function goHome(){
   panels.forEach(panel=>panel.hidden=true);
-  homeScreen.hidden=false;homeButton.hidden=true;
+  homeScreen.hidden=false;
+  homeButton.hidden=true;
   window.scrollTo({top:0,behavior:"smooth"});
 }
 document.querySelectorAll("[data-door]").forEach(button=>button.addEventListener("click",()=>showDoor(button.dataset.door)));
 homeButton.addEventListener("click",goHome);
 document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!homeButton.hidden)goHome();});
+
 const facts=[
 {icon:"🦕",title:"Un dinosaurio muy cerca de casa",text:"En la zona se encontraron restos de un dinosaurio herbívoro enorme: Panamericansaurus schroederi. Su descripción científica se publicó en 2010.",source:"https://seer.ufu.br/index.php/braziliangeojournal/article/view/8170",label:"Ver la investigación científica"},
 {icon:"🐦",title:"¡Hay más de 25 especies de aves!",text:"La Municipalidad menciona más de 25 especies en la zona. Entre ellas están la calandria grande, el carpintero real y la golondrina patagónica.",source:"https://sanpatricio.gob.ar/quehacer",label:"Ver información municipal"},
@@ -38,32 +41,33 @@ const facts=[
 {icon:"🍒",title:"La cosecha tiene su propio calendario",text:"La producción de frutas acompaña distintas etapas del año. Floración, cuidado de los árboles, cosecha y empaque forman parte del trabajo de las chacras.",source:"https://masp.lmneuquen.com/fruticultura/de-desierto-la-fiesta-del-pelon-la-evolucion-san-patricio-del-chanar-y-sus-tradiciones-n1228109",label:"Leer sobre la producción local"},
 {icon:"🌊",title:"El río es parte del paisaje y del paseo",text:"La información turística municipal propone actividades y espacios vinculados al río Neuquén. Siempre conviene consultar las indicaciones locales antes de ingresar al agua.",source:"https://sanpatricio.gob.ar/quehacer",label:"Ver recomendaciones municipales"},
 {icon:"🏛️",title:"La historia local sigue abierta",text:"Los documentos oficiales cuentan una parte de la historia. Las fotos familiares, los álbumes escolares y los recuerdos de los vecinos pueden completar lo que todavía falta conocer.",source:"https://www.neuqueninforma.gob.ar/noticias/2010/05/21/8271-discurso-del-gobernador-jorge-sapag-en-el-37-aniversario-de-san-patricio-del-chanar-20-de-mayo-de-2010",label:"Leer un documento de aniversario"}
-]nst homeScreen=document.getElementById("homeScreen");
-const homeButton=document.getElementById("homeButton");
-const panels=[...document.querySelectorAll(".door-panel")];
-function showDoor(name){
-  homeScreen.hidden=true;
-  panels.forEach(panel=>panel.hidden=panel.id!=="panel-"+name);
-  homeButton.hidden=false;
-  window.scrollTo({top:0,behavior:"smooth"});
-  const panel=document.getElementById("panel-"+name);
-  panel?.querySelector(".panel-head")?.focus?.({preventScroll:true});
-}
-function goHome(){
-  panels.forEach(panel=>panel.hidden=true);
-  homeScreen.hidden=false;homeButton.hidden=true;
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-document.querySelectorAll("[data-door]").forEach(button=>button.addEventListener("click",()=>showDoor(button.dataset.door)));
-homeButton.addEventListener("click",goHome);\ndocument.addEventListener("keydown",event=>{if(event.key==="Escape"&&!homeButton.hidden)goHome();});
-const facts=[
-
 ];
 let factIndex=0;
 const factIcon=document.getElementById("factIcon"),factTitle=document.getElementById("factTitle"),factText=document.getElementById("factText"),factSource=document.getElementById("factSource"),factCounter=document.getElementById("factCounter"),factDots=document.getElementById("factDots");
-function showFact(i){factIndex=(i+facts.length)%facts.length;const f=facts[factIndex];factIcon.textContent=f.icon;factTitle.textContent=f.title;factText.textContent=f.text;factSource.href=f.source;factSource.textContent=f.label+" ↗";factCounter.textContent="CURIOSIDAD "+(factIndex+1)+" DE "+facts.length;factDots.querySelectorAll("button").forEach((b,n)=>{b.classList.toggle("active",n===factIndex);b.setAttribute("aria-pressed",String(n===factIndex));});}
-facts.forEach((f,i)=>{const b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Ver curiosidad "+(i+1));b.addEventListener("click",()=>showFact(i));factDots.appendChild(b);});showFact(0);
+function showFact(i){
+  factIndex=(i+facts.length)%facts.length;
+  const f=facts[factIndex];
+  factIcon.textContent=f.icon;
+  factTitle.textContent=f.title;
+  factText.textContent=f.text;
+  factSource.href=f.source;
+  factSource.textContent=f.label+" ↗";
+  factCounter.textContent="CURIOSIDAD "+(factIndex+1)+" DE "+facts.length;
+  factDots.querySelectorAll("button").forEach((b,n)=>{
+    b.classList.toggle("active",n===factIndex);
+    b.setAttribute("aria-pressed",String(n===factIndex));
+  });
+}
+facts.forEach((f,i)=>{
+  const b=document.createElement("button");
+  b.type="button";
+  b.setAttribute("aria-label","Ver curiosidad "+(i+1));
+  b.addEventListener("click",()=>showFact(i));
+  factDots.appendChild(b);
+});
+showFact(0);
 document.getElementById("nextFact").addEventListener("click",()=>showFact(factIndex+1));
+
 const stories=[
 {date:"1898",emoji:"🇮🇹",title:"Una familia llega desde Italia",text:"Las reseñas provinciales ubican en 1898 la llegada de la familia Gasparri al Territorio del Neuquén. Décadas después, su historia quedó ligada al nombre San Patricio y al desarrollo de estas tierras.",source:"https://www.neuqueninforma.gob.ar/amp/noticias/2013/05/17/29151-ana-pechen-preside-la-ceremonia-aniversario-de-san-patricio-del-chanar"},
 {date:"1966",emoji:"💧",title:"El riego empieza a tomar forma",text:"Los antecedentes legislativos recuerdan que la concesión de riego data de 1966. El agua sería decisiva para transformar el paisaje y abrir una etapa productiva.",source:"https://www.legislaturaneuquen.gob.ar/SVRFILES/hln/documentos/DiaSesio/XLVIII/DXLVIII_08.pdf"},
@@ -78,89 +82,56 @@ const stories=[
 {date:"1999",emoji:"🧑‍🌾",title:"La fiesta suma un homenaje al trabajador rural",text:"Desde 1999, la celebración incorporó la Fiesta del Trabajador Rural, para reconocer a quienes sostienen las tareas de cada temporada.",source:"https://masp.lmneuquen.com/fruticultura/de-desierto-la-fiesta-del-pelon-la-evolucion-san-patricio-del-chanar-y-sus-tradiciones-n1228109"},
 {date:"2003",emoji:"🏛️",title:"San Patricio del Chañar alcanza la primera categoría",text:"La Ley provincial 2435, del 31 de julio de 2003, elevó la localidad a municipio de primera categoría, según la reseña oficial provincial.",source:"https://www.neuqueninforma.gob.ar/amp/noticias/2013/05/17/29151-ana-pechen-preside-la-ceremonia-aniversario-de-san-patricio-del-chanar"},
 {date:"2010",emoji:"🦕",title:"Un dinosaurio del Chañar llega a la ciencia",text:"Se publicó la descripción científica de Panamericansaurus schroederi, un dinosaurio herbívoro cuyos restos fueron encontrados en la zona.",source:"https://seer.ufu.br/index.php/braziliangeojournal/article/view/8170"}
-]nst homeScreen=document.getElementById("homeScreen");
-const homeButton=document.getElementById("homeButton");
-const panels=[...document.querySelectorAll(".door-panel")];
-function showDoor(name){
-  homeScreen.hidden=true;
-  panels.forEach(panel=>panel.hidden=panel.id!=="panel-"+name);
-  homeButton.hidden=false;
-  window.scrollTo({top:0,behavior:"smooth"});
-  const panel=document.getElementById("panel-"+name);
-  panel?.querySelector(".panel-head")?.focus?.({preventScroll:true});
-}
-function goHome(){
-  panels.forEach(panel=>panel.hidden=true);
-  homeScreen.hidden=false;homeButton.hidden=true;
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-document.querySelectorAll("[data-door]").forEach(button=>button.addEventListener("click",()=>showDoor(button.dataset.door)));
-homeButton.addEventListener("click",goHome);\ndocument.addEventListener("keydown",event=>{if(event.key==="Escape"&&!homeButton.hidden)goHome();});
-const facts=[
-{icon:"🦕",title:"Un dinosaurio muy cerca de casa",text:"En la zona se encontraron restos de un dinosaurio herbívoro enorme: Panamericansaurus schroederi. Su descripción científica se publicó en 2010.",source:"https://seer.ufu.br/index.php/braziliangeojournal/article/view/8170",label:"Ver la investigación científica"},
-{icon:"🐦",title:"¡Hay más de 25 especies de aves!",text:"La Municipalidad menciona más de 25 especies en la zona. Entre ellas están la calandria grande, el carpintero real y la golondrina patagónica.",source:"https://sanpatricio.gob.ar/quehacer",label:"Ver información municipal"},
-{icon:"🍑",title:"El pelón tiene su propia fiesta",text:"La primera Fiesta Provincial del Pelón fue en 1985. Desde 1999 también se incorporó un homenaje al trabajador rural.",source:"https://masp.lmneuquen.com/fruticultura/de-desierto-la-fiesta-del-pelon-la-evolucion-san-patricio-del-chanar-y-sus-tradiciones-n1228109",label:"Conocer la historia de la fiesta"},
-{icon:"💧",title:"El agua cambió el paisaje",text:"Los proyectos y las obras de riego hicieron posible desarrollar chacras en un valle de clima seco. El agua modificó el paisaje y la economía local.",source:"https://www4.hcdn.gob.ar/dependencias/dsecretaria/Periodo2023/PDF2023/TP2023/1347-D-2023.pdf",label:"Leer antecedentes históricos"},
-{icon:"🍇",title:"Acá también hay ruta del vino",text:"San Patricio del Chañar forma parte del recorrido de bodegas y chacras de Neuquén. La vid se sumó a una historia productiva que ya tenía raíces frutícolas.",source:"https://turismo.neuquen.gob.ar/descubri-dinosaurios-playas-chacras-y-vinos-muy-cerca-de-neuquen/",label:"Ver turismo de Neuquén"},
-{icon:"🌳",title:"El nombre nos conecta con un árbol",text:"Las reseñas históricas provinciales relacionan el nombre Chañar con el árbol conocido como chical, de madera dura y con espinas.",source:"https://www.neuqueninforma.gob.ar/amp/noticias/2013/05/17/29151-ana-pechen-preside-la-ceremonia-aniversario-de-san-patricio-del-chanar",label:"Leer reseña histórica"},
-{icon:"🇮🇹",title:"San Patricio y una historia italiana",text:"El nombre San Patricio se vincula con Campo Filone, Italia, lugar relacionado con la familia Gasparri, cuya historia quedó unida a la localidad.",source:"https://www.neuqueninforma.gob.ar/amp/noticias/2013/05/17/29151-ana-pechen-preside-la-ceremonia-aniversario-de-san-patricio-del-chanar",label:"Leer la reseña provincial"},
-{icon:"🗓️",title:"El pueblo tiene fecha de nacimiento",text:"El 21 de mayo de 1973 se creó la Comisión de Fomento por el Decreto provincial 1339. Esa fecha se reconoce como la fundación de San Patricio del Chañar.",source:"https://www.neuqueninforma.gob.ar/noticias/2014/05/22/48785-jorge-sapag-asistira-al-41-aniversario-de-san-patricio-del-chanar",label:"Ver la historia provincial"},
-{icon:"🗺️",title:"El Chañar también tiene historia de caminos",text:"La localidad se conecta por las rutas provinciales 7 y 8. Esos caminos forman parte de la relación cotidiana con el resto del valle y el departamento Añelo.",source:"https://www.estadisticaneuquen.gob.ar/static/archivos/Publicaciones/InfMunBasica/Basica20062007/Inicio/cartografia/San%20Patricio.pdf",label:"Ver ficha municipal provincial"},
-{icon:"🚜",title:"La fruticultura marcó el valle",text:"Las reseñas provinciales describen a la producción agrícola como una actividad central, con peras, manzanas y frutas de carozo entre sus cultivos.",source:"https://www.neuqueninforma.gob.ar/amp/noticias/2013/05/17/29151-ana-pechen-preside-la-ceremonia-aniversario-de-san-patricio-del-chanar",label:"Leer reseña provincial"},
-{icon:"🏞️",title:"Estamos en la Estepa de los Dinosaurios",text:"Turismo Neuquén incluye a San Patricio del Chañar dentro de la zona turística conocida como Estepa de los Dinosaurios.",source:"https://turismo.neuquen.gob.ar/que-hacer/prehistoria-viviente/",label:"Conocer la propuesta turística"},
-{icon:"🧑‍🌾",title:"La fiesta también reconoce el trabajo",text:"La celebración del Pelón incorporó desde 1999 un homenaje al trabajador rural, una forma de reconocer a quienes sostienen las tareas de cada temporada.",source:"https://masp.lmneuquen.com/fruticultura/de-desierto-la-fiesta-del-pelon-la-evolucion-san-patricio-del-chanar-y-sus-tradiciones-n1228109",label:"Leer sobre la Fiesta del Pelón"},
-{icon:"🏫",title:"La escuela fue parte de los primeros años",text:"La reseña provincial recuerda la creación de la cooperadora escolar y los primeros pasos de la Escuela 273 durante 1975.",source:"https://www.neuqueninforma.gob.ar/noticias/2014/05/22/48785-jorge-sapag-asistira-al-41-aniversario-de-san-patricio-del-chanar",label:"Consultar la reseña provincial"},
-{icon:"⚽",title:"El club también forma parte de la historia",text:"La reseña histórica provincial ubica en 1975 la fundación del Club Atlético San Patricio, un espacio importante para la vida comunitaria.",source:"https://www.neuqueninforma.gob.ar/noticias/2014/05/22/48785-jorge-sapag-asistira-al-41-aniversario-de-san-patricio-del-chanar",label:"Consultar la reseña provincial"},
-{icon:"📜",title:"El Chañar fue creciendo como municipio",text:"La localidad pasó por distintas categorías municipales: tercera en 1978, segunda en 1987 y primera en 2003.",source:"https://www.neuqueninforma.gob.ar/amp/noticias/2013/05/17/29151-ana-pechen-preside-la-ceremonia-aniversario-de-san-patricio-del-chanar",label:"Leer la historia institucional"},
-{icon:"🌱",title:"El paisaje productivo tiene muchas manos",text:"La transformación del valle no fue solamente una obra: también dependió de productores, trabajadores, familias y de quienes sostuvieron las chacras a lo largo del tiempo.",source:"https://www4.hcdn.gob.ar/dependencias/dsecretaria/Periodo2023/PDF2023/TP2023/1347-D-2023.pdf",label:"Leer antecedentes de la localidad"},
-{icon:"📍",title:"Chañar pertenece al departamento Añelo",text:"La ficha de información municipal de la Provincia ubica a San Patricio del Chañar en el departamento Añelo y registra sus rutas de acceso.",source:"https://www.estadisticaneuquen.gob.ar/static/archivos/Publicaciones/InfMunBasica/Basica20062007/Inicio/cartografia/San%20Patricio.pdf",label:"Ver ficha provincial"},
-{icon:"🍒",title:"La cosecha tiene su propio calendario",text:"La producción de frutas acompaña distintas etapas del año. Floración, cuidado de los árboles, cosecha y empaque forman parte del trabajo de las chacras.",source:"https://masp.lmneuquen.com/fruticultura/de-desierto-la-fiesta-del-pelon-la-evolucion-san-patricio-del-chanar-y-sus-tradiciones-n1228109",label:"Leer sobre la producción local"},
-{icon:"🌊",title:"El río es parte del paisaje y del paseo",text:"La información turística municipal propone actividades y espacios vinculados al río Neuquén. Siempre conviene consultar las indicaciones locales antes de ingresar al agua.",source:"https://sanpatricio.gob.ar/quehacer",label:"Ver recomendaciones municipales"},
-{icon:"🏛️",title:"La historia local sigue abierta",text:"Los documentos oficiales cuentan una parte de la historia. Las fotos familiares, los álbumes escolares y los recuerdos de los vecinos pueden completar lo que todavía falta conocer.",source:"https://www.neuqueninforma.gob.ar/noticias/2010/05/21/8271-discurso-del-gobernador-jorge-sapag-en-el-37-aniversario-de-san-patricio-del-chanar-20-de-mayo-de-2010",label:"Leer un documento de aniversario"}
-]nst homeScreen=document.getElementById("homeScreen");
-const homeButton=document.getElementById("homeButton");
-const panels=[...document.querySelectorAll(".door-panel")];
-function showDoor(name){
-  homeScreen.hidden=true;
-  panels.forEach(panel=>panel.hidden=panel.id!=="panel-"+name);
-  homeButton.hidden=false;
-  window.scrollTo({top:0,behavior:"smooth"});
-  const panel=document.getElementById("panel-"+name);
-  panel?.querySelector(".panel-head")?.focus?.({preventScroll:true});
-}
-function goHome(){
-  panels.forEach(panel=>panel.hidden=true);
-  homeScreen.hidden=false;homeButton.hidden=true;
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-document.querySelectorAll("[data-door]").forEach(button=>button.addEventListener("click",()=>showDoor(button.dataset.door)));
-homeButton.addEventListener("click",goHome);\ndocument.addEventListener("keydown",event=>{if(event.key==="Escape"&&!homeButton.hidden)goHome();});
-const facts=[
-{icon:"🦕",title:"Un dinosaurio muy cerca de casa",text:"En la zona se encontraron restos de un dinosaurio herbívoro enorme: Panamericansaurus schroederi. Fue descrito por científicos en 2010.",source:"https://seer.ufu.br/index.php/braziliangeojournal/article/view/8170",label:"Ver la investigación científica"},
-{icon:"🐦",title:"¡Hay más de 25 especies de aves!",text:"La Municipalidad menciona más de 25 especies en la zona. Entre ellas están la calandria grande, el carpintero real y la golondrina patagónica.",source:"https://sanpatricio.gob.ar/quehacer",label:"Ver información municipal"},
-{icon:"🍑",title:"El pelón tiene su propia fiesta",text:"La primera Fiesta Provincial del Pelón fue en 1985. Desde 1999 también se homenajea al trabajador rural.",source:"https://masp.lmneuquen.com/fruticultura/de-desierto-la-fiesta-del-pelon-la-evolucion-san-patricio-del-chanar-y-sus-tradiciones-n1228109",label:"Conocer la historia de la fiesta"},
-{icon:"💧",title:"El agua cambió el paisaje",text:"El riego permitió transformar tierras de clima seco en chacras productivas. El agua y el trabajo cambiaron la vida del valle.",source:"https://cfi.org.ar/uploads/2024/05/Neuquen_114_0.pdf",label:"Ver estudio del valle"},
-{icon:"🍇",title:"Acá también hay ruta del vino",text:"San Patricio del Chañar forma parte del recorrido de bodegas y chacras de Neuquén. Se puede conocer el trabajo de la uva, desde el viñedo hasta la botella.",source:"https://turismo.neuquen.gob.ar/descubri-dinosaurios-playas-chacras-y-vinos-muy-cerca-de-neuquen/",label:"Ver turismo de Neuquén"},
-{icon:"🌳",title:"El nombre nos conecta con un árbol",text:"El nombre Chañar recuerda al árbol chañar, una especie nativa del centro y norte de Argentina. La historia del nombre local merece seguir reuniendo testimonios y documentos.",source:"https://www.neuqueninforma.gob.ar/amp/noticias/2013/05/17/29151-ana-pechen-preside-la-ceremonia-aniversario-de-san-patricio-del-chanar",label:"Leer reseña histórica"},
-{icon:"🇮🇹",title:"San Patricio y una historia italiana",text:"Las reseñas históricas provinciales vinculan el nombre San Patricio con Campo Filone, Italia, y la historia de la familia Gasparri.",source:"https://www.neuqueninforma.gob.ar/amp/noticias/2013/05/17/29151-ana-pechen-preside-la-ceremonia-aniversario-de-san-patricio-del-chanar",label:"Leer la reseña provincial"},
-{icon:"🗓️",title:"El pueblo tiene fecha de nacimiento",text:"El 21 de mayo de 1973 se creó la Comisión de Fomento por el Decreto 1339. Esa fecha se reconoce como la fundación de San Patricio del Chañar.",source:"https://www.neuqueninforma.gob.ar/noticias/2014/05/22/48785-jorge-sapag-asistira-al-41-aniversario-de-san-patricio-del-chanar",label:"Ver la historia provincial"}
 ];
-let factIndex=0;
-const factIcon=document.getElementById("factIcon"),factTitle=document.getElementById("factTitle"),factText=document.getElementById("factText"),factSource=document.getElementById("factSource"),factCounter=document.getElementById("factCounter"),factDots=document.getElementById("factDots");
-function showFact(i){factIndex=(i+facts.length)%facts.length;const f=facts[factIndex];factIcon.textContent=f.icon;factTitle.textContent=f.title;factText.textContent=f.text;factSource.href=f.source;factSource.textContent=f.label+" ↗";factCounter.textContent="CURIOSIDAD "+(factIndex+1)+" DE "+facts.length;factDots.querySelectorAll("button").forEach((b,n)=>{b.classList.toggle("active",n===factIndex);b.setAttribute("aria-pressed",String(n===factIndex));});}
-facts.forEach((f,i)=>{const b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Ver curiosidad "+(i+1));b.addEventListener("click",()=>showFact(i));factDots.appendChild(b);});showFact(0);
-document.getElementById("nextFact").addEventListener("click",()=>showFact(factIndex+1));
-const stories=[
-{date:"1898",emoji:"🇮🇹",title:"Una familia llega desde Italia",text:"Las reseñas provinciales ubican en 1898 la llegada de la familia Gasparri al Territorio del Neuquén. Su historia quedó ligada al nombre San Patricio.",source:"https://www.neuqueninforma.gob.ar/amp/noticias/2013/05/17/29151-ana-pechen-preside-la-ceremonia-aniversario-de-san-patricio-del-chanar"},
-{date:"1966–1969",emoji:"💧",title:"El agua empieza a transformar el valle",text:"Las tierras, las obras y las concesiones de riego prepararon el camino para las chacras. Llevar agua fue clave para cambiar el paisaje productivo.",source:"https://www.legislaturaneuquen.gob.ar/SVRFILES/hln/documentos/VerTaqui/XLVII/ApendiceReunion8/Proyecto11627.pdf"},
-{date:"21 MAYO 1973",emoji:"🎂",title:"Nace oficialmente San Patricio del Chañar",text:"Se creó la Comisión de Fomento mediante el Decreto provincial 1339. Por eso el 21 de mayo celebramos el aniversario del pueblo.",source:"https://www.neuqueninforma.gob.ar/noticias/2014/05/22/48785-jorge-sapag-asistira-al-41-aniversario-de-san-patricio-del-chanar"},
-{date:"1974–1975",emoji:"🏫",title:"Los primeros pasos de la comunidad",text:"En abril de 1974 comenzaron las primeras autoridades comunales. La reseña provincial también recuerda la cooperadora escolar y el Club Atlético San Patricio.",source:"https://www.neuqueninforma.gob.ar/noticias/2014/05/22/48785-jorge-sapag-asistira-al-41-aniversario-de-san-patricio-del-chanar"},
-{date:"1985",emoji:"🍑",title:"La primera Fiesta Provincial del Pelón",text:"La fiesta nació para celebrar uno de los frutos que marcaron la producción local. Desde 1999 se sumó el homenaje al trabajador rural.",source:"https://masp.lmneuquen.com/fruticultura/de-desierto-la-fiesta-del-pelon-la-evolucion-san-patricio-del-chanar-y-sus-tradiciones-n1228109"},
-{date:"2010",emoji:"🦕",title:"Un dinosaurio del Chañar llega a la ciencia",text:"Se publicó la descripción científica de Panamericansaurus schroederi, un dinosaurio herbívoro cuyos restos fueron encontrados en la zona.",source:"https://seer.ufu.br/index.php/braziliangeojournal/article/view/8170"}
-];
-function showStory(i){const s=stories[i];document.getElementById("storyEmoji").textContent=s.emoji;document.getElementById("storyDate").textContent=s.date;document.getElementById("storyTitle").textContent=s.title;document.getElementById("storyText").textContent=s.text;document.getElementById("storySource").href=s.source;document.querySelectorAll(".time-stop").forEach((b)=>{const active=Number(b.dataset.story)===i;b.classList.toggle("active",active);b.setAttribute("aria-pressed",String(active));});}
-document.querySelectorAll(".time-stop").forEach((b)=>b.addEventListener("click",()=>showStory(Number(b.dataset.story))));showStory(0);
-const printData={postal:["MI CHAÑAR","UN LUGAR EN EL MUNDO","SAN PATRICIO DEL CHAÑAR · NEUQUÉN"],orgullo:["YO SOY DEL CHAÑAR","Y ESO SE LLEVA CON ORGULLO","SAN PATRICIO DEL CHAÑAR"],senalador:["UN RINCÓN QUE SIEMPRE VUELVE","UN RECUERDO ENTRE PÁGINAS","SAN PATRICIO DEL CHAÑAR"],hecho:["HECHO DE ACÁ","ORGULLO CHAÑARENSE","SAN PATRICIO DEL CHAÑAR"]};
-document.querySelectorAll("[data-print]").forEach(b=>b.addEventListener("click",()=>{const d=printData[b.dataset.print];const sheet=document.getElementById("printSheet");sheet.innerHTML='<article class="print-page"><div class="print-border"><small>UN RINCÓN BIEN CHAÑARENSE</small><div class="print-ornament">✳ ❧ ✳</div><h1>'+d[0]+'</h1><p>'+d[1]+'</p><small>'+d[2]+'</small></div></article>';window.print();}));
-document.getElementById("copyMemory").addEventListener("click",async()=>{const guide="Quiero compartir un recuerdo para Villa Pelón.\nQué aparece: \nLugar: \nFecha aproximada: \nAutor de la foto o recuerdo: \nPermiso para publicar: sí / no / consultar.";const fb=document.getElementById("memoryFeedback");try{await navigator.clipboard.writeText(guide);fb.textContent="¡Listo! Copiaste la guía. Ahora podés pegarla en un mensaje."; }catch{fb.textContent="Anotá estos datos: qué aparece, lugar, fecha, autor y permiso para publicar."; }});
-document.getElementById("shareSite").addEventListener("click",async()=>{const fb=document.getElementById("shareFeedback");try{if(navigator.share){await navigator.share({title:"Villa Pelón",text:"Un paseo bien chañarense",url:location.href});if(fb)fb.textContent="¡Gracias por compartir!";}else if(navigator.clipboard){await navigator.clipboard.writeText(location.href);if(fb)fb.textContent="Enlace copiado. ¡Compartilo!";}else if(fb)fb.textContent="Podés copiar la dirección de esta página desde el navegador.";}catch(e){if(e.name!=="AbortError"&&fb)fb.textContent="No se pudo compartir automáticamente. Copiá la dirección desde el navegador.";}});
+function showStory(i){
+  const s=stories[i];
+  document.getElementById("storyEmoji").textContent=s.emoji;
+  document.getElementById("storyDate").textContent=s.date;
+  document.getElementById("storyTitle").textContent=s.title;
+  document.getElementById("storyText").textContent=s.text;
+  document.getElementById("storySource").href=s.source;
+  document.querySelectorAll(".time-stop").forEach(b=>{
+    const active=Number(b.dataset.story)===i;
+    b.classList.toggle("active",active);
+    b.setAttribute("aria-pressed",String(active));
+  });
+}
+document.querySelectorAll(".time-stop").forEach(b=>b.addEventListener("click",()=>showStory(Number(b.dataset.story))));
+showStory(0);
+
+const printData={
+postal:["MI CHAÑAR","UN LUGAR EN EL MUNDO","SAN PATRICIO DEL CHAÑAR · NEUQUÉN"],
+orgullo:["YO SOY DEL CHAÑAR","Y ESO SE LLEVA CON ORGULLO","SAN PATRICIO DEL CHAÑAR"],
+senalador:["UN RINCÓN QUE SIEMPRE VUELVE","UN RECUERDO ENTRE PÁGINAS","SAN PATRICIO DEL CHAÑAR"],
+hecho:["HECHO DE ACÁ","ORGULLO CHAÑARENSE","SAN PATRICIO DEL CHAÑAR"]
+};
+document.querySelectorAll("[data-print]").forEach(b=>b.addEventListener("click",()=>{
+  const d=printData[b.dataset.print];
+  const sheet=document.getElementById("printSheet");
+  sheet.innerHTML='<article class="print-page"><div class="print-border"><small>UN RINCÓN BIEN CHAÑARENSE</small><div class="print-ornament">✳ ❧ ✳</div><h1>'+d[0]+'</h1><p>'+d[1]+'</p><small>'+d[2]+'</small></div></article>';
+  window.print();
+}));
+document.getElementById("copyMemory").addEventListener("click",async()=>{
+  const guide="Quiero compartir un recuerdo para Villa Pelón.\nQué aparece: \nLugar: \nFecha aproximada: \nAutor de la foto o recuerdo: \nPermiso para publicar: sí / no / consultar.";
+  const fb=document.getElementById("memoryFeedback");
+  try{
+    await navigator.clipboard.writeText(guide);
+    fb.textContent="¡Listo! Copiaste la guía. Ahora podés pegarla en un mensaje.";
+  }catch{
+    fb.textContent="Anotá estos datos: qué aparece, lugar, fecha, autor y permiso para publicar.";
+  }
+});
+document.getElementById("shareSite").addEventListener("click",async()=>{
+  const fb=document.getElementById("shareFeedback");
+  try{
+    if(navigator.share){
+      await navigator.share({title:"Villa Pelón",text:"Un paseo bien chañarense",url:location.href});
+      if(fb)fb.textContent="¡Gracias por compartir!";
+    }else if(navigator.clipboard){
+      await navigator.clipboard.writeText(location.href);
+      if(fb)fb.textContent="Enlace copiado. ¡Compartilo!";
+    }else if(fb)fb.textContent="Podés copiar la dirección de esta página desde el navegador.";
+  }catch(e){
+    if(e.name!=="AbortError"&&fb)fb.textContent="No se pudo compartir automáticamente. Copiá la dirección desde el navegador.";
+  }
+});
