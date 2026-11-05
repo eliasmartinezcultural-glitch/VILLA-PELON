@@ -54,3 +54,17 @@ La dirección esperada será https://eliasmartinezcultural-glitch.github.io/VILL
 - Dirección Provincial de Estadística y Censos, ficha municipal: https://www.estadisticaneuquen.gob.ar/static/archivos/Publicaciones/InfMunBasica/Basica20062007/Inicio/cartografia/San%20Patricio.pdf
 - Municipalidad, naturaleza, aves y actividades: https://sanpatricio.gob.ar/quehacer
 - Neuquén Informa, cronología de la fundación, autoridades, escuela y club: https://www.neuqueninforma.gob.ar/noticias/2014/05/22/48785-jorge-sapag-asistira-al-41-aniversario-de-san-patricio-del-chanar
+
+## Rediseño visual y galería inicial
+- Portada con fotografía real publicada de las chacras de San Patricio del Chañar.
+- Galería de seis fotografías enlazadas a sus publicaciones originales: chacras y riego, arboleda del camping, frutales en flor, río Neuquén, viñedos y cosecha de cerezas.
+- Créditos visibles y advertencia expresa: la publicación de una fotografía en un medio no concede permiso para reutilizarla. Antes de considerar la galería definitiva, solicitar autorización a cada titular o sustituir las imágenes por material propio/vecinal autorizado.
+- Tipografía Atkinson Hyperlegible para lectura y Lora para títulos; cuerpos de texto y controles ampliados.
+- Cronología extensa plegada en un desplegable para que el recorrido principal sea más corto.
+- Accesos principales reducidos y navegación más clara.
+- Fotografías con carga diferida, grilla adaptable y controles táctiles amplios.
+- Secciones de lugares locales verificadas con la información municipal: Balneario, Dique Compensador, Mirador La Virgen y Chacra Municipal.
+- El contenido extenso se conserva en secciones y desplegables; no se eliminó la investigación histórica previa.
+
+## Nota de derechos de imagen
+Las imágenes remotas se cargan desde los sitios de origen y se enlazan a sus artículos. Los créditos son informativos y no equivalen a una licencia. Para una versión estable y legalmente clara se recomienda obtener permisos por escrito o reemplazar cada imagen por fotografías propias con autorización de las personas retratadas y del titular de la fotografía.
