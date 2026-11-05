@@ -70,3 +70,16 @@ document.querySelectorAll("[data-print]").forEach(button => {
     window.print();
   });
 });
+
+const copyMemoryText = document.getElementById("copyMemoryText");
+const copyFeedback = document.getElementById("copyFeedback");
+copyMemoryText?.addEventListener("click", async () => {
+  const guide = "Quiero compartir un recuerdo para Villa Pelón.\nQué aparece: \nLugar: \nFecha aproximada: \nQuién comparte la foto o historia: \nPermiso para publicar y crédito: sí / no / consultar.";
+  try {
+    await navigator.clipboard.writeText(guide);
+    if (copyFeedback) copyFeedback.textContent = "Guía copiada. Podés completarla y enviarla cuando te pongas en contacto con el proyecto.";
+    copyMemoryText.textContent = "Guía copiada ✓";
+  } catch {
+    if (copyFeedback) copyFeedback.textContent = "No se pudo copiar automáticamente. Podés anotar estos datos: qué aparece, lugar, fecha aproximada, quién comparte y permiso de publicación.";
+  }
+});
